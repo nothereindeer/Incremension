@@ -12,9 +12,9 @@ public class LeveledUpgrade extends Upgrade{
   boolean isUnlocked;
   int level;
   
-  LeveledUpgrade(String name, int price, Currency purchaseCurrency, String boostFormula, String boostedCurrency, int maxLevel){
+  LeveledUpgrade(String name, int price, Currency purchaseCurrency, String boostFormula, String boostedCurrency, int maxLevel, int x, int y, int width, int height, String displayScreen){
     
-    super(name, price, purchaseCurrency);
+    super(name, price, purchaseCurrency, x, y, width, height, displayScreen);
 
     this.boostFormula = boostFormula;
     this.boostedCurrency = boostedCurrency;

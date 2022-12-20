@@ -12,6 +12,6 @@ class UpgradeButton{
     this.y = y;
     this.width = width;
     this.height = height;
-    this.displayScreen = displayScreen
+    this.displayScreen = displayScreen;
   }
 }

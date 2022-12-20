@@ -1,5 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 
 public class GameFrame{
@@ -31,13 +35,20 @@ public class GameFrame{
     
     public void paintComponent(Graphics g){
       super.paintComponent(g);
-      int i = 0;
-      for (Currency currency : Const.CURRENCIES.values()){
-        int fontXPosition = (i + 1) * Const.SCREEN_WIDTH / (Const.CURRENCIES.size() + 1);
-        g.setFont(currencyFont);
-        g.drawString(Integer.toString(currency.amount), fontXPosition, 10);
-        i = i + 1;
+      if (FinalGame.currentScreen == "main menu"){
+        
       }
+      else if (FinalGame.currentScreen == "main"){
+        int i = 0;
+        for (Currency currency : Const.CURRENCIES.values()){
+          int fontXPosition = (i + 1) * Const.SCREEN_WIDTH / (Const.CURRENCIES.size() + 1);
+          g.setFont(currencyFont);
+          g.drawString(Integer.toString(currency.amount), fontXPosition, 10);
+          i = i + 1;
+        }
+      }
+      
+      
     }
   }  
 }
