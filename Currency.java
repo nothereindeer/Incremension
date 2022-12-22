@@ -15,6 +15,6 @@ class Currency{
   }
   
   void increase(){
-    this.amount = this.amount + 
+    this.amount = this.amount + 1;
   }
 }

@@ -9,8 +9,8 @@ class Formula{
   }
   
   int calculate(int x){
-    if (this.formula == "x^2")
-      return 1;
+    if (this.formula == "(x^2)*")
+      return (int)Math.pow(x, 2);
     return 1;
   }
   

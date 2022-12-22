@@ -15,8 +15,8 @@ public class FinalGame{
     boolean isRunning = true;
     currentScreen = "main menu";
     
-    Currency coins = Global.CURRENCIES.get("coins");
-    Currency prestigePoints = Global.CURRENCIES.get("prestige points");
+    Currency coins = Global.currencies.get("coins");
+    Currency prestigePoints = Global.currencies.get("prestige points");
         
     GameFrame gameFrame = new GameFrame();
     while(isRunning){

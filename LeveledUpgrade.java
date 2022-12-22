@@ -6,13 +6,13 @@ public class LeveledUpgrade extends Upgrade{
   int maxLevel;
   
   String boostFormula;
-  String boostedCurrency;
+  Currency boostedCurrency;
   String priceFormula;
   
   boolean isUnlocked;
   int level;
   
-  LeveledUpgrade(String name, int price, Currency purchaseCurrency, String boostFormula, String boostedCurrency, int maxLevel, int x, int y, int width, int height, String displayScreen){
+  LeveledUpgrade(String name, int price, Currency purchaseCurrency, Currency boostedCurrency, String boostFormula, int maxLevel, int x, int y, int width, int height, String displayScreen){
     
     super(name, price, purchaseCurrency, x, y, width, height, displayScreen);
 
