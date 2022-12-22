@@ -8,9 +8,7 @@ import java.io.IOException;
 
 public class GameFrame{
   JFrame frame;  
-  GraphicsPanel currentGraphicsPanel;
-  
-
+  GraphicsPanel gameWindow;
   
   
   Font currencyFont = new Font("Baskerville", Font.BOLD, Const.CURRENCY_TEXT_SIZE);
@@ -20,9 +18,9 @@ public class GameFrame{
     frame.setSize(Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
-    currentGraphicsPanel = new GraphicsPanel();
+    gameWindow = new GraphicsPanel();
     
-    frame.add(currentGraphicsPanel);
+    frame.add(gameWindow);
     frame.setVisible(true);    
   }
   
@@ -60,7 +58,18 @@ public class GameFrame{
         drawUpgrades(g);
       }
       
-      
     }
-  }  
+  }
+  
+  void runGame(){
+    while(true){
+      gameWindow.repaint(); 
+      try  {Thread.sleep(5);} catch(Exception e){}
+    }
+  }
+  
+  public static void main(String[]args){
+    GameFrame gameFrame = new GameFrame();  
+    gameFrame.runGame(); 
+  }
 }
