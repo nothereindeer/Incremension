@@ -16,11 +16,11 @@ class UpgradesFrame{
     this.upgrades = upgrades;
   }
   
-  void sort(String sortOrder){
-    
-  }
-  
-  void draw(Graphics g){
-    
-  }
+//  void sort(String sortOrder){
+//    
+//  }
+//  
+//  void draw(Graphics g){
+//    
+//  }
 }

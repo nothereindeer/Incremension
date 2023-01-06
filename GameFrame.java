@@ -8,7 +8,9 @@ import java.io.IOException;
 
 public class GameFrame{
   JFrame frame;  
-  GraphicsPanel gameWindow;
+  GraphicsPanel currentGraphicsPanel;
+  
+
   
   
   Font currencyFont = new Font("Baskerville", Font.BOLD, Const.CURRENCY_TEXT_SIZE);
@@ -18,9 +20,9 @@ public class GameFrame{
     frame.setSize(Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
-    gameWindow = new GraphicsPanel();
+    currentGraphicsPanel = new GraphicsPanel();
     
-    frame.add(gameWindow);
+    frame.add(currentGraphicsPanel);
     frame.setVisible(true);    
   }
   
@@ -34,7 +36,7 @@ public class GameFrame{
     for (Currency currency : Global.currencies.values()){
       int fontXPosition = (i + 1) * Const.SCREEN_WIDTH / (Global.currencies.size() + 1);
       g.setFont(currencyFont);
-      g.drawString(Integer.toString(currency.amount), fontXPosition, 10);
+      g.drawString(currency.amount.bigNum, fontXPosition, 10);
       i = i + 1;
     }
   }
@@ -58,18 +60,7 @@ public class GameFrame{
         drawUpgrades(g);
       }
       
+      
     }
-  }
-  
-  void runGame(){
-    while(true){
-      gameWindow.repaint(); 
-      try  {Thread.sleep(5);} catch(Exception e){}
-    }
-  }
-  
-  public static void main(String[]args){
-    GameFrame gameFrame = new GameFrame();  
-    gameFrame.runGame(); 
-  }
+  }  
 }

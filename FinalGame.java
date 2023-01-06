@@ -13,12 +13,14 @@ public class FinalGame{
   public static void main(String[] args){
     
     boolean isRunning = true;
-    currentScreen = "main menu";
+    currentScreen = "main";
     
+    Global.initialize();
     Currency coins = Global.currencies.get("coins");
     Currency prestigePoints = Global.currencies.get("prestige points");
         
     GameFrame gameFrame = new GameFrame();
+
     while(isRunning){
       if (currentScreen == "main menu"){
         
@@ -31,9 +33,12 @@ public class FinalGame{
       }
       gameFrame.updateFrame();
       
-      coins.amount = coins.amount + 1;
+      coins.amount.add(1);
     }
+
   }
+  
+
   
   
 }
