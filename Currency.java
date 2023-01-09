@@ -31,6 +31,10 @@ class Currency{
     this.amount.set(amount);
   }
   
+  void increase(BigNum n){
+    n.multiply(this.finalBoost);
+    this.amount.add(n);
+  }
   void increase(){
     this.amount.add(this.finalBoost);
   }

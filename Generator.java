@@ -1,17 +1,20 @@
 
 
-abstract class Generator{
+class Generator{
     
   String name; 
   BigNum production; 
-  BigNum amount;
-  
-  Generator(String name, BigNum baseProduction){
+  Currency amount;
+  Currency produce;
+ 
+  Generator(String name, Currency currencyProduced, BigNum baseProduction){
     this.name = name; 
     this.production = baseProduction;
-  }  
-  
-  void addProduction(){
-    this.produce.amount.add(this.produce.finalBoost.multiply(this.production));
+    this.amount = new Currency(name);
+    this.produce = currencyProduced;
+  }
+    
+  void generate(){
+    this.produce.amount.add(BigNum.multiply(this.amount.amount, production));
   }
 }

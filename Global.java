@@ -2,14 +2,18 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 public class Global{
+  public static int saveVersion;
+  
   public static HashMap<String, Currency> currencies;
   public static ArrayList<Upgrade> upgrades;
   
-  public static ArrayList<Upgrade> cashBoostingUpgrades;
+  public static ArrayList<UpgradesFrame> upgradesFrames;
   
-
+  
     
   public static void initialize(){
+    saveVersion = 0;
+    
     currencies = new HashMap<String, Currency>();
     currencies.put("coins", (new Currency("coins")));
     currencies.put("rubies", (new Currency("rubies")));

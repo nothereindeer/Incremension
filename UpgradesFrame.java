@@ -14,6 +14,7 @@ class UpgradesFrame{
     this.width = width;
     this.height = height;
     this.upgrades = upgrades;
+    Global.upgradesFrames.add(this);
   }
   
 //  void sort(String sortOrder){
