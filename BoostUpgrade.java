@@ -2,13 +2,11 @@ import java.util.HashMap;
 
 class BoostUpgrade extends Upgrade{
   
-  String name;
   BigNum maxLevel;
   
   HashMap<Currency, Formula> boostedCurrencies;
   Formula priceFormula;
   
-  boolean isUnlocked;
   BigNum level;
   
   BoostUpgrade(String name, BigNum price, Currency purchaseCurrency, Currency[] boostedCurrencies, String[] boostFormulas, BigNum maxLevel, int x, int y, int width, int height, String displayScreen){

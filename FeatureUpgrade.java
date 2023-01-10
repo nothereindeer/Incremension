@@ -2,9 +2,6 @@
 
 class FeatureUpgrade extends Upgrade{
   
-  String name;
-  
-  boolean isUnlocked;
   boolean isBought;
   
   FeatureUpgrade(String name, BigNum price, Currency purchaseCurrency, boolean isPermanent, int x, int y, int width, int height, String displayScreen){

@@ -3,6 +3,7 @@
 
 abstract class Upgrade{
   
+  boolean isUnlocked;
   String name;
   BigNum price;
   Currency purchaseCurrency;
@@ -14,4 +15,9 @@ abstract class Upgrade{
     this.purchaseCurrency = purchaseCurrency;
     this.upgradeButton = new UpgradeButton(x, y, width, height, displayScreen);
   }
+  
+  abstract void buy(int levelAmount);
+  
+  abstract void reset(boolean isUnlocked);  
+  
 }
