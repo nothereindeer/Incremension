@@ -10,13 +10,10 @@ public class GameFrame{
   JFrame frame;  
   GraphicsPanel currentGraphicsPanel;
   
-
-  
-  
   Font currencyFont = new Font("Baskerville", Font.BOLD, Const.CURRENCY_TEXT_SIZE);
   
   GameFrame(){
-    frame = new JFrame("test");
+    frame = new JFrame("Incremension");
     frame.setSize(Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
@@ -54,10 +51,10 @@ public class GameFrame{
       }
       else if (FinalGame.currentScreen == "main"){
         drawCurrencies(g);
-        drawUpgrades(g);
+        
       }
-      else if (FinalGame.currentScreen == "settings"){
-
+      else if (FinalGame.currentScreen == "upgrades"){
+        drawUpgrades(g);
       }
       
       
