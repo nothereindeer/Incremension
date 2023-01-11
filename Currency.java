@@ -14,7 +14,9 @@ class Currency{
   ArrayList<BoostUpgrade> multiplicativeUpgrades;
   ArrayList<BoostUpgrade> exponentialUpgrades;
   
-  Currency(String name){
+  Image icon;
+  
+  Currency(String name, Image icon){
     this.name = name;
     this.amount = new BigNum(0);
     additiveUpgrades = new ArrayList<BoostUpgrade>();
@@ -25,6 +27,8 @@ class Currency{
     this.additiveBoost = new BigNum(1);
     this.multiplicativeBoost = new BigNum(1);
     this.exponentialBoost = new BigNum(1);
+    
+    this.icon = icon;
   }
   
   void set(BigNum amount){
@@ -34,6 +38,9 @@ class Currency{
   void increase(BigNum n){
     n.multiply(this.finalBoost);
     this.amount.add(n);
+  }
+  void increase(int n){
+    this.amount.add(BigNum.multiply(this.finalBoost, new BigNum(n)));
   }
   void increase(){
     this.amount.add(this.finalBoost);

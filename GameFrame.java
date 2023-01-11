@@ -54,10 +54,10 @@ public class GameFrame{
       }
       else if (FinalGame.currentScreen == "main"){
         drawCurrencies(g);
-        
-      }
-      else if (FinalGame.currentScreen == "upgrades"){
         drawUpgrades(g);
+      }
+      else if (FinalGame.currentScreen == "settings"){
+
       }
       
       
