@@ -1,3 +1,4 @@
+package com.sfanshen.graphics;
 
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -15,7 +16,7 @@ public class Picture{
   
   int scale;
   
-  Picture(int x, int y, String imageDirectory){
+  public Picture(int x, int y, String imageDirectory){
 
     try{
       this.image = ImageIO.read(new File(imageDirectory));
@@ -28,7 +29,7 @@ public class Picture{
     this.y = y;
   }
   
-  Picture(int x, int y, String imageDirectory, boolean centerAtCoords){
+  public Picture(int x, int y, String imageDirectory, boolean centerAtCoords){
         
     try{
       this.image = ImageIO.read(new File(imageDirectory));
