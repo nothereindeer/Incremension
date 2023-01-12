@@ -2,36 +2,48 @@ import java.util.HashMap;
 
 class BoostUpgrade extends Upgrade{
   
-  BigNum maxLevel;
+  int maxLevel;
   
   HashMap<Currency, Formula> boostedCurrencies;
   Formula priceFormula;
   
-  BigNum level;
+  int level;
   
-  BoostUpgrade(String name, BigNum price, Currency purchaseCurrency, Currency[] boostedCurrencies, String[] boostFormulas, BigNum maxLevel, int x, int y, int width, int height, String displayScreen){
+  BoostUpgrade(String name, BigNum price, Currency purchaseCurrency, Currency[] boostedCurrencies, String[] boostFormulas, int maxLevel, String displayScreen){
     
-    super(name, price, purchaseCurrency, x, y, width, height, displayScreen);
+    super(name, price, purchaseCurrency, displayScreen);
 
     this.maxLevel = maxLevel;
     
     this.isUnlocked = false;
-    this.level.set(0);
+    this.level = 0;
     
     for (int i = 0; i < boostedCurrencies.length; i ++){
       this.boostedCurrencies.put(boostedCurrencies[i], new Formula(boostFormulas[i]));
     }
   }
   
+  BoostUpgrade(String name, BigNum price, Currency purchaseCurrency, Currency boostedCurrency, String boostFormula, int maxLevel, String displayScreen){
+    
+    super(name, price, purchaseCurrency, displayScreen);
+
+    this.maxLevel = maxLevel;
+    
+    this.isUnlocked = false;
+    this.level = 0;
+    
+    this.boostedCurrencies.put(boostedCurrency, new Formula(boostFormula));
+  }
+  
   void buy(int levelAmount){
-    if (this.level.isLessThan(this.maxLevel) && this.purchaseCurrency.amount.isGreaterEqualTo(this.price)){
+    if (this.level < this.maxLevel && this.purchaseCurrency.amount.isGreaterEqualTo(this.price)){
       this.purchaseCurrency.amount.subtract(this.price);
-      this.level.add(1);
+      this.level = this.level + 1;
     }
   }
   
   void reset(boolean isUnlocked){
-    this.level.set(0);
+    this.level = 0;
     this.isUnlocked = isUnlocked;
   }
   

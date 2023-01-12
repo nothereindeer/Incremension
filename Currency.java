@@ -57,19 +57,26 @@ class Currency{
   
   void calculateAdditiveBoost(){
      for (BoostUpgrade additiveUpgrade : this.additiveUpgrades){
-       this.additiveBoost.add(additiveUpgrade.calculateBoost(this));
+       if (additiveUpgrade.level > 0){
+         this.additiveBoost.add(additiveUpgrade.calculateBoost(this));
+       }
     }
   }
   
   void calculateMultiplicativeBoost(){
     for (BoostUpgrade multiplicativeUpgrade: multiplicativeUpgrades){
-      multiplicativeBoost.multiply(multiplicativeUpgrade.calculateBoost(this));
+      if (multiplicativeUpgrade.level > 0){
+        multiplicativeBoost.multiply(multiplicativeUpgrade.calculateBoost(this));
+      }
     }
   }
   
   void calculateExponentialBoost(){
     for (BoostUpgrade exponentialUpgrade: exponentialUpgrades){
-      exponentialBoost.multiply(exponentialUpgrade.calculateBoost(this));
+      if (exponentialUpgrade.level > 0){
+        exponentialBoost.multiply(exponentialUpgrade.calculateBoost(this));
+      
+      }
     }
   }
 }

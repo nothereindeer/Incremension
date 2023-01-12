@@ -6,7 +6,7 @@ class FeatureUpgrade extends Upgrade{
   
   FeatureUpgrade(String name, BigNum price, Currency purchaseCurrency, boolean isPermanent, int x, int y, int width, int height, String displayScreen){
  
-    super(name, price, purchaseCurrency, x, y, width, height, displayScreen);
+    super(name, price, purchaseCurrency, displayScreen);
     
     this.isBought = false;
     this.isUnlocked = false;

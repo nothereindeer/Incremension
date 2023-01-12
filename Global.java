@@ -9,8 +9,7 @@ public class Global{
   
   public static HashMap<String, Currency> currencies;
   public static HashMap<String, Upgrade> upgrades;
-  
-  public static ArrayList<UpgradesFrame> upgradesFrames;
+  public static HashMap<String, UpgradesFrame[]> upgradeFrames;
   
   
     
@@ -27,8 +26,26 @@ public class Global{
     
 
     
-    //String name, int price, Currency purchaseCurrency, Currency boostedCurrency, String boostFormula, int maxLevel, int x, int y, int width, int height, String displayScreen
-    //upgrades.add(new LeveledUpgrade("Better Pickaxes", 100, Global.currencies.get("coins"), Global.currencies.get("coins"), "(1+x)*", 10, 100, 100, 50, 50, "upgrades"));
+    //String name, BigNum price, Currency purchaseCurrency, Currency[] boostedCurrencies, String[] boostFormulas, int maxLevel, String displayScreen
+    upgrades.put("Better Pickaxes", new BoostUpgrade(
+                                                     "Better Pickaxes",
+                                                     new BigNum(100),
+                                                     currencies.get("coins"),
+                                                     currencies.get("coins"),
+                                                     "(1+x)*",
+                                                     10,
+                                                     "coinUpgrades"
+                                                    ));
+    
+    upgrades.put("Drills", new BoostUpgrade(
+                                            "Drills", 
+                                            new BigNum("1e4"),
+                                            currencies.get("coins"),
+                                            currencies.get("coins"),
+                                            "(3x)*",
+                                            1,
+                                            "coinUpgrades"
+                                           ));
     
   }
   

@@ -6,19 +6,19 @@ import java.awt.*;
 
 class UpgradesFrame{
   
-  String displayScreen;
+  String upgradeFrame;
   int x, y, width, height, numPerRow;
   ArrayList<Upgrade> upgrades;
   
-  UpgradesFrame(String displayScreen, int x, int y, int width, int height, ArrayList<Upgrade> upgrades){
-    this.displayScreen = displayScreen;
+  UpgradesFrame(String upgradeFrame, int x, int y, int width, int height, ArrayList<Upgrade> upgrades){
+    this.upgradeFrame = upgradeFrame;
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.upgrades = upgrades;
     this.numPerRow = (int)(width / (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
-    Global.upgradesFrames.add(this);
+    Global.upgradeFrames.put(this.name, this);
   }
   
 //  void sort(String sortOrder){

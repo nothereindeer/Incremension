@@ -10,11 +10,11 @@ abstract class Upgrade{
   UpgradeButton upgradeButton;
   boolean isUnlocked;
   
-  Upgrade(String name, BigNum price, Currency purchaseCurrency, int x, int y, int width, int height, String displayScreen){
+  Upgrade(String name, BigNum price, Currency purchaseCurrency, String displayScreen){
     this.name = name;
     this.price = price;
     this.purchaseCurrency = purchaseCurrency;
-    this.upgradeButton = new UpgradeButton(x, y, width, height, displayScreen);
+    this.upgradeButton = new UpgradeButton();
     this.isUnlocked = false;
   }
   

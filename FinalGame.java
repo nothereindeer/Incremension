@@ -10,12 +10,14 @@ import java.util.HashMap;
 
 public class FinalGame{
   public static String currentScreen;
+  public static String currentUpgradeFrame;
   public static UpgradesFrame displayedUpgrades;
   
   public static void main(String[] args){
     
     boolean isRunning = true;
     currentScreen = "main";
+    currentUpgradeFrame = "coinUpgrades";
     
     Global.initialize();
     Currency coins = Global.currencies.get("coins");
@@ -76,7 +78,7 @@ public class FinalGame{
       Upgrade upgrade = Global.upgrades.get(line.split(":")[0]);
       if (upgrade instanceof BoostUpgrade){
         BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
-        boostUpgrade.level.set(Integer.parseInt(line.split(":")[1]));  
+        boostUpgrade.level = Integer.parseInt(line.split(":")[1]);  
       }
       
       else if (upgrade instanceof FeatureUpgrade){
@@ -102,7 +104,7 @@ public class FinalGame{
     
     output.println("\nUpgrades:");
     
-    for (UpgradesFrame upgradesFrame: Global.upgradesFrames){
+    for (UpgradesFrame upgradesFrame: Global.upgradeFrames.values()){
       for (Upgrade upgrade: upgradesFrame.upgrades){
         output.print(upgrade.name + ":");
         if (upgrade instanceof BoostUpgrade){
