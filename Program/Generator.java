@@ -7,7 +7,7 @@ class Generator{
   Currency amount;
   Currency produce;
  
-  Generator(String name, Image icon, Currency currencyProduced, BigNum baseProduction){
+  Generator(String name, Picture icon, Currency currencyProduced, BigNum baseProduction){
     this.name = name; 
     this.production = baseProduction;
     this.amount = new Currency(name, icon);

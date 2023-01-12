@@ -18,7 +18,7 @@ class UpgradesFrame{
     this.height = height;
     this.upgrades = upgrades;
     this.numPerRow = (int)(width / (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
-    Global.upgradeFrames.put(this.name, this);
+    Global.upgradeFrames.add(this);
   }
   
 //  void sort(String sortOrder){
@@ -34,7 +34,7 @@ class UpgradesFrame{
         upgrade.draw(g, x, y);
       }
       else{
-        this.drawBlank(g, x, y, width, height);
+        drawBlank(g, x, y, width, height);
       }
     }
   }
@@ -62,7 +62,7 @@ class UpgradesFrame{
     
     x = (int)(this.x + sideOffset + column * (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET)); 
     y = (int)(this.y + row * (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
-    int[] coords = {x, y};
-    return coords;
+
+    return new int[]{x, y};
   }
 }

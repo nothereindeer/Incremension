@@ -5,13 +5,12 @@ class BoostUpgrade extends Upgrade{
   int maxLevel;
   
   HashMap<Currency, Formula> boostedCurrencies;
-  Formula priceFormula;
-  
+
   int level;
   
-  BoostUpgrade(String name, BigNum price, Currency purchaseCurrency, Currency[] boostedCurrencies, String[] boostFormulas, int maxLevel, String displayScreen){
+  BoostUpgrade(String name, Formula priceFormula, Currency purchaseCurrency, Currency[] boostedCurrencies, String[] boostFormulas, int maxLevel, String displayScreen){
     
-    super(name, price, purchaseCurrency, displayScreen);
+    super(name, priceFormula, purchaseCurrency, displayScreen);
 
     this.maxLevel = maxLevel;
     
@@ -23,9 +22,9 @@ class BoostUpgrade extends Upgrade{
     }
   }
   
-  BoostUpgrade(String name, BigNum price, Currency purchaseCurrency, Currency boostedCurrency, String boostFormula, int maxLevel, String displayScreen){
+  BoostUpgrade(String name, Formula priceFormula, Currency purchaseCurrency, Currency boostedCurrency, String boostFormula, int maxLevel, String displayScreen){
     
-    super(name, price, purchaseCurrency, displayScreen);
+    super(name, priceFormula, purchaseCurrency, displayScreen);
 
     this.maxLevel = maxLevel;
     

@@ -11,9 +11,9 @@ class Formula{
   }
   
   BigNum calculate(BigNum x){
-    if (this.formula == "(x^2)*")
+    if (this.formula.equals("(x^2)*"))
       return BigNum.pow(x, 2);
-    else if (this.formula == "(1+x)*")
+    else if (this.formula.equals("(1+x)*"))
       return BigNum.add(x, 1);
     else
       return new BigNum(1);
@@ -21,9 +21,9 @@ class Formula{
   
   BigNum calculate(int w){
     BigNum x = new BigNum(w);
-    if (this.formula == "(x^2)*")
+    if (this.formula.equals("(x^2)*"))
       return BigNum.pow(x, 2);
-    else if (this.formula == "(1+x)*")
+    else if (this.formula.equals("(1+x)*"))
       return BigNum.add(x, 1);
     else
       return new BigNum(1);

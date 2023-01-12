@@ -9,13 +9,13 @@ import java.util.ArrayList;
 
 
 public class MainMenu{
-  ArrayList<Image> images;
+  ArrayList<Picture> images = new ArrayList<Picture>();
   
-  images.add(new Image(200, 100, "pictures/Title.png"))
+  images.add(new Picture(200, 100, "pictures/Title.png"))
     
-  images.add(new Image(200, 300, "pictures/loading.png"))
+  images.add(new Picture(200, 300, "pictures/loading.png"))
     
-  images.add(new Image(300, 450, "pictures/playbutton.png"))
+  images.add(new Picture(300, 450, "pictures/playbutton.png"))
     
   void drawTitle(){
      
@@ -30,7 +30,7 @@ public class MainMenu{
   }
  
   public void draw(Graphics g){
-    drawTitle()
+    drawTitle();
       
   }
   

@@ -28,7 +28,7 @@ public class GameFrame{
   
   void updateFrame(){
     frame.repaint();
-    try {Thread.sleep(5);} catch(Exception e){}
+    try {Thread.sleep(5);} catch(Exception e){System.out.println("Something went wrong!!!!");}
   }
   
   void drawCurrencies(Graphics g){
@@ -49,20 +49,19 @@ public class GameFrame{
   
   public class GraphicsPanel extends JPanel{
     
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
       super.paintComponent(g);
-      if (FinalGame.currentScreen == "main menu"){
-        
-      }
-      else if (FinalGame.currentScreen == "main"){
-        drawCurrencies(g);
-        drawUpgrades(g);
-      }
-      else if (FinalGame.currentScreen == "settings"){
 
-      }
-      
-      
+      switch (FinalGame.currentScreen) {
+        case ("main menu"):
+
+        case("main"):
+          drawCurrencies(g);
+          drawUpgrades(g);
+        case("settings"):
+     }
     }
-  }  
+      
+      
+  }
 }

@@ -1,15 +1,12 @@
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import java.io.File;
-import java.io.PrintWriter;
-
 public class Global{
   public static int saveVersion;
   
   public static HashMap<String, Currency> currencies;
   public static HashMap<String, Upgrade> upgrades;
-  public static HashMap<String, UpgradesFrame[]> upgradeFrames;
+  public static ArrayList<UpgradesFrame> upgradeFrames;
   
   
     
@@ -17,10 +14,10 @@ public class Global{
     saveVersion = 0;
     
     String imageDirectory = "../Images";
-    Image coinIcon = new Image(0, 0, imageDirectory + "/coinIcon.png");
-    Image rubyIcon = new Image(0, 0, imageDirectory + "/rubyIcon.png");
+    Picture coinIcon = new Picture(0, 0, imageDirectory + "/coinIcon.png");
+    Picture rubyIcon = new Picture(0, 0, imageDirectory + "/rubyIcon.png");
     
-    currencies = new HashMap<String, Currency>();
+    currencies = new HashMap<>();
     currencies.put("coins", (new Currency("coins", coinIcon)));
     currencies.put("rubies", (new Currency("rubies", rubyIcon)));
     
@@ -29,7 +26,7 @@ public class Global{
     //String name, BigNum price, Currency purchaseCurrency, Currency[] boostedCurrencies, String[] boostFormulas, int maxLevel, String displayScreen
     upgrades.put("Better Pickaxes", new BoostUpgrade(
                                                      "Better Pickaxes",
-                                                     new BigNum(100),
+                                                     new Formula("(100x)*"),
                                                      currencies.get("coins"),
                                                      currencies.get("coins"),
                                                      "(1+x)*",
@@ -39,7 +36,7 @@ public class Global{
     
     upgrades.put("Drills", new BoostUpgrade(
                                             "Drills", 
-                                            new BigNum("1e4"),
+                                            new Formula("(1000x)*"),
                                             currencies.get("coins"),
                                             currencies.get("coins"),
                                             "(3x)*",
@@ -52,8 +49,7 @@ public class Global{
   
   public static void organizeUpgrades(){
     for (Upgrade upgrade : upgrades.values()){
-      if (upgrade instanceof BoostUpgrade){
-        BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
+      if (upgrade instanceof BoostUpgrade boostUpgrade){
         if (boostUpgrade.boostedCurrencies.containsKey(currencies.get("coins"))){
           organizeUpgradesByOperators(boostUpgrade, currencies.get("coins"));
         }
@@ -64,9 +60,9 @@ public class Global{
   }
   public static void organizeUpgradesByOperators(BoostUpgrade boostUpgrade, Currency currency){
     Formula formula = boostUpgrade.boostedCurrencies.get(currency);
-    if (formula.operation == "+" || formula.operation == "-") 
+    if (formula.operation.equals("+") || formula.operation.equals("-"))
       currencies.get("coins").additiveUpgrades.add(boostUpgrade);
-    else if (formula.operation == "*" || formula.operation == "/")
+    else if (formula.operation.equals("*") || formula.operation.equals("/"))
       currencies.get("coins").multiplicativeUpgrades.add(boostUpgrade);
   }
 }

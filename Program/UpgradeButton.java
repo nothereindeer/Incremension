@@ -11,7 +11,7 @@ class UpgradeButton{
     this.y = 0;
   }
   
-  void draw(Graphics g, int x, int y, Image currencyIcon){
+  void draw(Graphics g, int x, int y, Picture currencyIcon){
     
   }
 }

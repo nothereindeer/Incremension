@@ -14,14 +14,14 @@ class Currency{
   ArrayList<BoostUpgrade> multiplicativeUpgrades;
   ArrayList<BoostUpgrade> exponentialUpgrades;
   
-  Image icon;
+  Picture icon;
   
-  Currency(String name, Image icon){
+  Currency(String name, Picture icon){
     this.name = name;
     this.amount = new BigNum(0);
-    additiveUpgrades = new ArrayList<BoostUpgrade>();
-    multiplicativeUpgrades = new ArrayList<BoostUpgrade>();
-    exponentialUpgrades = new ArrayList<BoostUpgrade>();
+    additiveUpgrades = new ArrayList<>();
+    multiplicativeUpgrades = new ArrayList<>();
+    exponentialUpgrades = new ArrayList<>();
     
     this.finalBoost = new BigNum(1);
     this.additiveBoost = new BigNum(1);
