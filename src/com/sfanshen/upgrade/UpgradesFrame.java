@@ -37,16 +37,16 @@ public void draw(Graphics g){
         upgrade.draw(g, x, y);
       }
       else{
-        drawBlank(g, x, y, width, height);
+        drawBlank(g, x, y);
       }
     }
   }
   
   
   
-  public static void drawBlank(Graphics g, int x, int y, int width, int height){
+  public static void drawBlank(Graphics g, int x, int y){
     g.setColor(Const.BLACK);
-    g.drawRect(x, y, width, height);
+    g.drawRect(x, y, Const.UPGRADE_WIDTH, Const.UPGRADE_HEIGHT);
   }
 
   public int[] calculateCoords(int i){

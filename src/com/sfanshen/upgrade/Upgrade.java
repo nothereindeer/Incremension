@@ -3,6 +3,7 @@ package com.sfanshen.upgrade;
 import com.sfanshen.currency.Currency;
 import com.sfanshen.main.BigNum;
 import com.sfanshen.graphics.Picture;
+import com.sfanshen.main.Const;
 import com.sfanshen.main.Formula;
 
 import java.awt.*;
@@ -32,6 +33,7 @@ public abstract class Upgrade{
 
   }
   public void draw(Graphics g, int x, int y){
+    g.setColor(Const.GOOGLE_HIGHLIGHT);
     this.upgradeButton.draw(g, x, y, this.icon, this.purchaseCurrency.icon);
   }
 }
