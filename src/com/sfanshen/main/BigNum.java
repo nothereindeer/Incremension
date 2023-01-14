@@ -7,25 +7,29 @@ public class BigNum{
   double coefficient;
   int exponent;
 
-
+  //-------------------------------------------------------Constructors-----------------------------------------------------------------\\
   public BigNum(String bigNum){
     this.bigNum = bigNum;
     this.coefficient = Double.parseDouble(bigNum.split("e")[0]);
     this.exponent = Integer.parseInt(bigNum.split("e")[1]);
   }
-  
   public BigNum(int number){
     this.exponent = (int)Math.log10(number);
     this.coefficient = Math.round(number / Math.pow(10, exponent - Const.ROUNDING_ERROR)) / Math.pow(10, Const.ROUNDING_ERROR);
     this.updateBigNum();
   }
-
   public BigNum(double number){
     this.exponent = (int)Math.log10(number);
     this.coefficient = Math.round(number / Math.pow(10, exponent - Const.ROUNDING_ERROR)) / Math.pow(10, Const.ROUNDING_ERROR);
     this.updateBigNum();
   }
 
+
+
+  //-------------------------------------------------------Methods-----------------------------------------------------------------\\
+
+
+  //Makes sure BigNum is still in scientific notation, rounds to a specified amount of digits(found in Const file, currently at 5) to prevent overuse of data
   public void updateBigNum(){
     if (this.coefficient >= 10){
       int extraDigits = (int)Math.log10(this.coefficient);
@@ -43,7 +47,7 @@ public class BigNum{
   }
 
 
-
+  //Converts BigNum to a double number
   public double bigNumToNum(){
     //Checks if the number is actually below integer limit
     if (this.exponent <= 9){
@@ -51,23 +55,25 @@ public class BigNum{
         return Math.pow(this.coefficient, this.exponent);
       }
     }
-    
+    System.out.println("Attempted to convert a BigNum that exceeds the number limit to a regular number");
     return -1;
   }
-  
-  
-  
+
+
+  //Set to number
   public void set(int number){
     this.coefficient = number;
     this.updateBigNum(); 
   }
-  
   public void set(BigNum number){
     this.coefficient = number.coefficient;
     this.exponent = number.exponent;
     this.bigNum = number.bigNum;
   }
 
+
+
+  //-----------------------Comparisons-----------------------\\
   public boolean isGreaterThan(BigNum number){
     if(this.exponent > number.exponent)
       return true;
@@ -75,7 +81,6 @@ public class BigNum{
       return true;
     return false;
   }
-
   public boolean isGreaterThan(int number){
     int digits = (int)Math.floor(Math.log10(number));
     if(this.exponent > digits)
@@ -84,8 +89,6 @@ public class BigNum{
       return true;
     return false;
   }
-
-
   public boolean isGreaterEqualTo(BigNum number){
     if(this.exponent > number.exponent)
       return true;
@@ -93,7 +96,6 @@ public class BigNum{
       return true;
     return false;
   }
-
   public boolean isGreaterEqualTo(int number){
     int digits = (int)Math.floor(Math.log10(number));
     if(this.exponent > digits)
@@ -102,22 +104,17 @@ public class BigNum{
       return true;
     return false;
   }
-
-
   public boolean isEqualTo(BigNum number){
     if(this.coefficient == number.coefficient && this.exponent == number.exponent)
       return true;
     return false;
   }
-
   public boolean isEqualTo(int number){
     int digits = (int)Math.floor(Math.log10(number));
     if(this.coefficient == number / Math.pow(10, digits) && this.exponent == digits)
       return true;
     return false;
   }
-
-
   public boolean isLessEqualTo(BigNum number){
     if(this.exponent < number.exponent)
       return true;
@@ -125,7 +122,6 @@ public class BigNum{
       return true;
     return false;
   }
-
   public boolean isLessEqualTo(int number){
     int digits = (int)Math.floor(Math.log10(number));
     if(this.exponent < digits){
@@ -136,8 +132,6 @@ public class BigNum{
     }
     return false;
   }
-
-
   public boolean isLessThan(BigNum number){
     if(this.exponent < number.exponent){
       return true;
@@ -147,7 +141,6 @@ public class BigNum{
     }
     return false;
   }
-
   public boolean isLessThan(int number){
     int digits = (int)Math.floor(Math.log10(number));
     if(this.exponent < digits){
@@ -158,7 +151,11 @@ public class BigNum{
     }
     return false;
   }
-  
+
+
+
+  //-----------------------Operations-----------------------\\
+
   public void add(BigNum addend){
     if (Math.abs(this.exponent - addend.exponent) <= Const.ROUNDING_ERROR){
       int roundingAmt = Math.abs(this.exponent - addend.exponent);
@@ -173,14 +170,11 @@ public class BigNum{
         this.coefficient = this.coefficient + addend.coefficient;
       } 
     }
-    
     this.updateBigNum();
   }
-
   public void add(int addend){
     this.add(new BigNum(addend));
   }
-
 
   public void subtract(BigNum subtrahend){
     if (Math.abs(this.exponent - subtrahend.exponent) <= Const.ROUNDING_ERROR){
@@ -197,28 +191,22 @@ public class BigNum{
         this.coefficient = this.coefficient - subtrahend.coefficient;
       } 
     }
-    
     this.updateBigNum();
   }
-
   public void subtract(int subtrahend){
     this.subtract(new BigNum(subtrahend));
   }
-  
-  
+
   public void multiply(BigNum multiplier){
     
     this.coefficient = this.coefficient * multiplier.coefficient;
     this.exponent = this.exponent + multiplier.exponent;
-      
+
     this.updateBigNum();
   }
-
   public void multiply(int multiplier){
     this.multiply(new BigNum(multiplier));
   }
-
-
 
   public void divide(BigNum divisor){
     System.out.println(this.coefficient + " + " + divisor.coefficient);
@@ -228,11 +216,9 @@ public class BigNum{
     
     this.updateBigNum();
   }
-
   public void divide(int divisor){
     this.divide(new BigNum(divisor));
   }
-
 
   public void pow(int exponent){
     
@@ -241,15 +227,16 @@ public class BigNum{
 
     this.updateBigNum();
   }
-  
   public void pow(BigNum exponent){
     this.pow((int)exponent.bigNumToNum());
   }
-  
-  
-  
-  
-  
+
+
+
+
+  //-----------------------Static Operations-----------------------\\
+  //These operation methods return a new BigNum object
+
   public static BigNum add(BigNum bigNum1, BigNum bigNum2){
     BigNum result = new BigNum(bigNum1.bigNum);
     result.add(bigNum2);
@@ -262,9 +249,7 @@ public class BigNum{
     
     return result;
   }
-  
-  
-  
+
   public static BigNum subtract(BigNum bigNum1, BigNum bigNum2){
     BigNum result = new BigNum(bigNum1.bigNum);
     result.subtract(bigNum2);
@@ -277,9 +262,7 @@ public class BigNum{
     
     return result;
   }
-  
-  
-  
+
   public static BigNum multiply(BigNum bigNum1, BigNum bigNum2){
     BigNum result = new BigNum(bigNum1.bigNum);
     result.multiply(bigNum2);
@@ -292,9 +275,7 @@ public class BigNum{
     
     return result;
   }
-  
-  
-  
+
   public static BigNum divide(BigNum bigNum1, BigNum bigNum2){
     BigNum result = new BigNum(bigNum1.bigNum);
     result.divide(bigNum2);
@@ -307,9 +288,7 @@ public class BigNum{
     
     return result;
   }
-  
-  
-  
+
   public static BigNum pow(BigNum base, int exponent){
     BigNum result = new BigNum(base.bigNum);
     result.pow(exponent);
@@ -322,11 +301,8 @@ public class BigNum{
     
     return new BigNum(result.bigNum);
   }
-  
-  
+
   public static BigNum log10(BigNum base){
     return (new BigNum(Math.log10(base.coefficient) + base.exponent));
   }
-  
-  
 }

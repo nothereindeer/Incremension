@@ -13,39 +13,56 @@ import java.io.PrintWriter;
 
 
 
+//Main Program
 public class FinalGame{
-  public static String currentScreen;
-  public static String currentUpgradeFrame;
   public static void main(String[] args){
-    
+
+    //Temporary variable
     boolean isRunning = true;
-    currentScreen = "main";
-    currentUpgradeFrame = "coinUpgrades";
-    
+
+    //Default Screens
+    Global.currentScreen = "main menu";
+    Global.currentUpgradeFrame = "coinUpgrades";
+
+    //Initializes all global variables(variables are assigned values)
     Global.initialize();
+
+    //Quick access
     Currency coins = Global.currencies.get("coins");
     Currency prestigePoints = Global.currencies.get("prestige points");
-        
+
+    //UI
     GameFrame gameFrame = new GameFrame();
 
+
+
+    //-------------------------------------------------------Game Loop-----------------------------------------------------------------\\
     while(isRunning){
-      switch(currentScreen) {
+      //Determines which screen's information to display
+      switch(Global.currentScreen) {
         case "main menu":
+          Global.currentScreen = "main";
 
         case "main":
 
         case "settings":
 
       }
+
+      //Updates graphics
       gameFrame.updateFrame();
-      
+
+      //Temp
       coins.amount.add(1);
     }
-
   }
-  
-  
-  
+
+
+
+  //-------------------------------------------------------Methods-----------------------------------------------------------------\\
+
+
+  //-----------------------File Saving & Loading-----------------------\\
   public static void updateSaveVersion() throws Exception{
     File saveVersionFile = new File("Save Version.txt");
     Scanner sc = new Scanner(saveVersionFile);
@@ -78,11 +95,13 @@ public class FinalGame{
     //Reached start of upgrade saves
     while (!line.equals("")){
       Upgrade upgrade = Global.upgrades.get(line.split(":")[0]);
-      if (upgrade instanceof BoostUpgrade boostUpgrade){
+      if (upgrade instanceof BoostUpgrade){
+        BoostUpgrade boostUpgrade = (BoostUpgrade)upgrade;
         boostUpgrade.level = Integer.parseInt(line.split(":")[1]);
       }
       
-      else if (upgrade instanceof FeatureUpgrade featureUpgrade){
+      else if (upgrade instanceof FeatureUpgrade){
+        FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
         featureUpgrade.isBought = (Integer.parseInt(line.split(":")[1]) > 0);
       }
 
@@ -98,8 +117,8 @@ public class FinalGame{
     else
       System.out.println("File already exists");
     PrintWriter output = new PrintWriter(saveFile);
-    
-    
+
+
     
     output.println("Currencies:");
     
@@ -112,10 +131,12 @@ public class FinalGame{
     for (UpgradesFrame upgradesFrame: Global.upgradeFrames){
       for (Upgrade upgrade: upgradesFrame.upgrades){
         output.print(upgrade.name + ":");
-        if (upgrade instanceof BoostUpgrade boostUpgrade){
+        if (upgrade instanceof BoostUpgrade){
+          BoostUpgrade boostUpgrade = (BoostUpgrade)upgrade;
           output.println(boostUpgrade.level);
         }
-        else if (upgrade instanceof FeatureUpgrade featureUpgrade){
+        else if (upgrade instanceof FeatureUpgrade){
+          FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
           if (featureUpgrade.isBought){
             output.println("1");
           }
@@ -132,6 +153,4 @@ public class FinalGame{
   }
   
 
-  
-  
 }

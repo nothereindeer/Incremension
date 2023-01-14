@@ -4,8 +4,8 @@ import com.sfanshen.graphics.Picture;
 import com.sfanshen.main.Formula;
 
 public class BoostingCurrency extends Currency{
-  private Formula formula;
-  private Currency boostedCurrency;
+  public Formula formula;
+  public Currency boostedCurrency;
   
   public BoostingCurrency(String name, Picture icon, Currency boostedCurrency, Formula formula){
     super(name, icon);

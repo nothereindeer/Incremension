@@ -5,14 +5,19 @@ import java.util.ArrayList;
 
 
 public class MainMenu{
-  ArrayList<Picture> images = new ArrayList<Picture>();
-  
-  images.add(new Picture(200, 100, "pictures/Title.png"))
-    
-  images.add(new Picture(200, 300, "pictures/loading.png"))
-    
-  images.add(new Picture(300, 450, "pictures/playbutton.png"))
-    
+
+  public ArrayList<Picture> images = new ArrayList<>();
+
+
+  MainMenu(){
+    images.add(new Picture(0, 0, 100, 50, "pictures/Title.png"));
+    images.add(new Picture(0, 0, 100, 300, "pictures/loading.png"));
+    images.add(new Picture(0, 0, 100, 50, "pictures/playbutton.png"));
+  }
+
+
+
+
   public void drawTitle(){
      
   }

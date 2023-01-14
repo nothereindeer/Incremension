@@ -24,6 +24,7 @@ public class BoostUpgrade extends Upgrade{
     this.level = 0;
     
     for (int i = 0; i < boostedCurrencies.length; i ++){
+      this.boostedCurrencies = new HashMap<>();
       this.boostedCurrencies.put(boostedCurrencies[i], new Formula(boostFormulas[i]));
     }
   }
@@ -36,7 +37,8 @@ public class BoostUpgrade extends Upgrade{
     
     this.isUnlocked = false;
     this.level = 0;
-    
+
+    this.boostedCurrencies = new HashMap<>();
     this.boostedCurrencies.put(boostedCurrency, new Formula(boostFormula));
   }
 

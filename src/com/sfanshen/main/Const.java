@@ -1,22 +1,29 @@
 package com.sfanshen.main;
 
-import java.util.HashMap;
-
-import javax.swing.*;
 import java.awt.*;
 
+//A class for all the constant variables found in the game
 public class Const{
+
+  //-------------------------------------------------------UI Constants-----------------------------------------------------------------\\
+
+  //Screen size
   public static final int SCREEN_WIDTH = 800;
   public static final int SCREEN_HEIGHT = 600;
-  
+
+  //Currency display information
   public static final int CURRENCY_TEXT_SIZE= 14;
-  
-  
-  
-  //com.sfanshen.main.BigNum
-  public static final int ROUNDING_ERROR = 5;
-  
-  
+  public static final int CURRENCY_ICON_WIDTH = 5;
+  public static final int CURRENCY_ICON_HEIGHT = 5;
+
+  //Upgrade buttons scaling
+  public static final int UPGRADE_WIDTH = 20;
+  public static final int UPGRADE_HEIGHT = UPGRADE_WIDTH;
+  public static final double UPGRADE_OFFSET = 0.1 * UPGRADE_WIDTH;
+  public static final double UPGRADE_BORDER_WIDTH = 0.05 * UPGRADE_WIDTH;
+  public static final int UPGRADE_ICON_WIDTH = 10;
+  public static final int UPGRADE_ICON_HEIGHT = 10;
+
   //Colour theme
   public static final Color BLACK = new Color(13,31,45);
   public static final Color NOT_WHITE = new Color(13,31,45);
@@ -30,9 +37,15 @@ public class Const{
   public static final Color GOOGLE_HIGHLIGHT = new Color(175, 203, 255);
   public static final Color TINTED_GOLD = new Color(155,137,49);
 
+  //Fonts
+  public static final Font currencyFont = new Font("Baskerville", Font.BOLD, Const.CURRENCY_TEXT_SIZE);
 
-  //UI scale
-  public static final int UPGRADE_WIDTH = 20;
-  public static final int UPGRADE_HEIGHT = UPGRADE_WIDTH;
-  public static final double UPGRADE_OFFSET = 0.1 * UPGRADE_WIDTH;
+
+
+  //-------------------------------------------------------Game Constants-----------------------------------------------------------------\\
+
+
+  //BigNum rounding error
+  public static final int ROUNDING_ERROR = 5;
+
 }

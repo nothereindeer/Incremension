@@ -10,59 +10,81 @@ import java.util.HashMap;
 import java.util.ArrayList;
 
 public class Global{
+
+  //-------------------------------------------------------Variables-----------------------------------------------------------------\\
+
   public static int saveVersion;
-  
+
+  //Easy-access libraries
   public static HashMap<String, Currency> currencies;
   public static HashMap<String, Upgrade> upgrades;
   public static ArrayList<UpgradesFrame> upgradeFrames;
-  
-  
-    
+
+  //Displayed screen
+  public static String currentScreen;
+  public static String currentUpgradeFrame;
+
+  //Icons
+  public static Picture boostUpgradeIcon, featureUpgradeIcon;
+
+
+
+  //-------------------------------------------------------Methods-----------------------------------------------------------------\\
+
+
+  //Initializes all variables
   public static void initialize(){
+
+    upgradeFrames = new ArrayList<>();
+    currencies = new HashMap<>();
+    upgrades = new HashMap<>();
+
     saveVersion = 0;
     
-    String imageDirectory = "../Images";
-    Picture coinIcon = new Picture(0, 0, imageDirectory + "/coinIcon.png");
-    Picture rubyIcon = new Picture(0, 0, imageDirectory + "/rubyIcon.png");
-    
-    currencies = new HashMap<>();
+    String imageDirectory = "../../Images/Icons/";
+    Picture coinIcon = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH,  Const.CURRENCY_ICON_HEIGHT, imageDirectory + "Currency/Coin.png");
+    Picture rubyIcon = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH, Const.CURRENCY_ICON_HEIGHT,  imageDirectory + "Currency/Ruby.png");
+
+    boostUpgradeIcon = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH, Const.CURRENCY_ICON_HEIGHT, imageDirectory + "Upgrade Type/Boost Upgrade.png");
+    featureUpgradeIcon = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH, Const.CURRENCY_ICON_HEIGHT, imageDirectory + "Upgrade Type/Feature Upgrade.png");
+
+
     currencies.put("coins", (new Currency("coins", coinIcon)));
     currencies.put("rubies", (new Currency("rubies", rubyIcon)));
-    
 
-    
+
+
     //String name, com.sfanshen.main.BigNum price, com.sfanshen.currency.Currency purchaseCurrency, com.sfanshen.currency.Currency[] boostedCurrencies, String[] boostFormulas, int maxLevel, String displayScreen
-    upgrades.put("Better Pickaxes", new BoostUpgrade(
-                                                     "Better Pickaxes",
-                                                     new Formula("(100x)*"),
-                                                     currencies.get("coins"),
-                                                     currencies.get("coins"),
-                                                     "(1+x)*",
-                                                     10
-                                                    ));
-    
-    upgrades.put("Drills", new BoostUpgrade(
-                                            "Drills", 
-                                            new Formula("(1000x)*"),
-                                            currencies.get("coins"),
-                                            currencies.get("coins"),
-                                            "(3x)*",
-                                            1
-                                           ));
-    
+
+    upgradeFrames.add(new UpgradesFrame("coin upgrades", 0, 0, 400, 400, new Upgrade[]{
+            new BoostUpgrade("Better Pickaxes", new Formula("(100x)*"), currencies.get("coins"), currencies.get("coins"), "(1+x)*", 10),
+            new BoostUpgrade("Drills", new Formula("(1000x)*"), currencies.get("coins"), currencies.get("coins"), "(3x)*", 1)
+    }));
+
+    addUpgToList();
   }
-  
-  
+
+  //Crams all upgrades into the upgrade dictionary
+  public static void addUpgToList() {
+    for (UpgradesFrame upgradeFrame: upgradeFrames){
+      for (Upgrade upgrade: upgradeFrame.upgrades){
+        upgrades.put(upgrade.name, upgrade);
+      }
+    }
+  }
+
+  //Stores all related upgrades under each currency
   public static void organizeUpgrades(){
     for (Upgrade upgrade : upgrades.values()){
-      if (upgrade instanceof BoostUpgrade boostUpgrade){
+      if (upgrade instanceof BoostUpgrade){
+        BoostUpgrade boostUpgrade = (BoostUpgrade)upgrade;
         if (boostUpgrade.boostedCurrencies.containsKey(currencies.get("coins"))){
           organizeUpgradesByOperators(boostUpgrade, currencies.get("coins"));
         }
         if (boostUpgrade.boostedCurrencies.containsKey(currencies.get("rubies")))
           organizeUpgradesByOperators(boostUpgrade, currencies.get("rubies"));
       }
-    } 
+    }
   }
   public static void organizeUpgradesByOperators(BoostUpgrade boostUpgrade, Currency currency){
     Formula formula = boostUpgrade.boostedCurrencies.get(currency);

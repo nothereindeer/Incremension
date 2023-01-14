@@ -6,10 +6,11 @@ import com.sfanshen.main.Global;
 import java.util.ArrayList;
 
 import java.awt.*;
+import java.util.Arrays;
 
 public class UpgradesFrame{
   
-  String upgradeFrame;
+  public String upgradeFrame;
   int x, y, width, height, numPerRow;
   public ArrayList<Upgrade> upgrades;
 
@@ -23,19 +24,41 @@ public class UpgradesFrame{
     this.numPerRow = (int)(width / (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
     Global.upgradeFrames.add(this);
   }
+  public UpgradesFrame(String upgradeFrame, int x, int y, int width, int height, Upgrade[] upgrades){
+    this.upgradeFrame = upgradeFrame;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.upgrades = new ArrayList<>(Arrays.asList(upgrades));
+    this.numPerRow = (int)(width / (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
+
+    Global.upgradeFrames.add(this);
+
+  }
   
-//  void sort(String sortOrder){
-//    
-//  }
-//  
+
 public void draw(Graphics g){
     for (int i = 0; i < this.upgrades.size(); i ++){
       Upgrade upgrade = this.upgrades.get(i);
       int x = calculateCoords(i)[0];
       int y = calculateCoords(i)[1];
+
+      //If upgrade is unlocked
       if (upgrade.isUnlocked){
-        upgrade.draw(g, x, y);
+        upgrade.upgradeButton.x = x;
+        upgrade.upgradeButton.y = y;
+
+        //Draws upgrade
+        if (upgrade instanceof BoostUpgrade){
+          upgrade.upgradeButton.draw(g, Global.boostUpgradeIcon, upgrade.isPurchasable());
+        }
+        else if (upgrade instanceof FeatureUpgrade){
+          upgrade.upgradeButton.draw(g, Global.featureUpgradeIcon, upgrade.isPurchasable());
+        }
       }
+
+      //If the upgrade is not unlocked, draw a blank upgrade instead, indicating there is an upgrade to be unlocked by the player
       else{
         drawBlank(g, x, y);
       }
