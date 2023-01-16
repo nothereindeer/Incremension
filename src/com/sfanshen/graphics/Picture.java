@@ -1,5 +1,7 @@
 package com.sfanshen.graphics;
 
+import sun.awt.image.ToolkitImage;
+
 import java.io.File;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -27,25 +29,23 @@ public class  Picture{
 
     //Attempts to render image
     try{
-      this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
       this.image = ImageIO.read(new File(imageDirectory));
     }
     catch(IOException ex){System.out.println("Image doesn't exist. " + imageDirectory);}
 
-    this.width = this.image.getWidth();
-    this.height = this.image.getHeight();
+    this.width = width;
+    this.height = height;
   }
   public Picture(int x, int y, int width, int height, String imageDirectory, boolean centerAtCoords){
 
     //Attempts to render image
     try{
-      this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
       this.image = ImageIO.read(new File(imageDirectory));
     }
     catch(IOException ex){System.out.println("Image doesn't exist. " + imageDirectory);}
 
-    this.width = this.image.getWidth();
-    this.height = this.image.getHeight();
+    this.width = width;
+    this.height = height;
     this.x = x - this.width / 2;
     this.y = y - this.width / 2;
   }
@@ -56,7 +56,8 @@ public class  Picture{
 
   //Draws image
   public void draw(Graphics g) {
-    g.drawImage(this.image, this.x, this.y, null);
+    Image tmp = this.image.getScaledInstance(this.width, this.height, BufferedImage.SCALE_FAST);
+    g.drawImage(tmp, this.x, this.y, null);
   }
 
 
@@ -79,5 +80,17 @@ public class  Picture{
   }
   public Picture clone(int x, int y) {
     return new Picture(x, y, this.width, this.height, this.imageDirectory);
+  }
+
+
+  public void resize(int scaleX, int scaleY, boolean isScaled){
+    if (isScaled) {
+      this.width = this.width * scaleX;
+      this.height = this.height * scaleY;
+    }
+    else {
+      this.width = scaleX;
+      this.height = scaleY;
+    }
   }
 }

@@ -8,21 +8,30 @@ public class Const{
   //-------------------------------------------------------UI Constants-----------------------------------------------------------------\\
 
   //Screen size
-  public static final int SCREEN_WIDTH = 800;
-  public static final int SCREEN_HEIGHT = 600;
+  public static final int SCREEN_WIDTH = 1600;
+  public static final int SCREEN_HEIGHT = 1200;
+
+  //Uh frame stuff i guess
+  public static final int FRAME_X = (int) (0.15 * SCREEN_WIDTH);
+  public static final int FRAME_Y = (int) (0.12 * SCREEN_HEIGHT);
+  public static final int FRAME_WIDTH = (int) (0.7 * SCREEN_WIDTH);
+  public static final int FRAME_HEIGHT = (int) (0.7 * SCREEN_HEIGHT);
+  public static final int FRAME_BORDER_THICKNESS = 5;
 
   //Currency display information
-  public static final int CURRENCY_TEXT_SIZE= 14;
-  public static final int CURRENCY_ICON_WIDTH = 5;
-  public static final int CURRENCY_ICON_HEIGHT = 5;
+  public static final int CURRENCY_TEXT_SIZE= 16;
+  public static final int CURRENCY_ICON_WIDTH = 20;
+  public static final int CURRENCY_ICON_HEIGHT = 20;
+  public static final int CURRENCY_OFFSET_FROM_TOP = 20;
+  public static final int TEXT_ICON_OFFSET = 10;
 
   //Upgrade buttons scaling
   public static final int UPGRADE_WIDTH = 20;
   public static final int UPGRADE_HEIGHT = UPGRADE_WIDTH;
   public static final double UPGRADE_OFFSET = 0.1 * UPGRADE_WIDTH;
   public static final double UPGRADE_BORDER_WIDTH = 0.05 * UPGRADE_WIDTH;
-  public static final int UPGRADE_ICON_WIDTH = 10;
-  public static final int UPGRADE_ICON_HEIGHT = 10;
+  public static final int UPGRADE_ICON_WIDTH = 100;
+  public static final int UPGRADE_ICON_HEIGHT = 100;
 
   //Colour theme
   public static final Color BLACK = new Color(13,31,45);

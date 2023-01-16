@@ -23,24 +23,16 @@ public class GameFrame{
     currentGraphicsPanel = new GraphicsPanel();
     
     frame.add(currentGraphicsPanel);
-    frame.setVisible(true);    
+    frame.setVisible(true);
+    currentGraphicsPanel.setBackground(Const.NOT_WHITE);
   }
 
   //-------------------------------------------------------Graphics Rendering-----------------------------------------------------------------\\
 
   public class GraphicsPanel extends JPanel{
-    public void paintComponent(Graphics g) {
-      super.paintComponent(g);
-
-      switch (Global.currentScreen) {
-        case ("main menu"):
-
-        case("main"):
-          drawCurrencies(g);
-          drawUpgrades(g);
-
-        case("settings"):
-      }
+    public void paint(Graphics g) {
+      super.paint(g);
+      drawEverything(g);
     }
   }
 
@@ -55,24 +47,60 @@ public class GameFrame{
   }
 
 
+  public void drawEverything(Graphics g){
+    Graphics2D g2 = (Graphics2D) g;
+    switch (Global.currentScreen) {
+      case ("main menu"):
+        drawMenu(g2);
+
+      case("main"):
+        drawCurrencies(g2);
+        drawUpgrades(g2);
+        drawFrame(g2);
+
+      case("settings"):
+    }
+  }
+  public void drawFrame(Graphics2D g){
+    g.setColor(Const.DARKISH_BROWN);
+    Stroke oldStroke = g.getStroke();
+    g.setStroke(new BasicStroke(Const.FRAME_BORDER_THICKNESS));
+    g.drawRoundRect(Const.FRAME_X, Const.FRAME_Y, Const.FRAME_WIDTH, Const.FRAME_HEIGHT, 50, 50);
+    g.setStroke(oldStroke);
+  }
+
+
   //Renders everything currency related - icons, amounts
-  public void drawCurrencies(Graphics g){
+  public void drawCurrencies(Graphics2D g){
     int i = 0;
     for (Currency currency : Global.currencies.values()){
-      int fontXPosition = (i + 1) * Const.SCREEN_WIDTH / (Global.currencies.size() + 1);
+      int xPosition = (i + 1) * Const.SCREEN_WIDTH / (Global.currencies.size() + 1);
+
+      currency.icon.move(xPosition, Const.CURRENCY_OFFSET_FROM_TOP, false);
+      currency.icon.draw(g);
       g.setFont(Const.currencyFont);
-      g.drawString(currency.amount.bigNum, fontXPosition, 10);
+      g.setColor(Const.SUN_YELLOW);
+      g.drawString(currency.amount.bigNum, xPosition + currency.icon.width + Const.TEXT_ICON_OFFSET, Const.CURRENCY_OFFSET_FROM_TOP + Const.CURRENCY_TEXT_SIZE + currency.icon.height / 2 - Const.CURRENCY_TEXT_SIZE / 2);
       i = i + 1;
     }
   }
 
 
   //Renders everything upgrade related - currently visible upgrade buttons
-  public void drawUpgrades(Graphics g){
+  public void drawUpgrades(Graphics2D g){
     for (UpgradesFrame upgradeFrame: Global.upgradeFrames){
       if (upgradeFrame.upgradeFrame.equals(Global.currentUpgradeFrame)){
         upgradeFrame.draw(g);
       }
     }
+  }
+
+  public void drawMenu(Graphics2D g){
+
+
+
+    Global.playButton.draw(g);
+    Global.titleImage.draw(g);
+    Global.loadingBar.draw(g);
   }
 }
