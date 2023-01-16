@@ -1,7 +1,9 @@
 package com.sfanshen.main;
 
 import com.sfanshen.currency.Currency;
+import com.sfanshen.graphics.GameTab;
 import com.sfanshen.graphics.Picture;
+import com.sfanshen.graphics.UpgradeTab;
 import com.sfanshen.upgrade.BoostUpgrade;
 import com.sfanshen.upgrade.Upgrade;
 import com.sfanshen.upgrade.UpgradesFrame;
@@ -18,7 +20,7 @@ public class Global{
   //Easy-access libraries
   public static HashMap<String, Currency> currencies;
   public static HashMap<String, Upgrade> upgrades;
-  public static ArrayList<UpgradesFrame> upgradeFrames;
+  public static HashMap<String, GameTab> gameTabs;
 
   //Displayed screen
   public static String currentScreen;
@@ -37,7 +39,7 @@ public class Global{
   //Initializes all variables
   public static void initialize(){
 
-    upgradeFrames = new ArrayList<>();
+    gameTabs = new HashMap<>();
     currencies = new HashMap<>();
     upgrades = new HashMap<>();
 
@@ -64,21 +66,28 @@ public class Global{
 
     //String name, com.sfanshen.main.BigNum price, com.sfanshen.currency.Currency purchaseCurrency, com.sfanshen.currency.Currency[] boostedCurrencies, String[] boostFormulas, int maxLevel, String displayScreen
 
-    upgradeFrames.add(new UpgradesFrame("coin upgrades", 0, 0, 400, 400, new Upgrade[]{
+
+    UpgradesFrame coinUpgrades = new UpgradesFrame("coin upgrades", 0, 0, 400, 400, new Upgrade[]{
             new BoostUpgrade("Better pickaxes", new Formula("(100x)*"), currencies.get("coins"), currencies.get("coins"), "(1+x)*", 10),
             new BoostUpgrade("Drills", new Formula("(1000x)*"), currencies.get("coins"), currencies.get("coins"), "(3x)*", 1)
-    }));
+    });
 
     addUpgToList();
   }
 
   //Crams all upgrades into the upgrade dictionary
   public static void addUpgToList() {
-    for (UpgradesFrame upgradeFrame: upgradeFrames){
-      for (Upgrade upgrade: upgradeFrame.upgrades){
-        upgrades.put(upgrade.name, upgrade);
+    for (GameTab gameTab: gameTabs.values()){
+      if (gameTab instanceof UpgradeTab){
+        UpgradeTab upgradeTab = (UpgradeTab) gameTab;
+        for (UpgradesFrame upgradeFrame: upgradeTab.upgradesFrames){
+          for (Upgrade upgrade: upgradeFrame.upgrades){
+            upgrades.put(upgrade.name, upgrade);
+          }
+        }
       }
     }
+
   }
 
   //Stores all related upgrades under each currency

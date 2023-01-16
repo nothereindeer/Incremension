@@ -88,9 +88,9 @@ public class GameFrame{
 
   //Renders everything upgrade related - currently visible upgrade buttons
   public void drawUpgrades(Graphics2D g){
-    for (UpgradesFrame upgradeFrame: Global.upgradeFrames){
-      if (upgradeFrame.upgradeFrame.equals(Global.currentUpgradeFrame)){
-        upgradeFrame.draw(g);
+    for (GameTab tab: Global.gameTabs.values()){
+      if (tab.name.equals(Global.currentUpgradeFrame)){
+        tab.draw(g);
       }
     }
   }

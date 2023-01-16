@@ -17,6 +17,8 @@ public class Const{
   public static final int FRAME_WIDTH = (int) (0.7 * SCREEN_WIDTH);
   public static final int FRAME_HEIGHT = (int) (0.7 * SCREEN_HEIGHT);
   public static final int FRAME_BORDER_THICKNESS = 5;
+  public static final int FRAME_INFO_OFFSET_X = 10;
+  public static final int FRAME_INFO_OFFSET_Y = 10;
 
   //Currency display information
   public static final int CURRENCY_TEXT_SIZE= 16;

@@ -9,32 +9,24 @@ import java.awt.*;
 import java.util.Arrays;
 
 public class UpgradesFrame{
-  
-  public String upgradeFrame;
+
   int x, y, width, height, numPerRow;
   public ArrayList<Upgrade> upgrades;
 
-  public UpgradesFrame(String upgradeFrame, int x, int y, int width, int height, ArrayList<Upgrade> upgrades){
-    this.upgradeFrame = upgradeFrame;
+  public UpgradesFrame(int x, int y, int width, int height, ArrayList<Upgrade> upgrades){
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
     this.upgrades = upgrades;
     this.numPerRow = (int)(width / (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
-    Global.upgradeFrames.add(this);
   }
-  public UpgradesFrame(String upgradeFrame, int x, int y, int width, int height, Upgrade[] upgrades){
-    this.upgradeFrame = upgradeFrame;
+  public UpgradesFrame(String name, int x, int y, int width, int height, Upgrade[] upgrades){
     this.x = x;
     this.y = y;
     this.width = width;
-    this.height = height;
-    this.upgrades = new ArrayList<>(Arrays.asList(upgrades));
+    this.height = height;    this.upgrades = new ArrayList<>(Arrays.asList(upgrades));
     this.numPerRow = (int)(width / (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
-
-    Global.upgradeFrames.add(this);
-
   }
   
 
