@@ -15,7 +15,7 @@ public class FeatureUpgrade extends Upgrade {
     this.isUnlocked = false;
   }
 
-  public void buy(int levelAmount){
+  public void buy(){
     if (!this.isBought && this.purchaseCurrency.amount.isGreaterEqualTo(this.price)){
       this.purchaseCurrency.amount.subtract(this.price);
       this.isBought = true;

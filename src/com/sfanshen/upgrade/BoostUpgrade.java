@@ -42,7 +42,7 @@ public class BoostUpgrade extends Upgrade{
     this.boostedCurrencies.put(boostedCurrency, new Formula(boostFormula));
   }
 
-  public void buy(int levelAmount){
+  public void buy(){
     if (this.level < this.maxLevel && this.purchaseCurrency.amount.isGreaterEqualTo(this.price)){
       this.purchaseCurrency.amount.subtract(this.price);
       this.level = this.level + 1;
