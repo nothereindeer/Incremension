@@ -4,6 +4,7 @@ import com.sfanshen.main.BigNum;
 import com.sfanshen.main.Formula;
 import com.sfanshen.currency.Currency;
 
+
 import java.util.HashMap;
 
 public class BoostUpgrade extends Upgrade{

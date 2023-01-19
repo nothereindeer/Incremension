@@ -4,24 +4,36 @@ import com.sfanshen.main.Const;
 import com.sfanshen.currency.Currency;
 import com.sfanshen.main.FinalGame;
 import com.sfanshen.main.Global;
+import com.sfanshen.ui.BoardAndMouse;
 import com.sfanshen.upgrade.UpgradesFrame;
 
 import javax.swing.*;
 import java.awt.*;
 
 
-public class GameFrame{
-  JFrame frame;  
+public class GameFrame {
+  JFrame frame;
   GraphicsPanel currentGraphicsPanel;
 
+  BoardAndMouse.MouseListen mouseListener;
+  BoardAndMouse.MouseMotionListen mouseMotionListener;
+  BoardAndMouse.KeyListen keyListener;
+
   //-------------------------------------------------------Constructor-----------------------------------------------------------------\\
-  public GameFrame(){
+  public GameFrame() {
     frame = new JFrame("test");
     frame.setSize(Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
+
     currentGraphicsPanel = new GraphicsPanel();
-    
+
+    mouseListener = new BoardAndMouse.MouseListen();
+    frame.addMouseListener(mouseListener);
+    mouseMotionListener = new BoardAndMouse.MouseMotionListen();
+    frame.addMouseMotionListener(mouseMotionListener);
+    keyListener = new BoardAndMouse.KeyListen();
+    frame.addKeyListener(keyListener);
+
     frame.add(currentGraphicsPanel);
     frame.setVisible(true);
     currentGraphicsPanel.setBackground(Const.NOT_WHITE);
@@ -29,11 +41,12 @@ public class GameFrame{
 
   //-------------------------------------------------------Graphics Rendering-----------------------------------------------------------------\\
 
-  public class GraphicsPanel extends JPanel{
-    public GraphicsPanel(){
+  public class GraphicsPanel extends JPanel {
+    public GraphicsPanel() {
       setFocusable(true);
       requestFocusInWindow();
     }
+
     public void paint(Graphics g) {
       super.paint(g);
       drawEverything(g);
@@ -41,17 +54,20 @@ public class GameFrame{
   }
 
 
-
   //-------------------------------------------------------Graphical Methods-----------------------------------------------------------------\\
 
   //Updates frame
-  public void updateFrame(){
+  public void updateFrame() {
     frame.repaint();
-    try {Thread.sleep(5);} catch(Exception e){System.out.println("Something went wrong!!!!");}
+    try {
+      Thread.sleep(5);
+    } catch (Exception e) {
+      System.out.println("Something went wrong!!!!");
+    }
   }
 
 
-  public void drawEverything(Graphics g){
+  public void drawEverything(Graphics g) {
     Graphics2D g2 = (Graphics2D) g;
     g2.setColor(Color.white);
     GameIcon gameIcon = new GameIcon(100, 100, 500, 500);
@@ -59,15 +75,16 @@ public class GameFrame{
       case ("main menu"):
         drawMenu(g2);
         break;
-      case("main"):
+      case ("main"):
         drawCurrencies(g2);
         drawTab(g2);
         drawFrame(g2);
 
-      case("settings"):
+      case ("settings"):
     }
   }
-  public void drawFrame(Graphics2D g){
+
+  public void drawFrame(Graphics2D g) {
     g.setColor(Const.DARKISH_BROWN);
     Stroke oldStroke = g.getStroke();
     g.setStroke(new BasicStroke(Const.FRAME_BORDER_THICKNESS));
@@ -77,9 +94,9 @@ public class GameFrame{
 
 
   //Renders everything currency related - icons, amounts
-  public void drawCurrencies(Graphics2D g){
+  public void drawCurrencies(Graphics2D g) {
     int i = 0;
-    for (Currency currency : Global.currencies.values()){
+    for (Currency currency : Global.currencies.values()) {
       int xPosition = (i + 1) * Const.SCREEN_WIDTH / (Global.currencies.size() + 1);
 
       currency.icon.move(xPosition, Const.CURRENCY_OFFSET_FROM_TOP, false);
@@ -93,15 +110,15 @@ public class GameFrame{
 
 
   //Renders everything upgrade related - currently visible upgrade buttons
-  public void drawTab(Graphics2D g){
-    for (GameTab tab: Global.gameTabs.values()){
-      if (tab.name.equals(Global.currentTab)){
+  public void drawTab(Graphics2D g) {
+    for (GameTab tab : Global.gameTabs.values()) {
+      if (tab.name.equals(Global.currentTab)) {
         tab.draw(g);
       }
     }
   }
 
-  public void drawMenu(Graphics2D g){
+  public void drawMenu(Graphics2D g) {
 
 
     Global.playButton.move(800, 600, true);

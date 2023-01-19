@@ -27,9 +27,9 @@ public class GameIcon {
 
     public void draw(Graphics2D g) {
         drawOutline(g);
-        int[] xPoints = {(int)(this.x + this.width * ICON_OFFSET_X), (int)(this.x + this.width * (1 - ICON_OFFSET_X)), (int)(this.x + this.width * (1 - ICON_OFFSET_X - TRAPEZOID_TOP_BOTTOM_OFFSET)), (int)(this.x + this.width * (ICON_OFFSET_X + TRAPEZOID_TOP_BOTTOM_OFFSET))};
-        int[] yPoints = {(int)(this.y + this.height * TOP_OFFSET_Y), (int)(this.y + this.height * TOP_OFFSET_Y), (int)(this.y + this.height * (TOP_OFFSET_Y + TRAPEZOID_HEIGHT)), (int)(this.y + this.height * (TOP_OFFSET_Y + TRAPEZOID_HEIGHT))};
-        int[] yPoints2 = {(int)(this.y + this.height * (1 - TOP_OFFSET_Y)), (int)(this.y + this.height * (1 - TOP_OFFSET_Y)), (int)(this.y + this.height * (1 - TOP_OFFSET_Y - TRAPEZOID_HEIGHT)), (int)(this.y + this.height * (1 - TOP_OFFSET_Y - TRAPEZOID_HEIGHT))};
+        int[] xPoints = {(int) (this.x + this.width * ICON_OFFSET_X), (int) (this.x + this.width * (1 - ICON_OFFSET_X)), (int) (this.x + this.width * (1 - ICON_OFFSET_X - TRAPEZOID_TOP_BOTTOM_OFFSET)), (int) (this.x + this.width * (ICON_OFFSET_X + TRAPEZOID_TOP_BOTTOM_OFFSET))};
+        int[] yPoints = {(int) (this.y + this.height * TOP_OFFSET_Y), (int) (this.y + this.height * TOP_OFFSET_Y), (int) (this.y + this.height * (TOP_OFFSET_Y + TRAPEZOID_HEIGHT)), (int) (this.y + this.height * (TOP_OFFSET_Y + TRAPEZOID_HEIGHT))};
+        int[] yPoints2 = {(int) (this.y + this.height * (1 - TOP_OFFSET_Y)), (int) (this.y + this.height * (1 - TOP_OFFSET_Y)), (int) (this.y + this.height * (1 - TOP_OFFSET_Y - TRAPEZOID_HEIGHT)), (int) (this.y + this.height * (1 - TOP_OFFSET_Y - TRAPEZOID_HEIGHT))};
 
         Polygon trapezoid = new Polygon(xPoints, yPoints, 4);
         Polygon trapezoid2 = new Polygon(xPoints, yPoints2, 4);
@@ -45,7 +45,7 @@ public class GameIcon {
     }
 
 
-    public void drawOutline(Graphics2D g){
+    public void drawOutline(Graphics2D g) {
         Stroke oldStroke = g.getStroke();
         g.setStroke(new BasicStroke((float) (0.01 * this.width)));
         g.drawOval(this.x, this.y, this.width, this.height);
