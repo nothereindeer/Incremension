@@ -18,7 +18,7 @@ public class UpgradeButton{
     this.icon = icon;
   }
 
-  public void draw(Graphics g, Picture upgradeTypeIcon, boolean canBePurchased){
+  public void draw(Graphics2D g, Picture upgradeTypeIcon, boolean canBePurchased){
     g.setColor(Const.GOOGLE_HIGHLIGHT);
     g.drawRect(this.x, this.y, Const.UPGRADE_WIDTH, Const.UPGRADE_HEIGHT);
     if (canBePurchased){

@@ -24,7 +24,7 @@ public class Global{
 
   //Displayed screen
   public static String currentScreen;
-  public static String currentUpgradeFrame;
+  public static String currentTab;
 
   //Icons
   public static Picture boostUpgradeIcon, featureUpgradeIcon;
@@ -51,12 +51,12 @@ public class Global{
     Picture coinIcon = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH,  Const.CURRENCY_ICON_HEIGHT, iconImageDirectory + "Currency/Coin.png");
     Picture rubyIcon = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH, Const.CURRENCY_ICON_HEIGHT,  iconImageDirectory + "Currency/Ruby.png");
 
-    boostUpgradeIcon = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH, Const.CURRENCY_ICON_HEIGHT, iconImageDirectory + "Upgrade Type/Boost Upgrade.png");
-    featureUpgradeIcon = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH, Const.CURRENCY_ICON_HEIGHT, iconImageDirectory + "Upgrade Type/Feature Upgrade.png");
+    boostUpgradeIcon = new Picture(0, 0, Const.UPGRADE_ICON_WIDTH, Const.UPGRADE_ICON_HEIGHT, iconImageDirectory + "Upgrade Type/Boost Upgrade.png");
+    featureUpgradeIcon = new Picture(0, 0, Const.UPGRADE_ICON_WIDTH, Const.UPGRADE_ICON_HEIGHT, iconImageDirectory + "Upgrade Type/Feature Upgrade.png");
 
-    playButton =  new Picture(0, 0, Const.CURRENCY_ICON_WIDTH, Const.CURRENCY_ICON_HEIGHT, mainMenuDirectory + "Play button.png");
-    titleImage = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH, Const.CURRENCY_ICON_HEIGHT, mainMenuDirectory + "Title.png");
-    loadingBar = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH, Const.CURRENCY_ICON_HEIGHT, mainMenuDirectory + "Title.png");
+    playButton =  new Picture(0, 0, mainMenuDirectory + "Play button.png");
+    titleImage = new Picture(0, 0, mainMenuDirectory + "Title.png");
+    loadingBar = new Picture(0, 0, mainMenuDirectory + "Title.png");
 
 
     currencies.put("coins", (new Currency("coins", coinIcon)));
@@ -67,11 +67,12 @@ public class Global{
     //String name, com.sfanshen.main.BigNum price, com.sfanshen.currency.Currency purchaseCurrency, com.sfanshen.currency.Currency[] boostedCurrencies, String[] boostFormulas, int maxLevel, String displayScreen
 
 
-    UpgradesFrame coinUpgrades = new UpgradesFrame("coin upgrades", 0, 0, 400, 400, new Upgrade[]{
+    Upgrade[] coinUpgrades = {
             new BoostUpgrade("Better pickaxes", new Formula("(100x)*"), currencies.get("coins"), currencies.get("coins"), "(1+x)*", 10),
             new BoostUpgrade("Drills", new Formula("(1000x)*"), currencies.get("coins"), currencies.get("coins"), "(3x)*", 1)
-    });
+    };
 
+    new UpgradeTab("coin upgrades", new Upgrade[][]{coinUpgrades});
     addUpgToList();
   }
 

@@ -30,6 +30,10 @@ public class GameFrame{
   //-------------------------------------------------------Graphics Rendering-----------------------------------------------------------------\\
 
   public class GraphicsPanel extends JPanel{
+    public GraphicsPanel(){
+      setFocusable(true);
+      requestFocusInWindow();
+    }
     public void paint(Graphics g) {
       super.paint(g);
       drawEverything(g);
@@ -49,13 +53,15 @@ public class GameFrame{
 
   public void drawEverything(Graphics g){
     Graphics2D g2 = (Graphics2D) g;
+    g2.setColor(Color.white);
+    GameIcon gameIcon = new GameIcon(100, 100, 500, 500);
     switch (Global.currentScreen) {
       case ("main menu"):
         drawMenu(g2);
-
+        break;
       case("main"):
         drawCurrencies(g2);
-        drawUpgrades(g2);
+        drawTab(g2);
         drawFrame(g2);
 
       case("settings"):
@@ -87,9 +93,9 @@ public class GameFrame{
 
 
   //Renders everything upgrade related - currently visible upgrade buttons
-  public void drawUpgrades(Graphics2D g){
+  public void drawTab(Graphics2D g){
     for (GameTab tab: Global.gameTabs.values()){
-      if (tab.name.equals(Global.currentUpgradeFrame)){
+      if (tab.name.equals(Global.currentTab)){
         tab.draw(g);
       }
     }
@@ -98,7 +104,7 @@ public class GameFrame{
   public void drawMenu(Graphics2D g){
 
 
-
+    Global.playButton.move(800, 600, true);
     Global.playButton.draw(g);
     Global.titleImage.draw(g);
     Global.loadingBar.draw(g);

@@ -24,5 +24,5 @@ public abstract class GameTab {
         Global.gameTabs.put(this.name, this);
     }
 
-    abstract void draw(Graphics g);
+    abstract void draw(Graphics2D g);
 }

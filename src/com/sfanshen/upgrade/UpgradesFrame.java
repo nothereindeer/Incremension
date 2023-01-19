@@ -21,7 +21,7 @@ public class UpgradesFrame{
     this.upgrades = upgrades;
     this.numPerRow = (int)(width / (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
   }
-  public UpgradesFrame(String name, int x, int y, int width, int height, Upgrade[] upgrades){
+  public UpgradesFrame(int x, int y, int width, int height, Upgrade[] upgrades){
     this.x = x;
     this.y = y;
     this.width = width;
@@ -30,12 +30,11 @@ public class UpgradesFrame{
   }
   
 
-public void draw(Graphics g){
-    for (int i = 0; i < this.upgrades.size(); i ++){
+public void draw(Graphics2D g){
+  for (int i = 0; i < this.upgrades.size(); i ++){
       Upgrade upgrade = this.upgrades.get(i);
       int x = calculateCoords(i)[0];
       int y = calculateCoords(i)[1];
-
       //If upgrade is unlocked
       if (upgrade.isUnlocked){
         upgrade.upgradeButton.x = x;
@@ -59,8 +58,8 @@ public void draw(Graphics g){
   
   
   
-  public static void drawBlank(Graphics g, int x, int y){
-    g.setColor(Const.BLACK);
+  public static void drawBlank(Graphics2D g, int x, int y){
+    g.setColor(Const.DARKISH_BROWN);
     g.drawRect(x, y, Const.UPGRADE_WIDTH, Const.UPGRADE_HEIGHT);
   }
 
@@ -69,16 +68,18 @@ public void draw(Graphics g){
     
     row = i / this.numPerRow;
     column = i % this.numPerRow;
+
+    int lastRowStartingIndex = (this.upgrades.size() / this.numPerRow) * this.upgrades.size();
     
-    if (this.upgrades.size() - this.numPerRow <= 5){
-      int amtOnRow = this.upgrades.size() - i - 1;
+    if (i >= lastRowStartingIndex){
+      int amtOnRow = this.upgrades.size() - lastRowStartingIndex;
       sideOffset = (int)(this.width - amtOnRow * (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET) - Const.UPGRADE_OFFSET) / 2; 
     }
     else{
       sideOffset = (int)(this.width - this.numPerRow * (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET) - Const.UPGRADE_OFFSET) / 2;
     }
     
-    x = (int)(this.x + sideOffset + column * (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET)); 
+    x = (int)(this.x + sideOffset + column * (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
     y = (int)(this.y + row * (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
 
     return new int[]{x, y};

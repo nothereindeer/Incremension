@@ -2,6 +2,8 @@ package com.sfanshen.main;
 
 import com.sfanshen.currency.Currency;
 import com.sfanshen.graphics.GameFrame;
+import com.sfanshen.graphics.GameTab;
+import com.sfanshen.graphics.UpgradeTab;
 import com.sfanshen.upgrade.BoostUpgrade;
 import com.sfanshen.upgrade.FeatureUpgrade;
 import com.sfanshen.upgrade.Upgrade;
@@ -22,7 +24,7 @@ public class FinalGame{
 
     //Default Screens
     Global.currentScreen = "main menu";
-    Global.currentUpgradeFrame = "coinUpgrades";
+    Global.currentTab = "coin upgrades";
 
     //Initializes all global variables(variables are assigned values)
     Global.initialize();
@@ -41,7 +43,6 @@ public class FinalGame{
       //Determines which screen's information to display
       switch(Global.currentScreen) {
         case "main menu":
-          Global.currentScreen = "main";
 
         case "main":
 
@@ -127,29 +128,36 @@ public class FinalGame{
     }
     
     output.println("\nUpgrades:");
-    
-    for (UpgradesFrame upgradesFrame: Global.upgradeFrames){
-      for (Upgrade upgrade: upgradesFrame.upgrades){
-        output.print(upgrade.name + ":");
-        if (upgrade instanceof BoostUpgrade){
-          BoostUpgrade boostUpgrade = (BoostUpgrade)upgrade;
-          output.println(boostUpgrade.level);
-        }
-        else if (upgrade instanceof FeatureUpgrade){
-          FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
-          if (featureUpgrade.isBought){
-            output.println("1");
+
+    for (GameTab gameTab: Global.gameTabs.values()){
+      if (gameTab instanceof UpgradeTab){
+        UpgradeTab upgradeTab = (UpgradeTab) gameTab;
+
+        for (UpgradesFrame upgradesFrame: upgradeTab.upgradesFrames){
+          for (Upgrade upgrade: upgradesFrame.upgrades){
+            output.print(upgrade.name + ":");
+            if (upgrade instanceof BoostUpgrade){
+              BoostUpgrade boostUpgrade = (BoostUpgrade)upgrade;
+              output.println(boostUpgrade.level);
+            }
+            else if (upgrade instanceof FeatureUpgrade){
+              FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
+              if (featureUpgrade.isBought){
+                output.println("1");
+              }
+              else{
+                output.println("0");
+              }
+            }
+
+            else{
+              System.out.println("Error while saving files: Attempted looping through upgrades, found illegal upgrade type");
+            }
           }
-          else{
-            output.println("0");
-          }
-        }
-        
-        else{
-         System.out.println("Error while saving files: Attempted looping through upgrades, found illegal upgrade type"); 
         }
       }
     }
+
   }
   
 

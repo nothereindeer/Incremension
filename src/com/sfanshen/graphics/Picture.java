@@ -36,6 +36,21 @@ public class  Picture{
     this.width = width;
     this.height = height;
   }
+  public Picture(int x, int y, String imageDirectory){
+
+    this.imageDirectory = imageDirectory;
+    this.x = x;
+    this.y = y;
+
+    //Attempts to render image
+    try{
+      this.image = ImageIO.read(new File(imageDirectory));
+    }
+    catch(IOException ex){System.out.println("Image doesn't exist. " + imageDirectory);}
+
+    this.width = image.getWidth();
+    this.height = image.getHeight();
+  }
   public Picture(int x, int y, int width, int height, String imageDirectory, boolean centerAtCoords){
 
     //Attempts to render image

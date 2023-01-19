@@ -17,8 +17,8 @@ public class Const{
   public static final int FRAME_WIDTH = (int) (0.7 * SCREEN_WIDTH);
   public static final int FRAME_HEIGHT = (int) (0.7 * SCREEN_HEIGHT);
   public static final int FRAME_BORDER_THICKNESS = 5;
-  public static final int FRAME_INFO_OFFSET_X = 10;
-  public static final int FRAME_INFO_OFFSET_Y = 10;
+  public static final int FRAME_INFO_OFFSET_X = 20;
+  public static final int FRAME_INFO_OFFSET_Y = 20;
 
   //Currency display information
   public static final int CURRENCY_TEXT_SIZE= 16;
@@ -28,12 +28,12 @@ public class Const{
   public static final int TEXT_ICON_OFFSET = 10;
 
   //Upgrade buttons scaling
-  public static final int UPGRADE_WIDTH = 20;
+  public static final int UPGRADE_WIDTH = 50;
   public static final int UPGRADE_HEIGHT = UPGRADE_WIDTH;
-  public static final double UPGRADE_OFFSET = 0.1 * UPGRADE_WIDTH;
+  public static final double UPGRADE_OFFSET = UPGRADE_WIDTH * 0.1;
   public static final double UPGRADE_BORDER_WIDTH = 0.05 * UPGRADE_WIDTH;
-  public static final int UPGRADE_ICON_WIDTH = 100;
-  public static final int UPGRADE_ICON_HEIGHT = 100;
+  public static final int UPGRADE_ICON_WIDTH = 50;
+  public static final int UPGRADE_ICON_HEIGHT = 50;
 
   //Colour theme
   public static final Color BLACK = new Color(13,31,45);
