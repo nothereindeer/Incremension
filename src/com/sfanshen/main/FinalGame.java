@@ -10,6 +10,7 @@ import com.sfanshen.upgrade.FeatureUpgrade;
 import com.sfanshen.upgrade.Upgrade;
 import com.sfanshen.upgrade.UpgradesFrame;
 
+import java.awt.*;
 import java.util.Scanner;
 import java.io.File;
 import java.io.PrintWriter;
@@ -55,6 +56,8 @@ public class FinalGame {
             gameFrame.updateFrame();
             //Temp
             coins.increase(1);
+            updateMousePosition();
+            BoardAndMouse.checkMousePosition();
         }
     }
 
@@ -62,6 +65,13 @@ public class FinalGame {
     //-------------------------------------------------------Methods-----------------------------------------------------------------\\
 
 
+
+
+    public static void updateMousePosition(){
+        PointerInfo pointerInfo = MouseInfo.getPointerInfo();
+        Global.mouseX = pointerInfo.getLocation().getX();
+        Global.mouseY = pointerInfo.getLocation().getY();
+    }
     //-----------------------File Saving & Loading-----------------------\\
     public static void updateSaveVersion() throws Exception {
         File saveVersionFile = new File("Save Version.txt");

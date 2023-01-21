@@ -3,7 +3,6 @@ package com.sfanshen.graphics;
 import com.sfanshen.main.Const;
 import com.sfanshen.main.Global;
 import com.sfanshen.ui.GameButton;
-import com.sfanshen.upgrade.Upgrade;
 
 import java.awt.*;
 import java.util.ArrayList;

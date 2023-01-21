@@ -97,85 +97,62 @@ public class BigNum {
     public boolean isGreaterThan(BigNum number) {
         if (this.exponent > number.exponent)
             return true;
-        else if (this.exponent == number.exponent && this.coefficient > number.coefficient)
-            return true;
-        return false;
+        else return this.exponent == number.exponent && this.coefficient > number.coefficient;
     }
 
     public boolean isGreaterThan(int number) {
         int digits = (int) Math.floor(Math.log10(number));
         if (this.exponent > digits)
             return true;
-        else if (this.exponent == digits && this.coefficient > number / Math.pow(10, digits))
-            return true;
-        return false;
+        else return this.exponent == digits && this.coefficient > number / Math.pow(10, digits);
     }
 
     public boolean isGreaterEqualTo(BigNum number) {
         if (this.exponent > number.exponent)
             return true;
-        else if (this.exponent == number.exponent && this.coefficient >= number.coefficient)
-            return true;
-        return false;
+        else return this.exponent == number.exponent && this.coefficient >= number.coefficient;
     }
 
     public boolean isGreaterEqualTo(int number) {
         int digits = (int) Math.floor(Math.log10(number));
         if (this.exponent > digits)
             return true;
-        else if (this.exponent == digits && this.coefficient >= number / Math.pow(10, digits))
-            return true;
-        return false;
+        else return this.exponent == digits && this.coefficient >= number / Math.pow(10, digits);
     }
 
     public boolean isEqualTo(BigNum number) {
-        if (this.coefficient == number.coefficient && this.exponent == number.exponent)
-            return true;
-        return false;
+        return this.coefficient == number.coefficient && this.exponent == number.exponent;
     }
 
     public boolean isEqualTo(int number) {
         int digits = (int) Math.floor(Math.log10(number));
-        if (this.coefficient == number / Math.pow(10, digits) && this.exponent == digits)
-            return true;
-        return false;
+        return this.coefficient == number / Math.pow(10, digits) && this.exponent == digits;
     }
 
     public boolean isLessEqualTo(BigNum number) {
         if (this.exponent < number.exponent)
             return true;
-        else if (this.exponent == number.exponent && this.coefficient <= number.coefficient)
-            return true;
-        return false;
+        else return this.exponent == number.exponent && this.coefficient <= number.coefficient;
     }
 
     public boolean isLessEqualTo(int number) {
         int digits = (int) Math.floor(Math.log10(number));
         if (this.exponent < digits) {
             return true;
-        } else if (this.exponent == digits && this.coefficient <= number / Math.pow(10, digits)) {
-            return true;
-        }
-        return false;
+        } else return this.exponent == digits && this.coefficient <= number / Math.pow(10, digits);
     }
 
     public boolean isLessThan(BigNum number) {
         if (this.exponent < number.exponent) {
             return true;
-        } else if (this.exponent == number.exponent && this.coefficient < number.coefficient) {
-            return true;
-        }
-        return false;
+        } else return this.exponent == number.exponent && this.coefficient < number.coefficient;
     }
 
     public boolean isLessThan(int number) {
         int digits = (int) Math.floor(Math.log10(number));
         if (this.exponent < digits) {
             return true;
-        } else if (this.exponent == digits && this.coefficient < number / Math.pow(10, digits)) {
-            return true;
-        }
-        return false;
+        } else return this.exponent == digits && this.coefficient < number / Math.pow(10, digits);
     }
 
 

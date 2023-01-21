@@ -2,10 +2,6 @@ package com.sfanshen.ui;
 
 import com.sfanshen.main.Global;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-
 public class GameButton {
 
     public int x;
@@ -15,14 +11,14 @@ public class GameButton {
 
     String action;
 
-    boolean isHovering;
+    public boolean isMouseHovering;
 
     public GameButton(int x, int y, int w, int h, String displayTab) {
         this.x = x;
         this.y = y;
         this.width = w;
         this.height = h;
-        this.isHovering = false;
+        this.isMouseHovering = false;
         Global.gameTabs.get(displayTab).buttons.add(this);
     }
 
@@ -31,7 +27,7 @@ public class GameButton {
         this.y = y;
         this.width = w;
         this.height = h;
-        this.isHovering = false;
+        this.isMouseHovering = false;
     }
 
     boolean isMouseInFrame(int mouseX, int mouseY) {

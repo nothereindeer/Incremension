@@ -13,20 +13,33 @@ public abstract class Upgrade {
 
     public String name;
     Formula priceFormula;
-    BigNum price;
-    Currency purchaseCurrency;
+    public BigNum price;
+    public Currency purchaseCurrency;
     public UpgradeButton upgradeButton;
     public boolean isUnlocked;
+    public String description;
+
+    public Upgrade(String name, Formula priceFormula, Currency purchaseCurrency, String description) {
+        this.name = name;
+        this.priceFormula = priceFormula;
+        this.purchaseCurrency = purchaseCurrency;
+        this.upgradeButton = new UpgradeButton(new Picture(0, 0, Const.UPGRADE_ICON_WIDTH, Const.UPGRADE_ICON_HEIGHT, Global.programDirectory + "Images/Icons/Upgrade/" + this.name + ".png"));
+        this.description = description;
+
+        this.isUnlocked = true;
+        this.calculatePrice();
+    }
 
     public Upgrade(String name, Formula priceFormula, Currency purchaseCurrency) {
         this.name = name;
         this.priceFormula = priceFormula;
         this.purchaseCurrency = purchaseCurrency;
         this.upgradeButton = new UpgradeButton(new Picture(0, 0, Const.UPGRADE_ICON_WIDTH, Const.UPGRADE_ICON_HEIGHT, Global.programDirectory + "Images/Icons/Upgrade/" + this.name + ".png"));
+        this.description = "";
+
         this.isUnlocked = true;
         this.calculatePrice();
     }
-
 
     abstract public void calculatePrice();
 

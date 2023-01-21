@@ -7,12 +7,14 @@ public class Const {
 
     //-------------------------------------------------------UI Constants-----------------------------------------------------------------\\
 
+
+    public static final int FPS = 100;
     //Screen size
     public static final int SCREEN_WIDTH = 1600;
     public static final int SCREEN_HEIGHT = 1200;
 
     //Main Menu stuff
-    //Uh frame stuff i guess
+    //Uh frame stuff I guess
     public static final int FRAME_X = (int) (0.15 * SCREEN_WIDTH);
     public static final int FRAME_Y = (int) (0.12 * SCREEN_HEIGHT);
     public static final int FRAME_WIDTH = (int) (0.7 * SCREEN_WIDTH);
@@ -41,11 +43,21 @@ public class Const {
     public static final int UPGRADE_TYPE_ICON_WIDTH = 10;
     public static final int UPGRADE_TYPE_ICON_HEIGHT = 10;
 
+    //Upgrade Description
+    public static final int UPG_DESC_FONT_SIZE = 16;
+    public static final int UPG_DESC_TITLE_FONT_SIZE = 20;
+    public static final double UPG_DESC_Y = 0.75 * FRAME_HEIGHT + FRAME_Y;
+    public static final int UPG_DESC_LINE_SPACING = 5;
+
     //Colour theme
     public static final Color BLACK = new Color(13, 31, 45);
     public static final Color MARIO_GREEN = new Color(44, 176, 26);
+    public static final Color LIGHT_MARIO_GREEN = new Color(90, 220, 60);
+
     public static final Color NOT_WHITE = new Color(13, 31, 45);
     public static final Color SUN_YELLOW = new Color(230, 241, 74);
+    public static final Color DARK_SUN_YELLOW = new Color(204, 204, 0);
+
     public static final Color MORE_SUN_YELLOW = new Color(255, 255, 100);
     public static final Color BAGE_OR_SMTHNNN = new Color(239, 188, 155);
     public static final Color PINK_RED = new Color(229, 83, 129);
@@ -60,6 +72,11 @@ public class Const {
 
     //Fonts
     public static final Font CURRENCY_FONT = new Font("Baskerville", Font.BOLD, Const.CURRENCY_TEXT_SIZE);
+    public static final Font UPG_DESC_FONT = new Font("Baskerville", Font.BOLD, Const.UPG_DESC_FONT_SIZE);
+    public static final Font UPG_DESC_TITLE_FONT = new Font("Baskerville", Font.BOLD, Const.UPG_DESC_TITLE_FONT_SIZE);
+
+
+    public static final int MOUSE_Y_OFFSET = 40;
 
 
     //-------------------------------------------------------Game Constants-----------------------------------------------------------------\\

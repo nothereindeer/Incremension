@@ -1,5 +1,6 @@
 package com.sfanshen.upgrade;
 
+import com.sfanshen.graphics.UpgradeTab;
 import com.sfanshen.main.Const;
 import com.sfanshen.main.Global;
 
@@ -33,25 +34,18 @@ public class UpgradesFrame {
 
 
     public void draw(Graphics2D g) {
-        for (int i = 0; i < this.upgrades.size(); i++) {
-            Upgrade upgrade = this.upgrades.get(i);
+        for (Upgrade upgrade : this.upgrades) {
+            if (upgrade.upgradeButton.isMouseHovering){
+                UpgradeTab.drawUpgDesc(g, upgrade);
+            }
             //If upgrade is unlocked
             if (upgrade.isUnlocked) {
                 //Draws upgrade
-                if (upgrade instanceof BoostUpgrade) {
-                    BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
-                    double boughtPercentage = Math.round(boostUpgrade.level / (double) (boostUpgrade).maxLevel * 100.0) / 100.0;
-                    upgrade.upgradeButton.draw(g, Global.boostUpgradeIcon, upgrade.isPurchasable(), boostUpgrade.level >= boostUpgrade.maxLevel, boughtPercentage);
+                if (upgrade instanceof BoostUpgrade)
+                   drawBoostUpgrade(g, upgrade);
+                else if (upgrade instanceof FeatureUpgrade)
+                   drawFeatureUpgrade(g, upgrade);
 
-                } else if (upgrade instanceof FeatureUpgrade) {
-                    FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
-                    int boughtPercentage;
-                    if (featureUpgrade.isBought)
-                        boughtPercentage = 1;
-                    else
-                        boughtPercentage = 0;
-                    upgrade.upgradeButton.draw(g, Global.featureUpgradeIcon, upgrade.isPurchasable(), ((FeatureUpgrade) upgrade).isBought, boughtPercentage);
-                }
             }
 
             //If the upgrade is not unlocked, draw a blank upgrade instead, indicating there is an upgrade to be unlocked by the player
@@ -59,6 +53,18 @@ public class UpgradesFrame {
                 drawBlank(g, x, y);
             }
         }
+    }
+
+    public void drawBoostUpgrade(Graphics2D g, Upgrade upgrade){
+        BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
+        double boughtPercentage = Math.round(boostUpgrade.level / (double) (boostUpgrade).maxLevel * 100.0) / 100.0;
+        upgrade.upgradeButton.draw(g, Global.boostUpgradeIcon, upgrade.isPurchasable(), boostUpgrade.level >= boostUpgrade.maxLevel, boughtPercentage);
+    }
+
+    public void drawFeatureUpgrade(Graphics2D g, Upgrade upgrade){
+        FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
+        double boughtPercentage = featureUpgrade.isBought ? 1 : 0;
+        upgrade.upgradeButton.draw(g, Global.featureUpgradeIcon, upgrade.isPurchasable(), ((FeatureUpgrade) upgrade).isBought, boughtPercentage);
     }
 
 

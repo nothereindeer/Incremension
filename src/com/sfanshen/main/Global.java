@@ -6,14 +6,11 @@ import com.sfanshen.graphics.GameTab;
 import com.sfanshen.graphics.GeneratorTab;
 import com.sfanshen.graphics.Picture;
 import com.sfanshen.graphics.UpgradeTab;
-import com.sfanshen.ui.GameButton;
 import com.sfanshen.ui.TabSwitchButton;
 import com.sfanshen.upgrade.BoostUpgrade;
-import com.sfanshen.upgrade.FeatureUpgrade;
 import com.sfanshen.upgrade.Upgrade;
 import com.sfanshen.upgrade.UpgradesFrame;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.ArrayList;
 
@@ -42,12 +39,16 @@ public class Global {
 
     public static String programDirectory;
 
+    //Mouse Coordinates
+    public static double mouseX, mouseY;
 
     //-------------------------------------------------------Methods-----------------------------------------------------------------\\
 
 
     //Initializes all variables
     public static void initialize() {
+        mouseX = 0;
+        mouseY = 0;
 
         gameTabs = new HashMap<>();
         currencies = new HashMap<>();
@@ -73,12 +74,24 @@ public class Global {
         currencies.put("rubies", (new Currency("rubies", rubyIcon)));
 
 
-        //String name, price, com.sfanshen.currency.Currency purchaseCurrency, com.sfanshen.currency.Currency[] boostedCurrencies, String[] boostFormulas, int maxLevel, String displayScreen
 
+
+        /*To create upgrades:
+           String name, Formula priceFormula, Currency buyCurrency, Currency boostCurrency, Formula boostFormula, int maxLevel
+
+           Note: boostCurrency and boostFormula may be replaced with arrays of Currencies and Formulas respectively should the upgrade boost multiple different currencies
+
+           The first character in a formula string will determine its boost to its respective currency(* means multiplicative, + means additive, ^ means exponential)
+           Additionally, formulas must be written in one of the following three formats (coefficients of 1 must be included, spaces must be included as well):
+           mx + b
+           ax^2 + bx + c
+           ax^3 + bx^2 + cx + d
+           More types of formulas may be added in the future should the need arise
+         */
 
         Upgrade[] coinUpgrades = {
-                new BoostUpgrade("Better pickaxes", new Formula("(100(x + 1))*"), currencies.get("coins"), currencies.get("coins"), "(1+x)*", 10),
-                new BoostUpgrade("Drills", new Formula("(1000(x + 1))*"), currencies.get("coins"), currencies.get("coins"), "(3x)*", 1)
+                new BoostUpgrade("Better pickaxes", new Formula("*100x + 100"), currencies.get("coins"), currencies.get("coins"), "*1x + 1", 10),
+                new BoostUpgrade("Drills", new Formula("*5000x + 5000"), currencies.get("coins"), currencies.get("coins"), "*3x + 0", 1)
         };
 
         Generator[] coinGenerators = {
@@ -128,17 +141,19 @@ public class Global {
             currency.additiveUpgrades.add(boostUpgrade);
         else if (formula.operation.equals("*") || formula.operation.equals("/"))
             currency.multiplicativeUpgrades.add(boostUpgrade);
+        else if (formula.operation.equals("^"))
+            currency.exponentialUpgrades.add(boostUpgrade);
     }
 
 
     public static String capitalizeFirstLetters(String str) {
         String[] strings = str.split(" ");
-        String returnString = "";
+        StringBuilder returnString = new StringBuilder();
         for (String string : strings) {
-            returnString = returnString + " " + Character.toUpperCase(string.charAt(0)) + string.substring(1, string.length());
+            returnString.append(" ").append(Character.toUpperCase(string.charAt(0))).append(string.substring(1));
         }
 
-        return returnString.trim();
+        return returnString.toString().trim();
     }
 
     public static void determineUpgradeDimesions(UpgradesFrame upgradesFrame) {

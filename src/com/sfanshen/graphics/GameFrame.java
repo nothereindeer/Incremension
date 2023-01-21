@@ -4,7 +4,6 @@ import com.sfanshen.main.Const;
 import com.sfanshen.currency.Currency;
 import com.sfanshen.main.Global;
 import com.sfanshen.ui.BoardAndMouse;
-import com.sfanshen.ui.GameButton;
 import com.sfanshen.ui.TabSwitchButton;
 
 import javax.swing.*;
@@ -16,7 +15,6 @@ public class GameFrame {
     GraphicsPanel currentGraphicsPanel;
 
     BoardAndMouse.MouseListen mouseListener;
-    BoardAndMouse.MouseMotionListen mouseMotionListener;
     BoardAndMouse.KeyListen keyListener;
 
     //-------------------------------------------------------Constructor-----------------------------------------------------------------\\
@@ -29,8 +27,7 @@ public class GameFrame {
 
         mouseListener = new BoardAndMouse.MouseListen();
         frame.addMouseListener(mouseListener);
-        mouseMotionListener = new BoardAndMouse.MouseMotionListen();
-        frame.addMouseMotionListener(mouseMotionListener);
+
         keyListener = new BoardAndMouse.KeyListen();
         frame.addKeyListener(keyListener);
 
@@ -60,7 +57,7 @@ public class GameFrame {
     public void updateFrame() {
         frame.repaint();
         try {
-            Thread.sleep(5);
+            Thread.sleep(1000 / Const.FPS);
         } catch (Exception e) {
             System.out.println("Something went wrong!!!!");
         }
@@ -68,27 +65,46 @@ public class GameFrame {
 
 
     public void drawEverything(Graphics g) {
+
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.white);
-        GameIcon gameIcon = new GameIcon(100, 100, 500, 500);
+
         switch (Global.currentScreen) {
             case ("main menu"):
                 drawMenu(g2);
                 break;
-            case ("main"):
+            case ("main"): ;
+                drawFrame(g2);
+                drawTabSelection(g2);
                 drawCurrencies(g2);
                 drawTab(g2);
-                drawFrame(g2);
-
             case ("settings"):
         }
     }
 
+
+    public void drawMenu(Graphics2D g) {
+        Global.playButton.move(800, 600, true);
+        Global.playButton.draw(g);
+        Global.titleImage.draw(g);
+        Global.loadingBar.draw(g);
+    }
+
+
     public void drawFrame(Graphics2D g) {
+
         g.setColor(Const.DEPRESSED_GOOGLE_HIGHLIGHT);
         Stroke oldStroke = g.getStroke();
+
         g.setStroke(new BasicStroke(Const.FRAME_BORDER_THICKNESS));
         g.drawRect(Const.FRAME_X, Const.FRAME_Y, Const.FRAME_WIDTH, Const.FRAME_HEIGHT);
+
+        g.setStroke(oldStroke);
+    }
+
+    public void drawTabSelection(Graphics2D g){
+
+        g.setColor(Const.DEPRESSED_GOOGLE_HIGHLIGHT);
+        Stroke oldStroke = g.getStroke();
 
         int y = Const.FRAME_Y + Const.FRAME_HEIGHT;
         int height = Const.TAB_SELECTION_HEIGHT;
@@ -100,11 +116,9 @@ public class GameFrame {
             g.drawRect(x, y, width, height);
 
             //write text
-            g.setFont(Const.CURRENCY_FONT);
-            int fontWidth = g.getFontMetrics(Const.CURRENCY_FONT).stringWidth(gameTab.name);
-            int x2 = x + width / 2 - fontWidth / 2;
-            int y2 = y + height / 2 + Const.CURRENCY_TEXT_SIZE / 2 - 3;
-            g.drawString(Global.capitalizeFirstLetters(gameTab.name), x2, y2);
+            int x2 = x + width / 2;
+            int y2 = y + height / 2;
+            drawCenteredString(g, Global.capitalizeFirstLetters(gameTab.name), x2, y2, Const.CURRENCY_FONT);
 
 
             TabSwitchButton tabSelection = new TabSwitchButton(x, y, width, height, gameTab.name);
@@ -113,21 +127,23 @@ public class GameFrame {
         }
 
         g.setStroke(oldStroke);
-
-
     }
 
     //Renders everything currency related - icons, amounts
     public void drawCurrencies(Graphics2D g) {
+
         int i = 0;
+
         for (Currency currency : Global.currencies.values()) {
             int xPosition = (i + 1) * Const.SCREEN_WIDTH / (Global.currencies.size() + 1);
 
             currency.icon.move(xPosition, Const.CURRENCY_OFFSET_FROM_TOP, false);
             currency.icon.draw(g);
-            g.setFont(Const.CURRENCY_FONT);
+
             g.setColor(Const.SUN_YELLOW);
-            g.drawString(currency.amount.bigNum, xPosition + currency.icon.width + Const.TEXT_ICON_OFFSET, Const.CURRENCY_OFFSET_FROM_TOP + currency.icon.height / 2 + Const.CURRENCY_TEXT_SIZE / 2);
+            int x = xPosition + currency.icon.width + Const.TEXT_ICON_OFFSET + g.getFontMetrics(Const.CURRENCY_FONT).stringWidth(currency.amount.bigNum) / 2;
+            int y = Const.CURRENCY_OFFSET_FROM_TOP + currency.icon.height / 2;
+            drawCenteredString(g, currency.amount.bigNum, x, y, Const.CURRENCY_FONT);
             i = i + 1;
         }
     }
@@ -135,19 +151,40 @@ public class GameFrame {
 
     //Renders everything upgrade related - currently visible upgrade buttons
     public void drawTab(Graphics2D g) {
-        for (GameTab tab : Global.gameTabs.values()) {
-            if (tab.name.equals(Global.currentTab)) {
-                tab.draw(g);
-            }
-        }
+        GameTab tab = Global.gameTabs.get(Global.currentTab);
+        tab.draw(g);
     }
 
-    public void drawMenu(Graphics2D g) {
 
 
-        Global.playButton.move(800, 600, true);
-        Global.playButton.draw(g);
-        Global.titleImage.draw(g);
-        Global.loadingBar.draw(g);
+
+
+
+
+    public static void drawCenteredString(Graphics2D g, String text, int centerX, int centerY, Font font){
+        FontMetrics metrics = g.getFontMetrics(font);
+        int x = centerX - metrics.stringWidth(text) / 2;
+        int y = centerY - metrics.getHeight() / 2 + metrics.getAscent();
+
+        g.setFont(font);
+        g.drawString(text, x, y);
+    }
+
+    public static void drawXCenteredString(Graphics2D g, String text, int centerX, int topY, Font font){
+        FontMetrics metrics = g.getFontMetrics(font);
+        int x = centerX - metrics.stringWidth(text) / 2;
+        int y = topY + metrics.getAscent();
+
+        g.setFont(font);
+        g.drawString(text, x, y);
+    }
+
+    public static void drawYCenteredString(Graphics2D g, String text, int topX, int centerY, Font font){
+        FontMetrics metrics = g.getFontMetrics(font);
+        int x = topX;
+        int y = centerY - metrics.getHeight() / 2 + metrics.getAscent();
+
+        g.setFont(font);
+        g.drawString(text, x, y);
     }
 }

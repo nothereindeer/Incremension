@@ -17,7 +17,7 @@ public class GeneratorTab extends GameTab {
 
     public GeneratorTab(String name, Generator[] generators) {
         super(name);
-        this.generators = (ArrayList) Arrays.asList(generators);
+        this.generators = new ArrayList<>(Arrays.asList(generators));
     }
 
 

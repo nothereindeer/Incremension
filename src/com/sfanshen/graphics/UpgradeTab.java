@@ -1,6 +1,9 @@
 package com.sfanshen.graphics;
 
+import com.sfanshen.currency.Currency;
 import com.sfanshen.main.Const;
+import com.sfanshen.upgrade.BoostUpgrade;
+import com.sfanshen.upgrade.FeatureUpgrade;
 import com.sfanshen.upgrade.Upgrade;
 import com.sfanshen.upgrade.UpgradesFrame;
 
@@ -30,5 +33,90 @@ public class UpgradeTab extends GameTab {
         for (UpgradesFrame upgradeFrame : this.upgradesFrames) {
             upgradeFrame.draw(g);
         }
+    }
+
+
+
+    public static void drawUpgDesc(Graphics2D g, Upgrade upgrade){
+
+        //Draw Upgrade Name
+        drawUpgName(g, upgrade);
+        //Draw Icon?
+
+        //Draw Price
+        drawPrice(g, upgrade);
+        //Draw Level/MaxLevel
+        drawLevel(g, upgrade);
+        //Draw Description
+        drawDesc(g, upgrade);
+        drawBoost(g, upgrade);
+        //Draw Description?
+    }
+
+    static void drawUpgName(Graphics2D g, Upgrade upgrade){
+        String string = upgrade.name;
+        int x = Const.FRAME_X + Const.FRAME_WIDTH / 2;
+        int y = (int) Const.UPG_DESC_Y + Const.UPG_DESC_LINE_SPACING;
+
+        GameFrame.drawXCenteredString(g, string, x, y, Const.UPG_DESC_TITLE_FONT);
+    }
+
+    static void drawPrice(Graphics2D g, Upgrade upgrade){
+        String string = "Cost: " + upgrade.price.bigNum + " " + upgrade.purchaseCurrency.name;
+        int x = Const.FRAME_X + Const.FRAME_WIDTH / 2;
+        int y = (int) Const.UPG_DESC_Y + 2 * Const.UPG_DESC_LINE_SPACING + g.getFontMetrics(Const.UPG_DESC_TITLE_FONT).getHeight();
+        GameFrame.drawXCenteredString(g, string, x, y, Const.UPG_DESC_FONT);
+    }
+
+    static void drawLevel(Graphics2D g, Upgrade upgrade){
+        String string;
+        if (upgrade instanceof BoostUpgrade){
+            BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
+            if (boostUpgrade.level >= boostUpgrade.maxLevel)
+                g.setColor(Const.MARIO_GREEN);
+            string = "Level: " + ((BoostUpgrade) upgrade).level + "/" + ((BoostUpgrade) upgrade).maxLevel;
+        }
+        else if (upgrade instanceof FeatureUpgrade){
+            if (((FeatureUpgrade) upgrade).isBought) {
+                string = "Purchased";
+                g.setColor(Const.MARIO_GREEN);
+            }
+            else
+                string = "Not Purchased";
+        }
+        else{
+            System.out.println("Attempted to draw level of neither a Boost or Feature Upgrade");
+            string = "";
+        }
+
+        int x = Const.FRAME_X + Const.FRAME_WIDTH / 2;
+        int y = (int) Const.UPG_DESC_Y + 3 * Const.UPG_DESC_LINE_SPACING + g.getFontMetrics(Const.UPG_DESC_TITLE_FONT).getHeight() + g.getFontMetrics(Const.UPG_DESC_FONT).getHeight();
+        GameFrame.drawXCenteredString(g, string, x, y, Const.UPG_DESC_FONT);
+        g.setColor(Const.SUN_YELLOW);
+    }
+
+    static void drawDesc(Graphics2D g, Upgrade upgrade){
+        String string = upgrade.description;
+        int x = Const.FRAME_X + Const.FRAME_WIDTH / 2;
+        int y = (int) Const.UPG_DESC_Y + 4 * Const.UPG_DESC_LINE_SPACING + g.getFontMetrics(Const.UPG_DESC_TITLE_FONT).getHeight() + 2 * g.getFontMetrics(Const.UPG_DESC_FONT).getHeight();
+        GameFrame.drawXCenteredString(g, string, x, y, Const.UPG_DESC_FONT);
+    }
+
+    static void drawBoost(Graphics2D g, Upgrade upgrade){
+        String string = "";
+        if (upgrade instanceof BoostUpgrade){
+            BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
+
+            for (Currency boostedCurrency: boostUpgrade.boostedCurrencies.keySet())
+                string = "Effect: " + boostUpgrade.boostedCurrencies.get(boostedCurrency).operation + boostUpgrade.calculateBoost(boostedCurrency).bigNum + " " + boostedCurrency.name;
+
+        }
+        else if (upgrade instanceof FeatureUpgrade){
+            string = "Effect: Unlocked";
+        }
+
+        int x = Const.FRAME_X + Const.FRAME_WIDTH / 2;
+        int y = (int) Const.UPG_DESC_Y + 5 * Const.UPG_DESC_LINE_SPACING + g.getFontMetrics(Const.UPG_DESC_TITLE_FONT).getHeight() + 3 * g.getFontMetrics(Const.UPG_DESC_FONT).getHeight();
+        GameFrame.drawXCenteredString(g, string, x, y, Const.UPG_DESC_FONT);
     }
 }

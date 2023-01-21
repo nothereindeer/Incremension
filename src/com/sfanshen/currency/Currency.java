@@ -82,7 +82,6 @@ public class Currency {
         this.finalBoost.add(this.additiveBoost);
         this.finalBoost.multiply(this.multiplicativeBoost);
         this.finalBoost.pow(this.exponentialBoost);
-        System.out.println(this.finalBoost.toNum());
     }
 
     public void calculateAdditiveBoost() {

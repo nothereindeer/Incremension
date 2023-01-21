@@ -1,8 +1,5 @@
 package com.sfanshen.graphics;
 
-import com.sfanshen.main.Const;
-
-import javax.swing.*;
 import java.awt.*;
 
 public class GameIcon {

@@ -1,6 +1,7 @@
 package com.sfanshen.ui;
 
 import com.sfanshen.graphics.Picture;
+import com.sfanshen.graphics.UpgradeTab;
 import com.sfanshen.main.Const;
 
 import java.awt.*;
@@ -13,9 +14,11 @@ public class UpgradeButton extends GameButton {
         this.icon = icon;
     }
 
+
+    //WHY IS THIS SO LAGGY
     public void draw(Graphics2D g, Picture upgradeTypeIcon, boolean canBePurchased, boolean isMaxed, double boughtPercentage) {
         drawBorder(g, isMaxed, canBePurchased);
-        drawFill(g, boughtPercentage);
+        drawFill(g, boughtPercentage, isMaxed);
 
         icon.move(this.x + this.width / 2, this.y + this.height / 2, true);
         icon.draw(g);
@@ -27,6 +30,8 @@ public class UpgradeButton extends GameButton {
     public void drawBorder(Graphics2D g, boolean isMaxed, boolean canBePurchased) {
         if (isMaxed) {
             g.setColor(Const.MARIO_GREEN);
+        } else if (this.isMouseHovering){
+            g.setColor(Const.DEPRESSED_GOOGLE_HIGHLIGHT);
         } else if (canBePurchased) {
             g.setColor(Const.SUN_YELLOW);
         } else {
@@ -40,8 +45,16 @@ public class UpgradeButton extends GameButton {
         g.setStroke(oldStroke);
     }
 
-    public void drawFill(Graphics2D g, double boughtPercentage) {
-        g.setColor(Const.MORE_SUN_YELLOW);
+    public void drawFill(Graphics2D g, double boughtPercentage, boolean isMaxed) {
+        if (isMaxed){
+            g.setColor(Const.LIGHT_MARIO_GREEN);
+        }
+        else if (this.isMouseHovering){
+            g.setColor(Const.GOOGLE_HIGHLIGHT);
+        }
+        else{
+            g.setColor(Const.MORE_SUN_YELLOW);
+        }
 
         int width = (int) (Const.UPGRADE_WIDTH - 2 * Const.UPGRADE_BORDER_WIDTH);
         int height = (int) ((Const.UPGRADE_HEIGHT - 2 * Const.UPGRADE_BORDER_WIDTH) * boughtPercentage);
@@ -52,5 +65,6 @@ public class UpgradeButton extends GameButton {
             g.fill(fill);
             g.draw(fill);
         }
+        g.setColor(Const.SUN_YELLOW);
     }
 }

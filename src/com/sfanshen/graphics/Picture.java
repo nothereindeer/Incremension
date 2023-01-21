@@ -1,6 +1,6 @@
 package com.sfanshen.graphics;
 
-import sun.awt.image.ToolkitImage;
+import com.sfanshen.main.Global;
 
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -71,8 +71,8 @@ public class Picture {
 
     //-------------------------------------------------------Methods-----------------------------------------------------------------\\
 
-    public boolean isMouseInPicture(int mouseX, int mouseY) {
-        return (mouseX > this.x && mouseX < this.x + this.width && mouseY > this.y && mouseY < this.y + this.height);
+    public boolean isMouseInPicture() {
+        return (Global.mouseX > this.x && Global.mouseX < this.x + this.width && Global.mouseY > this.y && Global.mouseY < this.y + this.height);
     }
 
     //Draws image
@@ -95,11 +95,11 @@ public class Picture {
 
 
     //Creates a new Picture instance with same parameters, unless specified otherwise
-    public Picture clone() {
+    public Picture createClone() {
         return new Picture(this.x, this.y, this.width, this.height, this.imageDirectory);
     }
 
-    public Picture clone(int x, int y) {
+    public Picture createClone(int x, int y) {
         return new Picture(x, y, this.width, this.height, this.imageDirectory);
     }
 
