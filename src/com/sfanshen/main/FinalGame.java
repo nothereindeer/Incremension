@@ -53,9 +53,8 @@ public class FinalGame {
 
             //Updates graphics
             gameFrame.updateFrame();
-
             //Temp
-            coins.amount.add(1);
+            coins.increase(1);
         }
     }
 

@@ -2,6 +2,7 @@ package com.sfanshen.graphics;
 
 import com.sfanshen.main.Const;
 import com.sfanshen.main.Global;
+import com.sfanshen.ui.GameButton;
 import com.sfanshen.upgrade.Upgrade;
 
 import java.awt.*;
@@ -14,7 +15,10 @@ public abstract class GameTab {
     protected int y;
     protected int width;
     int height;
-    public GameTab(String name){
+
+    public ArrayList<GameButton> buttons;
+
+    public GameTab(String name) {
         this.name = name;
         this.x = Const.FRAME_X;
         this.y = Const.FRAME_Y;

@@ -7,57 +7,65 @@ import com.sfanshen.currency.Currency;
 
 import java.util.HashMap;
 
-public class BoostUpgrade extends Upgrade{
-  
-  int maxLevel;
-  
-  public HashMap<Currency, Formula> boostedCurrencies;
+public class BoostUpgrade extends Upgrade {
 
-  public int level;
-  
-  public BoostUpgrade(String name, Formula priceFormula, Currency purchaseCurrency, Currency[] boostedCurrencies, String[] boostFormulas, int maxLevel){
-    
-    super(name, priceFormula, purchaseCurrency);
+    int maxLevel;
 
-    this.maxLevel = maxLevel;
-    
-    this.isUnlocked = false;
-    this.level = 0;
-    
-    for (int i = 0; i < boostedCurrencies.length; i ++){
-      this.boostedCurrencies = new HashMap<>();
-      this.boostedCurrencies.put(boostedCurrencies[i], new Formula(boostFormulas[i]));
+    public HashMap<Currency, Formula> boostedCurrencies;
+
+    public int level;
+
+    public BoostUpgrade(String name, Formula priceFormula, Currency purchaseCurrency, Currency[] boostedCurrencies, String[] boostFormulas, int maxLevel) {
+
+        super(name, priceFormula, purchaseCurrency);
+
+        this.maxLevel = maxLevel;
+
+        this.level = 0;
+
+        for (int i = 0; i < boostedCurrencies.length; i++) {
+            this.boostedCurrencies = new HashMap<>();
+            this.boostedCurrencies.put(boostedCurrencies[i], new Formula(boostFormulas[i]));
+        }
     }
-  }
-  
-  public BoostUpgrade(String name, Formula priceFormula, Currency purchaseCurrency, Currency boostedCurrency, String boostFormula, int maxLevel){
-    
-    super(name, priceFormula, purchaseCurrency);
 
-    this.maxLevel = maxLevel;
-    
-    this.isUnlocked = false;
-    this.level = 0;
+    public BoostUpgrade(String name, Formula priceFormula, Currency purchaseCurrency, Currency boostedCurrency, String boostFormula, int maxLevel) {
 
-    this.boostedCurrencies = new HashMap<>();
-    this.boostedCurrencies.put(boostedCurrency, new Formula(boostFormula));
-  }
+        super(name, priceFormula, purchaseCurrency);
 
-  public void buy(){
-    if (this.level < this.maxLevel && this.purchaseCurrency.amount.isGreaterEqualTo(this.price)){
-      this.purchaseCurrency.amount.subtract(this.price);
-      this.level = this.level + 1;
+        this.maxLevel = maxLevel;
+
+        this.level = 0;
+
+        this.boostedCurrencies = new HashMap<>();
+        this.boostedCurrencies.put(boostedCurrency, new Formula(boostFormula));
     }
-  }
 
-  public void reset(boolean isUnlocked){
-    this.level = 0;
-    this.isUnlocked = isUnlocked;
-  }
-  
-  public BigNum calculateBoost(Currency currency){
-    Formula formula = boostedCurrencies.get(currency);
-    return formula.calculate(this.level);
-  }
-  
+    public void buy() {
+        if (this.level < this.maxLevel && this.purchaseCurrency.amount.isGreaterEqualTo(this.price)) {
+            this.purchaseCurrency.amount.subtract(this.price);
+            this.level = this.level + 1;
+            this.calculateCurrencyBoosts();
+        }
+    }
+
+    public void reset(boolean isUnlocked) {
+        this.level = 0;
+        this.isUnlocked = isUnlocked;
+    }
+
+    public BigNum calculateBoost(Currency currency) {
+        Formula formula = boostedCurrencies.get(currency);
+        return formula.calculate(this.level);
+    }
+
+    public void calculateCurrencyBoosts() {
+        for (Currency currency : this.boostedCurrencies.keySet()) {
+            currency.calculateBoost();
+        }
+    }
+
+    public void calculatePrice() {
+        this.price = this.priceFormula.calculate(this.level);
+    }
 }

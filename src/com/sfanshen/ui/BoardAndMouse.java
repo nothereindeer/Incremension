@@ -6,8 +6,6 @@ import com.sfanshen.upgrade.*;
 import com.sfanshen.graphics.UpgradeTab;
 import com.sfanshen.main.Global;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 public class BoardAndMouse {
@@ -33,7 +31,7 @@ public class BoardAndMouse {
     public static class MouseListen implements MouseListener {
         public void mouseClicked(MouseEvent e) {
             int mouseX = e.getX();
-            int mouseY = e.getY();
+            int mouseY = e.getY() - 40;
 
 
             switch (Global.currentScreen) {
@@ -53,6 +51,10 @@ public class BoardAndMouse {
         }
 
         public void clickMainGame(int mouseX, int mouseY) {
+            if (isMouseInFrame(mouseX, mouseY, Const.FRAME_X + Const.TAB_SELECTION_OFFSET, Const.FRAME_Y + Const.FRAME_HEIGHT, (Const.FRAME_WIDTH - 2 * Const.TAB_SELECTION_OFFSET) / Global.gameTabs.size(), Const.TAB_SELECTION_HEIGHT)) {
+                TabSwitchButton clickedButton = Global.tabSwitchButtons.get(mouseX / (Const.FRAME_WIDTH - 2 * Const.TAB_SELECTION_OFFSET) / Global.gameTabs.size());
+                Global.currentTab = clickedButton.switchedTab;
+            }
             if (isMouseInFrame(mouseX, mouseY, Const.FRAME_X, Const.FRAME_Y, Const.FRAME_WIDTH, Const.FRAME_HEIGHT)) {
                 GameTab currentTab = Global.gameTabs.get(Global.currentTab);
                 if (currentTab instanceof UpgradeTab) {
@@ -75,6 +77,11 @@ public class BoardAndMouse {
 
 
         public boolean isMouseInFrame(int x, int y, int frameX, int frameY, int frameWidth, int frameHeight) {
+            if (x > frameX && x < frameX + frameWidth) {
+                if (y > frameY && y < frameY + frameHeight) {
+                    return true;
+                }
+            }
             return (x > frameX && x < frameX + frameWidth && y > frameY && y < frameY + frameHeight);
         }
 
