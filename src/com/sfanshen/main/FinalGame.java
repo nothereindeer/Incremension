@@ -10,6 +10,7 @@ import com.sfanshen.upgrade.FeatureUpgrade;
 import com.sfanshen.upgrade.Upgrade;
 import com.sfanshen.upgrade.UpgradesFrame;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.Scanner;
 import java.io.File;
@@ -38,7 +39,6 @@ public class FinalGame {
         //UI
         GameFrame gameFrame = new GameFrame();
 
-
         //-------------------------------------------------------Game Loop-----------------------------------------------------------------\\
         while (isRunning) {
             //Determines which screen's information to display
@@ -56,8 +56,9 @@ public class FinalGame {
             gameFrame.updateFrame();
             //Temp
             coins.increase(1);
-            updateMousePosition();
+            updateMousePosition(gameFrame);
             BoardAndMouse.checkMousePosition();
+            System.out.println(Global.mouseX + ", " + Global.mouseY + ", ");
         }
     }
 
@@ -67,10 +68,11 @@ public class FinalGame {
 
 
 
-    public static void updateMousePosition(){
-        PointerInfo pointerInfo = MouseInfo.getPointerInfo();
-        Global.mouseX = pointerInfo.getLocation().getX();
-        Global.mouseY = pointerInfo.getLocation().getY();
+    public static void updateMousePosition(GameFrame gameFrame){
+        Point point = MouseInfo.getPointerInfo().getLocation();
+        SwingUtilities.convertPointFromScreen(point, gameFrame.frame);
+        Global.mouseX = point.getX();
+        Global.mouseY = point.getY() - Const.MOUSE_Y_OFFSET;
     }
     //-----------------------File Saving & Loading-----------------------\\
     public static void updateSaveVersion() throws Exception {

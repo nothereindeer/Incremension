@@ -11,9 +11,13 @@ import com.sfanshen.upgrade.BoostUpgrade;
 import com.sfanshen.upgrade.Upgrade;
 import com.sfanshen.upgrade.UpgradesFrame;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 
+import javax.swing.*;
+
+import static java.nio.file.Files.getOwner;
 public class Global {
 
     //-------------------------------------------------------Variables-----------------------------------------------------------------\\
@@ -47,6 +51,9 @@ public class Global {
 
     //Initializes all variables
     public static void initialize() {
+
+
+
         mouseX = 0;
         mouseY = 0;
 

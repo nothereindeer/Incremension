@@ -14,7 +14,7 @@ public class Picture {
     public int width, height;
 
     String imageDirectory;
-    BufferedImage image;
+    Image image;
 
 
     //-------------------------------------------------------Constructors-----------------------------------------------------------------\\
@@ -49,8 +49,8 @@ public class Picture {
             System.out.println("Image doesn't exist. " + imageDirectory);
         }
 
-        this.width = image.getWidth();
-        this.height = image.getHeight();
+        this.width = image.getWidth(null);
+        this.height = image.getHeight(null);
     }
 
     public Picture(int x, int y, int width, int height, String imageDirectory, boolean centerAtCoords) {
@@ -77,8 +77,8 @@ public class Picture {
 
     //Draws image
     public void draw(Graphics g) {
-        Image tmp = this.image.getScaledInstance(this.width, this.height, BufferedImage.SCALE_FAST);
-        g.drawImage(tmp, this.x, this.y, null);
+        //Image tmp = this.image.getScaledInstance(this.width, this.height, BufferedImage.SCALE_FAST);
+        g.drawImage(this.image, this.x, this.y, this.width, this.height, null);
     }
 
 
@@ -108,9 +108,11 @@ public class Picture {
         if (isScaled) {
             this.width = this.width * scaleX;
             this.height = this.height * scaleY;
+            this.image = image.getScaledInstance(this.width, this.height, Image.SCALE_SMOOTH);
         } else {
             this.width = scaleX;
             this.height = scaleY;
+            this.image = image.getScaledInstance(this.width, this.height, Image.SCALE_SMOOTH);
         }
     }
 }

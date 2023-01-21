@@ -11,7 +11,7 @@ import java.awt.*;
 
 
 public class GameFrame {
-    JFrame frame;
+    public JFrame frame;
     GraphicsPanel currentGraphicsPanel;
 
     BoardAndMouse.MouseListen mouseListener;
@@ -32,6 +32,7 @@ public class GameFrame {
         frame.addKeyListener(keyListener);
 
         frame.add(currentGraphicsPanel);
+
         frame.setVisible(true);
         currentGraphicsPanel.setBackground(Const.NOT_WHITE);
     }

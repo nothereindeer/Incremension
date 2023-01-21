@@ -76,7 +76,7 @@ public class Const {
     public static final Font UPG_DESC_TITLE_FONT = new Font("Baskerville", Font.BOLD, Const.UPG_DESC_TITLE_FONT_SIZE);
 
 
-    public static final int MOUSE_Y_OFFSET = 40;
+    public static final int MOUSE_Y_OFFSET = 30;
 
 
     //-------------------------------------------------------Game Constants-----------------------------------------------------------------\\
