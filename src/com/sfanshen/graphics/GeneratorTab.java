@@ -1,9 +1,7 @@
 package com.sfanshen.graphics;
 
-import com.sfanshen.currency.Generator;
-import com.sfanshen.upgrade.BoostUpgrade;
-import com.sfanshen.upgrade.FeatureUpgrade;
-import com.sfanshen.upgrade.Upgrade;
+import com.sfanshen.generator.Generator;
+import com.sfanshen.main.Const;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -11,7 +9,7 @@ import java.util.Arrays;
 
 public class GeneratorTab extends GameTab {
 
-    ArrayList<Generator> generators;
+    public ArrayList<Generator> generators;
 
     public GeneratorTab(String name, ArrayList<Generator> generators) {
         super(name);
@@ -25,24 +23,21 @@ public class GeneratorTab extends GameTab {
 
 
     public void draw(Graphics2D g) {
-//        for (Generator generator : this.generators) {
-//            if (generator.upgradeButton.isMouseHovering){
-//                UpgradeTab.drawUpgDesc(g, upgrade);
-//            }
-//            //If upgrade is unlocked
-//            if (upgrade.isUnlocked) {
-//                //Draws upgrade
-//                if (upgrade instanceof BoostUpgrade)
-//                    drawBoostUpgrade(g, upgrade);
-//                else if (upgrade instanceof FeatureUpgrade)
-//                    drawFeatureUpgrade(g, upgrade);
-//
-//            }
-//
-//            //If the upgrade is not unlocked, draw a blank upgrade instead, indicating there is an upgrade to be unlocked by the player
-//            else {
-//                drawBlank(g, x, y);
-//            }
-//        }
+        for (Generator generator : this.generators) {
+            //If upgrade is unlocked
+            if (generator.isUnlocked) {
+                //Draws upgrade
+                generator.generatorFrame.draw(g);
+            }
+            //If the upgrade is not unlocked, draw a blank upgrade instead, indicating there is an upgrade to be unlocked by the player
+            else {
+                drawBlank(g, x, y);
+            }
+        }
     }
+
+    public void drawBlank(Graphics2D g, int x, int y){
+
+    }
+
 }

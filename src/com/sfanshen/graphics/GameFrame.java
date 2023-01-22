@@ -107,24 +107,13 @@ public class GameFrame {
         g.setColor(Const.DEPRESSED_GOOGLE_HIGHLIGHT);
         Stroke oldStroke = g.getStroke();
 
-        int y = Const.FRAME_Y + Const.FRAME_HEIGHT;
-        int height = Const.TAB_SELECTION_HEIGHT;
+        for (TabSwitchButton button : Global.tabSwitchButtons){
+            g.drawRect(button.x, button.y, button.width, button.height);
 
-        int i = 0;
-        for (GameTab gameTab : Global.gameTabs.values()) {
-            int width = (Const.FRAME_WIDTH - 2 * Const.TAB_SELECTION_OFFSET) / Global.gameTabs.size();
-            int x = Const.FRAME_X + Const.TAB_SELECTION_OFFSET + (i * width);
-            g.drawRect(x, y, width, height);
+            int x = button.x + button.width / 2;
+            int y = button.y + button.height / 2;
+            drawCenteredString(g, Global.capitalizeFirstLetters(button.switchedTab), x, y, Const.CURRENCY_FONT);
 
-            //write text
-            int x2 = x + width / 2;
-            int y2 = y + height / 2;
-            drawCenteredString(g, Global.capitalizeFirstLetters(gameTab.name), x2, y2, Const.CURRENCY_FONT);
-
-
-            TabSwitchButton tabSelection = new TabSwitchButton(x, y, width, height, gameTab.name);
-            Global.tabSwitchButtons.add(tabSelection);
-            i = i + 1;
         }
 
         g.setStroke(oldStroke);
@@ -142,9 +131,9 @@ public class GameFrame {
             currency.icon.draw(g);
 
             g.setColor(Const.SUN_YELLOW);
-            int x = xPosition + currency.icon.width + Const.TEXT_ICON_OFFSET + g.getFontMetrics(Const.CURRENCY_FONT).stringWidth(currency.amount.bigNum) / 2;
+            int x = xPosition + currency.icon.width + Const.TEXT_ICON_OFFSET;
             int y = Const.CURRENCY_OFFSET_FROM_TOP + currency.icon.height / 2;
-            drawCenteredString(g, currency.amount.bigNum, x, y, Const.CURRENCY_FONT);
+            drawYCenteredString(g, currency.amount.toSuffixVersion(), x, y, Const.CURRENCY_FONT);
             i = i + 1;
         }
     }

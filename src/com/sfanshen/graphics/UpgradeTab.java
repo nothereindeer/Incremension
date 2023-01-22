@@ -38,7 +38,10 @@ public class UpgradeTab extends GameTab {
 
 
     public static void drawUpgDesc(Graphics2D g, Upgrade upgrade){
+        g.setColor(Const.DEPRESSED_GOOGLE_HIGHLIGHT);
+        g.drawRect(Const.FRAME_X, (int) Const.UPG_DESC_Y, Const.FRAME_WIDTH, (int) (Const.FRAME_HEIGHT - (Const.UPG_DESC_Y - Const.FRAME_Y)));
 
+        g.setColor(Const.MORE_SUN_YELLOW);
         //Draw Upgrade Name
         drawUpgName(g, upgrade);
         //Draw Icon?
@@ -56,16 +59,16 @@ public class UpgradeTab extends GameTab {
     static void drawUpgName(Graphics2D g, Upgrade upgrade){
         String string = upgrade.name;
         int x = Const.FRAME_X + Const.FRAME_WIDTH / 2;
-        int y = (int) Const.UPG_DESC_Y + Const.UPG_DESC_LINE_SPACING;
+        int y = (int) Const.UPG_DESC_Y + 4 * Const.UPG_DESC_LINE_SPACING;
 
-        GameFrame.drawXCenteredString(g, string, x, y, Const.UPG_DESC_TITLE_FONT);
+        GameFrame.drawXCenteredString(g, string, x, y, Const.DESC_TITLE_FONT);
     }
 
     static void drawPrice(Graphics2D g, Upgrade upgrade){
         String string = "Cost: " + upgrade.price.bigNum + " " + upgrade.purchaseCurrency.name;
         int x = Const.FRAME_X + Const.FRAME_WIDTH / 2;
-        int y = (int) Const.UPG_DESC_Y + 2 * Const.UPG_DESC_LINE_SPACING + g.getFontMetrics(Const.UPG_DESC_TITLE_FONT).getHeight();
-        GameFrame.drawXCenteredString(g, string, x, y, Const.UPG_DESC_FONT);
+        int y = (int) (Const.UPG_DESC_Y + Const.UPG_DESC_HEIGHT / 2 - g.getFontMetrics(Const.DESC_FONT).getHeight() - Const.UPG_DESC_LINE_SPACING);
+        GameFrame.drawCenteredString(g, string, x, y, Const.DESC_FONT);
     }
 
     static void drawLevel(Graphics2D g, Upgrade upgrade){
@@ -90,16 +93,16 @@ public class UpgradeTab extends GameTab {
         }
 
         int x = Const.FRAME_X + Const.FRAME_WIDTH / 2;
-        int y = (int) Const.UPG_DESC_Y + 3 * Const.UPG_DESC_LINE_SPACING + g.getFontMetrics(Const.UPG_DESC_TITLE_FONT).getHeight() + g.getFontMetrics(Const.UPG_DESC_FONT).getHeight();
-        GameFrame.drawXCenteredString(g, string, x, y, Const.UPG_DESC_FONT);
+        int y = (int) (Const.UPG_DESC_Y + Const.UPG_DESC_HEIGHT / 2);
+        GameFrame.drawCenteredString(g, string, x, y, Const.DESC_FONT);
         g.setColor(Const.SUN_YELLOW);
     }
 
     static void drawDesc(Graphics2D g, Upgrade upgrade){
         String string = upgrade.description;
         int x = Const.FRAME_X + Const.FRAME_WIDTH / 2;
-        int y = (int) Const.UPG_DESC_Y + 4 * Const.UPG_DESC_LINE_SPACING + g.getFontMetrics(Const.UPG_DESC_TITLE_FONT).getHeight() + 2 * g.getFontMetrics(Const.UPG_DESC_FONT).getHeight();
-        GameFrame.drawXCenteredString(g, string, x, y, Const.UPG_DESC_FONT);
+        int y = (int) (Const.UPG_DESC_Y + Const.UPG_DESC_HEIGHT / 2 + g.getFontMetrics(Const.DESC_FONT).getHeight() + Const.UPG_DESC_LINE_SPACING);
+        GameFrame.drawXCenteredString(g, string, x, y, Const.DESC_FONT);
     }
 
     static void drawBoost(Graphics2D g, Upgrade upgrade){
@@ -116,7 +119,7 @@ public class UpgradeTab extends GameTab {
         }
 
         int x = Const.FRAME_X + Const.FRAME_WIDTH / 2;
-        int y = (int) Const.UPG_DESC_Y + 5 * Const.UPG_DESC_LINE_SPACING + g.getFontMetrics(Const.UPG_DESC_TITLE_FONT).getHeight() + 3 * g.getFontMetrics(Const.UPG_DESC_FONT).getHeight();
-        GameFrame.drawXCenteredString(g, string, x, y, Const.UPG_DESC_FONT);
+        int y = (int) (Const.UPG_DESC_Y + Const.UPG_DESC_HEIGHT / 2 + 2 * g.getFontMetrics(Const.DESC_FONT).getHeight() + 2 * Const.UPG_DESC_LINE_SPACING);
+        GameFrame.drawXCenteredString(g, string, x, y, Const.DESC_FONT);
     }
 }

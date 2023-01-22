@@ -1,8 +1,10 @@
 package com.sfanshen.main;
 
 import com.sfanshen.currency.Currency;
+import com.sfanshen.generator.Generator;
 import com.sfanshen.graphics.GameFrame;
 import com.sfanshen.graphics.GameTab;
+import com.sfanshen.graphics.GeneratorTab;
 import com.sfanshen.graphics.UpgradeTab;
 import com.sfanshen.ui.BoardAndMouse;
 import com.sfanshen.upgrade.BoostUpgrade;
@@ -55,10 +57,15 @@ public class FinalGame {
             //Updates graphics
             gameFrame.updateFrame();
             //Temp
-            coins.increase(1);
+            coins.increase(1000000);
+            generatorProduction();
             updateMousePosition(gameFrame);
             BoardAndMouse.checkMousePosition();
-            System.out.println(Global.mouseX + ", " + Global.mouseY + ", ");
+
+            try {
+                Thread.sleep(1000 / Const.FPS);
+            }catch(Exception e){}
+
         }
     }
 
@@ -71,8 +78,19 @@ public class FinalGame {
     public static void updateMousePosition(GameFrame gameFrame){
         Point point = MouseInfo.getPointerInfo().getLocation();
         SwingUtilities.convertPointFromScreen(point, gameFrame.frame);
-        Global.mouseX = point.getX();
+        Global.mouseX = point.getX() - Const.MOUSE_X_OFFSET;
         Global.mouseY = point.getY() - Const.MOUSE_Y_OFFSET;
+    }
+
+
+    public static void generatorProduction(){
+        for (GameTab gameTab : Global.gameTabs.values()){
+            if (gameTab instanceof GeneratorTab){
+                for (Generator generator : ((GeneratorTab) gameTab).generators){
+                    generator.generate();
+                }
+            }
+        }
     }
     //-----------------------File Saving & Loading-----------------------\\
     public static void updateSaveVersion() throws Exception {

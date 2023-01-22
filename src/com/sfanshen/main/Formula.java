@@ -57,8 +57,8 @@ public class Formula {
 
     public BigNum calculateLinear(BigNum x){
         String[] terms = this.formula.split(" ");
-        BigNum m = new BigNum(Integer.parseInt(terms[0].substring(0, terms[0].length() - 1)));
-        BigNum b = new BigNum(Integer.parseInt(terms[2]));
+        BigNum m = new BigNum(terms[0].substring(0, terms[0].length() - 1));
+        BigNum b = new BigNum(terms[2]);
 
         return BigNum.add(BigNum.multiply(m, x), b);
     }

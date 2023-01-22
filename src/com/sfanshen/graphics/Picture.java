@@ -10,7 +10,8 @@ import java.awt.*;
 
 
 public class Picture {
-    int x, y;
+    public int x;
+    int y;
     public int width, height;
 
     String imageDirectory;
@@ -77,7 +78,6 @@ public class Picture {
 
     //Draws image
     public void draw(Graphics g) {
-        //Image tmp = this.image.getScaledInstance(this.width, this.height, BufferedImage.SCALE_FAST);
         g.drawImage(this.image, this.x, this.y, this.width, this.height, null);
     }
 

@@ -2,7 +2,7 @@ package com.sfanshen.ui;
 
 import com.sfanshen.main.Global;
 
-public class GameButton {
+abstract public class GameButton {
 
     public int x;
     public int y;
@@ -30,8 +30,10 @@ public class GameButton {
         this.isMouseHovering = false;
     }
 
-    boolean isMouseInFrame(int mouseX, int mouseY) {
-        return (mouseX > this.x && mouseX < this.x + this.width && mouseY > this.y && mouseY < this.y + this.height);
+    abstract public void click();
+
+    boolean isMouseInFrame() {
+        return (Global.mouseX > this.x && Global.mouseX < this.x + this.width && Global.mouseY > this.y && Global.mouseY < this.y + this.height);
 
     }
 

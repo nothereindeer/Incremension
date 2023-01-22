@@ -3,19 +3,26 @@ package com.sfanshen.ui;
 import com.sfanshen.graphics.Picture;
 import com.sfanshen.graphics.UpgradeTab;
 import com.sfanshen.main.Const;
+import com.sfanshen.upgrade.Upgrade;
 
 import java.awt.*;
 
 public class UpgradeButton extends GameButton {
     Picture icon;
+    Upgrade parentUpgrade;
 
-    public UpgradeButton(Picture icon) {
+    public UpgradeButton(Picture icon, Upgrade parentUpgrade) {
         super(0, 0, Const.UPGRADE_WIDTH, Const.UPGRADE_HEIGHT);
         this.icon = icon;
+        this.parentUpgrade = parentUpgrade;
     }
 
 
-    //WHY IS THIS SO LAGGY
+    public void click(){
+        this.parentUpgrade.buy();
+    }
+
+
     public void draw(Graphics2D g, Picture upgradeTypeIcon, boolean canBePurchased, boolean isMaxed, double boughtPercentage) {
         drawBorder(g, isMaxed, canBePurchased);
         drawFill(g, boughtPercentage, isMaxed);

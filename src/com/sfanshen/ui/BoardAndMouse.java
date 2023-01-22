@@ -1,5 +1,7 @@
 package com.sfanshen.ui;
 
+import com.sfanshen.generator.Generator;
+import com.sfanshen.graphics.GeneratorTab;
 import com.sfanshen.main.Const;
 import com.sfanshen.graphics.GameTab;
 import com.sfanshen.upgrade.*;
@@ -30,6 +32,12 @@ public class BoardAndMouse {
 
     public static class MouseListen implements MouseListener {
         public void mouseClicked(MouseEvent e) {
+        }
+
+        public void mousePressed(MouseEvent e) {
+        }
+
+        public void mouseReleased(MouseEvent e) {
             switch (Global.currentScreen) {
                 case ("main menu"):
                     clickMainMenu();
@@ -39,6 +47,13 @@ public class BoardAndMouse {
             }
         }
 
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        public void mouseExited(MouseEvent e) {
+        }
+
+
 
         public void clickMainMenu() {
             if (Global.playButton.isMouseInPicture()) {
@@ -47,40 +62,41 @@ public class BoardAndMouse {
         }
 
         public void clickMainGame() {
-            if (isMouseInFrame(Const.FRAME_X + Const.TAB_SELECTION_OFFSET, Const.FRAME_Y + Const.FRAME_HEIGHT, (Const.FRAME_WIDTH - 2 * Const.TAB_SELECTION_OFFSET) / Global.gameTabs.size(), Const.TAB_SELECTION_HEIGHT)) {
-                TabSwitchButton clickedButton = Global.tabSwitchButtons.get((int) Global.mouseX / (Const.FRAME_WIDTH - 2 * Const.TAB_SELECTION_OFFSET) / Global.gameTabs.size());
-                Global.currentTab = clickedButton.switchedTab;
+            if (isMouseInFrame(Const.FRAME_X + Const.TAB_SELECTION_OFFSET, Const.FRAME_Y + Const.FRAME_HEIGHT, (Const.FRAME_WIDTH - 2 * Const.TAB_SELECTION_OFFSET), Const.TAB_SELECTION_HEIGHT)) {
+                TabSwitchButton clickedButton = Global.tabSwitchButtons.get((int) (Global.mouseX - Const.FRAME_X - Const.TAB_SELECTION_OFFSET) / ((Const.FRAME_WIDTH - 2 * Const.TAB_SELECTION_OFFSET) / Global.gameTabs.size()));
+                clickedButton.click();
             }
             if (isMouseInFrame(Const.FRAME_X, Const.FRAME_Y, Const.FRAME_WIDTH, Const.FRAME_HEIGHT)) {
                 GameTab currentTab = Global.gameTabs.get(Global.currentTab);
                 if (currentTab instanceof UpgradeTab) {
                     clickUpgradeTab(currentTab);
                 }
+                else if (currentTab instanceof GeneratorTab){
+                    clickGeneratorTab(currentTab);
+                }
             }
         }
 
         public void clickUpgradeTab(GameTab tab) {
-            UpgradeTab currentTab = (UpgradeTab) tab;
-            for (UpgradesFrame upgradesFrame : currentTab.upgradesFrames) {
+            UpgradeTab upgradeTab = (UpgradeTab) tab;
+            for (UpgradesFrame upgradesFrame : upgradeTab.upgradesFrames) {
                 for (Upgrade upgrade : upgradesFrame.upgrades) {
                     UpgradeButton upgBut = upgrade.upgradeButton;
-                    if (isMouseInFrame(upgBut.x, upgBut.y, upgBut.width, upgBut.height)) {
-                        upgrade.buy();
+                    if (upgBut.isMouseInFrame()) {
+                        upgBut.click();
                     }
                 }
             }
         }
 
-        public void mousePressed(MouseEvent e) {
-        }
-
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        public void mouseExited(MouseEvent e) {
+        public void clickGeneratorTab(GameTab tab) {
+            GeneratorTab generatorTab = (GeneratorTab) tab;
+            for (Generator gen : generatorTab.generators){
+                GeneratorButton genBut = gen.generatorFrame.button;
+                if (genBut.isMouseInFrame()) {
+                    genBut.click();
+                }
+            }
         }
 
 

@@ -1,23 +1,16 @@
 package com.sfanshen.main;
 
 import com.sfanshen.currency.Currency;
-import com.sfanshen.currency.Generator;
-import com.sfanshen.graphics.GameTab;
-import com.sfanshen.graphics.GeneratorTab;
-import com.sfanshen.graphics.Picture;
-import com.sfanshen.graphics.UpgradeTab;
+import com.sfanshen.generator.Generator;
+import com.sfanshen.graphics.*;
 import com.sfanshen.ui.TabSwitchButton;
 import com.sfanshen.upgrade.BoostUpgrade;
 import com.sfanshen.upgrade.Upgrade;
 import com.sfanshen.upgrade.UpgradesFrame;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-import javax.swing.*;
-
-import static java.nio.file.Files.getOwner;
 public class Global {
 
     //-------------------------------------------------------Variables-----------------------------------------------------------------\\
@@ -83,7 +76,7 @@ public class Global {
 
 
 
-        /*To create upgrades:
+        /* To create upgrades:
            String name, Formula priceFormula, Currency buyCurrency, Currency boostCurrency, Formula boostFormula, int maxLevel
 
            Note: boostCurrency and boostFormula may be replaced with arrays of Currencies and Formulas respectively should the upgrade boost multiple different currencies
@@ -98,31 +91,62 @@ public class Global {
 
         Upgrade[] coinUpgrades = {
                 new BoostUpgrade("Better pickaxes", new Formula("*100x + 100"), currencies.get("coins"), currencies.get("coins"), "*1x + 1", 10),
-                new BoostUpgrade("Drills", new Formula("*5000x + 5000"), currencies.get("coins"), currencies.get("coins"), "*3x + 0", 1)
+                new BoostUpgrade("Drills", new Formula("*5000x + 5000"), currencies.get("coins"), currencies.get("coins"), "*3x + 0", 1),
         };
 
+        /* To create generators:
+            String name, Currency currencyProduced, BigNum baseProduction, Formula priceFormula, Currency purchaseCurrency
+
+            Note: currencyProduced can be a different generator. Every generator has a respective currency class. If a generator generator is wished to be created simply input otherGenerator.amount in the currencyProduced parameter
+
+            Formula rules apply as in upgrade creation
+         */
         Generator[] coinGenerators = {
-                new Generator("miner", currencies.get("coins"), new BigNum(1), iconImageDirectory + "Generator/Miner.png")
+                new Generator("miner", currencies.get("coins"), new BigNum(10000), new Formula("*1e5x + 1e5"), currencies.get("coins"))
         };
 
         new UpgradeTab("coin upgrades", new Upgrade[][]{coinUpgrades});
-        new GeneratorTab("coin generators", coinGenerators);
-        addUpgToList();
+        GeneratorTab generatorTab = new GeneratorTab("coin generators", coinGenerators);
+        determineUISize();
         organizeUpgrades();
         tabSwitchButtons = new ArrayList<>();
+        createTabSwitchButtons();
+
+        System.setProperty("awt.useSystemAAFontSettings","on");
+        System.setProperty("swing.aatext", "true");
     }
 
+
+
+    public static void createTabSwitchButtons(){
+
+        int height = Const.TAB_SELECTION_HEIGHT;
+        int i = 0;
+        for (GameTab gameTab : Global.gameTabs.values()) {
+            int width = (Const.FRAME_WIDTH - 2 * Const.TAB_SELECTION_OFFSET) / Global.gameTabs.size();
+
+            int x = Const.FRAME_X + Const.TAB_SELECTION_OFFSET + (i * width);
+            int y = Const.FRAME_Y + Const.FRAME_HEIGHT;
+
+            tabSwitchButtons.add(new TabSwitchButton(x, y, width, height, gameTab.name));
+            i = i + 1;
+        }
+    }
     //Crams all upgrades into the upgrade dictionary
-    public static void addUpgToList() {
+    public static void determineUISize() {
         for (GameTab gameTab : gameTabs.values()) {
             if (gameTab instanceof UpgradeTab) {
                 UpgradeTab upgradeTab = (UpgradeTab) gameTab;
                 for (UpgradesFrame upgradeFrame : upgradeTab.upgradesFrames) {
-                    determineUpgradeDimesions(upgradeFrame);
+                    determineUpgradeDimensions(upgradeFrame);
                     for (Upgrade upgrade : upgradeFrame.upgrades) {
                         upgrades.put(upgrade.name, upgrade);
                     }
                 }
+            }
+            else if (gameTab instanceof GeneratorTab){
+                GeneratorTab generatorTab = (GeneratorTab) gameTab;
+                determineGeneratorDimensions(generatorTab);
             }
         }
 
@@ -163,7 +187,7 @@ public class Global {
         return returnString.toString().trim();
     }
 
-    public static void determineUpgradeDimesions(UpgradesFrame upgradesFrame) {
+    public static void determineUpgradeDimensions(UpgradesFrame upgradesFrame) {
         for (int i = 0; i < upgradesFrame.upgrades.size(); i++) {
             Upgrade upgrade = upgradesFrame.upgrades.get(i);
 
@@ -178,5 +202,15 @@ public class Global {
         }
     }
 
+    public static void determineGeneratorDimensions(GeneratorTab generatorTab) {
+        for (int i = 0; i < generatorTab.generators.size(); i ++){
+            Generator generator = generatorTab.generators.get(i);
 
+            int y = Const.FRAME_Y + Const.GENERATOR_FRAME_Y_OFFSET + i * (Const.GENERATOR_FRAME_HEIGHT + Const.GENERATOR_FRAME_Y_OFFSET);
+
+            generator.generatorFrame.y = y;
+            generator.generatorFrame.x = Const.GENERATOR_FRAME_X;
+            generator.generatorFrame.updateButtonDims();
+        }
+    }
 }
