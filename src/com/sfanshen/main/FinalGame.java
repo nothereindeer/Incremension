@@ -21,18 +21,21 @@ import java.io.PrintWriter;
 
 //Main Program
 public class FinalGame {
-    public static void main(String[] args) {
+    public static boolean isRunning;
+    public static void main(String[] args) throws Exception {
 
         //Temporary variable
-        boolean isRunning = true;
+        isRunning = true;
 
 
         //Default Screens
         Global.currentScreen = "main menu";
-        Global.currentTab = "coin upgrades";
+        Global.currentTab = "coin generators";
 
-        //Initializes all global variables(variables are assigned values)
+        //Initializes all global variables(variables are assigned values) and thread
         Global.initialize();
+        GenerationThread generators = new GenerationThread();
+        generators.start();
 
         //Quick access
         Currency coins = Global.currencies.get("coins");
@@ -40,6 +43,10 @@ public class FinalGame {
 
         //UI
         GameFrame gameFrame = new GameFrame();
+
+        coins.set(10);
+
+        updateSaveVersion();
 
         //-------------------------------------------------------Game Loop-----------------------------------------------------------------\\
         while (isRunning) {
@@ -57,8 +64,6 @@ public class FinalGame {
             //Updates graphics
             gameFrame.updateFrame();
             //Temp
-            coins.increase(1000000);
-            generatorProduction();
             updateMousePosition(gameFrame);
             BoardAndMouse.checkMousePosition();
 
@@ -68,7 +73,6 @@ public class FinalGame {
 
         }
     }
-
 
     //-------------------------------------------------------Methods-----------------------------------------------------------------\\
 
@@ -83,18 +87,12 @@ public class FinalGame {
     }
 
 
-    public static void generatorProduction(){
-        for (GameTab gameTab : Global.gameTabs.values()){
-            if (gameTab instanceof GeneratorTab){
-                for (Generator generator : ((GeneratorTab) gameTab).generators){
-                    generator.generate();
-                }
-            }
-        }
-    }
+
     //-----------------------File Saving & Loading-----------------------\\
+
+
     public static void updateSaveVersion() throws Exception {
-        File saveVersionFile = new File("Save Version.txt");
+        File saveVersionFile = new File(Global.programDirectory + "Save Version.txt");
         Scanner sc = new Scanner(saveVersionFile);
 
         Global.saveVersion = sc.nextInt();
@@ -102,7 +100,7 @@ public class FinalGame {
 
     public static void loadProgress() throws Exception {
         updateSaveVersion();
-        File saveFile = new File("../Saves/test" + Global.saveVersion + ".txt");
+        File saveFile = new File(Global.programDirectory + "Saves/" + Global.saveVersion + ".txt");
         Scanner sc = new Scanner(saveFile);
 
         String line = "";
@@ -139,7 +137,7 @@ public class FinalGame {
 
     public static void saveProgress() throws Exception {
         updateSaveVersion();
-        File saveFile = new File("../Saves/test" + (Global.saveVersion + 1) + ".txt");
+        File saveFile = new File(Global.programDirectory + "Saves/" + (Global.saveVersion + 1) + ".txt");
         if (saveFile.createNewFile())
             System.out.println("New save file created");
         else

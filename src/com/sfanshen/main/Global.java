@@ -24,6 +24,7 @@ public class Global {
 
 
     //BUTTON
+    public static ArrayList<GameTab> orderedGameTabs;
     public static ArrayList<TabSwitchButton> tabSwitchButtons;
 
     //Displayed screen
@@ -32,12 +33,15 @@ public class Global {
 
     //Icons
     public static Picture boostUpgradeIcon, featureUpgradeIcon;
-    public static Picture playButton, titleImage, loadingBar;
+    public static Picture playButton, playButtonDark, titleImage, loadingBar;
 
     public static String programDirectory;
 
     //Mouse Coordinates
     public static double mouseX, mouseY;
+
+    //Tickspeed
+    public static int ticksPerSec;
 
     //-------------------------------------------------------Methods-----------------------------------------------------------------\\
 
@@ -45,7 +49,7 @@ public class Global {
     //Initializes all variables
     public static void initialize() {
 
-
+        ticksPerSec = 20;
 
         mouseX = 0;
         mouseY = 0;
@@ -59,15 +63,20 @@ public class Global {
         programDirectory = "src/com/sfanshen/"; //"../"
         String iconImageDirectory = programDirectory + "Images/Icons/";
         String mainMenuDirectory = programDirectory + "Images/Title screen/";
-        Picture coinIcon = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH, Const.CURRENCY_ICON_HEIGHT, iconImageDirectory + "Currency/Coin.png");
-        Picture rubyIcon = new Picture(0, 0, Const.CURRENCY_ICON_WIDTH, Const.CURRENCY_ICON_HEIGHT, iconImageDirectory + "Currency/Ruby.png");
+        Picture coinIcon = new Picture(0, 0, Const.CURRENCY_ICON_SIZE, Const.CURRENCY_ICON_SIZE, iconImageDirectory + "Currency/Coin.png");
+        Picture rubyIcon = new Picture(0, 0, Const.CURRENCY_ICON_SIZE, Const.CURRENCY_ICON_SIZE, iconImageDirectory + "Currency/Ruby.png");
 
-        boostUpgradeIcon = new Picture(0, 0, Const.UPGRADE_TYPE_ICON_WIDTH, Const.UPGRADE_TYPE_ICON_HEIGHT, iconImageDirectory + "Upgrade Type/Boost Upgrade.png");
-        featureUpgradeIcon = new Picture(0, 0, Const.UPGRADE_TYPE_ICON_WIDTH, Const.UPGRADE_TYPE_ICON_HEIGHT, iconImageDirectory + "Upgrade Type/Feature Upgrade.png");
+        boostUpgradeIcon = new Picture(0, 0, Const.UPGRADE_TYPE_ICON_SIZE, Const.UPGRADE_TYPE_ICON_SIZE, iconImageDirectory + "Upgrade Type/Boost Upgrade.png");
+        featureUpgradeIcon = new Picture(0, 0, Const.UPGRADE_TYPE_ICON_SIZE, Const.UPGRADE_TYPE_ICON_SIZE, iconImageDirectory + "Upgrade Type/Feature Upgrade.png");
 
-        playButton = new Picture(0, 0, mainMenuDirectory + "Play button.png");
+        playButtonDark = new Picture(0, 0, mainMenuDirectory + "Play button dark.png", true);
+        playButton = new Picture(0, 0, mainMenuDirectory + "Play button.png", false);
+        playButtonDark.resize(0.6);
+        playButton.resize(0.6);
+
         titleImage = new Picture(0, 0, mainMenuDirectory + "Title.png");
         loadingBar = new Picture(0, 0, mainMenuDirectory + "Title.png");
+        titleImage.resize(1.5);
 
 
         currencies.put("coins", (new Currency("coins", coinIcon)));
@@ -91,22 +100,34 @@ public class Global {
 
         Upgrade[] coinUpgrades = {
                 new BoostUpgrade("Better pickaxes", new Formula("*100x + 100"), currencies.get("coins"), currencies.get("coins"), "*1x + 1", 10),
-                new BoostUpgrade("Drills", new Formula("*5000x + 5000"), currencies.get("coins"), currencies.get("coins"), "*3x + 0", 1),
+                new BoostUpgrade("Drills", new Formula("*5000x + 5000"), currencies.get("coins"), currencies.get("coins"), "*3x + 1", 1),
+                new BoostUpgrade("Bulldozers", new Formula("*50000x + 20000"), currencies.get("coins"), currencies.get("coins"), "*6x + 1", 3),
+                new BoostUpgrade("Mines", new Formula("*250000x + 500000"), currencies.get("coins"), currencies.get("coins"), "*6x^2 + 6x + 1", 5),
+                new BoostUpgrade("Energy drinks", new Formula("*1000000x + 10000000"), currencies.get("coins"), currencies.get("coins"), "*12x^2 + 10x + 1", 5)
         };
 
         /* To create generators:
             String name, Currency currencyProduced, BigNum baseProduction, Formula priceFormula, Currency purchaseCurrency
 
             Note: currencyProduced can be a different generator. Every generator has a respective currency class. If a generator generator is wished to be created simply input otherGenerator.amount in the currencyProduced parameter
+            baseProduction is production per second
 
             Formula rules apply as in upgrade creation
          */
         Generator[] coinGenerators = {
-                new Generator("miner", currencies.get("coins"), new BigNum(10000), new Formula("*1e5x + 1e5"), currencies.get("coins"))
+                new Generator("Miner", currencies.get("coins"), new BigNum(1), new Formula("*12x + 10"), currencies.get("coins")),
+                new Generator("Foreman", currencies.get("coins"), new BigNum(150000), new Formula("*3e6x + 2e6"), currencies.get("coins")),
+                new Generator("A.I miner", currencies.get("coins"), new BigNum(3000000), new Formula("*3e8x + 0"), currencies.get("coins")),
+                new Generator("Jumbo drill", currencies.get("coins"), new BigNum("2e7"), new Formula("*3e9x + 5e9"), currencies.get("coins")),
+                new Generator("Dynamiter", currencies.get("coins"), new BigNum("4e8"), new Formula("*7e10x + 6e10"), currencies.get("coins")),
+                new Generator("Crystal miner", currencies.get("coins"), new BigNum("1e10"), new Formula("*1e12x + 5e11"), currencies.get("coins")),
+                new Generator("A.I mine", currencies.get("coins"), new BigNum("1e12"), new Formula("*5e13x + 1e13"), currencies.get("coins")),
+                new Generator("Excavator", currencies.get("coins"), new BigNum("9e14"), new Formula("*8e14x + 1e15"), currencies.get("coins"))
         };
 
+        orderedGameTabs = new ArrayList<>();
+        new GeneratorTab("coin generators", coinGenerators);
         new UpgradeTab("coin upgrades", new Upgrade[][]{coinUpgrades});
-        GeneratorTab generatorTab = new GeneratorTab("coin generators", coinGenerators);
         determineUISize();
         organizeUpgrades();
         tabSwitchButtons = new ArrayList<>();
@@ -122,7 +143,7 @@ public class Global {
 
         int height = Const.TAB_SELECTION_HEIGHT;
         int i = 0;
-        for (GameTab gameTab : Global.gameTabs.values()) {
+        for (GameTab gameTab : Global.orderedGameTabs) {
             int width = (Const.FRAME_WIDTH - 2 * Const.TAB_SELECTION_OFFSET) / Global.gameTabs.size();
 
             int x = Const.FRAME_X + Const.TAB_SELECTION_OFFSET + (i * width);
@@ -197,19 +218,27 @@ public class Global {
             //If upgrade is unlocked
             upgrade.upgradeButton.x = x;
             upgrade.upgradeButton.y = y;
-            upgrade.upgradeButton.width = Const.UPGRADE_WIDTH;
-            upgrade.upgradeButton.height = Const.UPGRADE_HEIGHT;
+            upgrade.upgradeButton.width = Const.UPGRADE_SIZE;
+            upgrade.upgradeButton.height = Const.UPGRADE_SIZE;
         }
     }
 
     public static void determineGeneratorDimensions(GeneratorTab generatorTab) {
+        int amtOnColumn = (Const.FRAME_HEIGHT - Const.GENERATOR_FRAME_Y_OFFSET) / (Const.GENERATOR_FRAME_HEIGHT + Const.GENERATOR_FRAME_Y_OFFSET);
         for (int i = 0; i < generatorTab.generators.size(); i ++){
             Generator generator = generatorTab.generators.get(i);
-
-            int y = Const.FRAME_Y + Const.GENERATOR_FRAME_Y_OFFSET + i * (Const.GENERATOR_FRAME_HEIGHT + Const.GENERATOR_FRAME_Y_OFFSET);
+            int x;
+            int y;
+            if (i >= amtOnColumn) {
+                x = Const.FRAME_X + Const.GENERATOR_FRAME_WIDTH + Const.GENERATOR_FRAME_X_OFFSET * 2;
+                y = Const.FRAME_Y + Const.GENERATOR_FRAME_Y_OFFSET + (i - amtOnColumn) * (Const.GENERATOR_FRAME_HEIGHT + Const.GENERATOR_FRAME_Y_OFFSET);
+            } else{
+                x = Const.FRAME_X + Const.GENERATOR_FRAME_X_OFFSET;
+                y = Const.FRAME_Y + Const.GENERATOR_FRAME_Y_OFFSET + i * (Const.GENERATOR_FRAME_HEIGHT + Const.GENERATOR_FRAME_Y_OFFSET);
+            }
 
             generator.generatorFrame.y = y;
-            generator.generatorFrame.x = Const.GENERATOR_FRAME_X;
+            generator.generatorFrame.x = x;
             generator.generatorFrame.updateButtonDims();
         }
     }

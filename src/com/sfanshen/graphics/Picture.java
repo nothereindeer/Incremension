@@ -11,11 +11,13 @@ import java.awt.*;
 
 public class Picture {
     public int x;
-    int y;
+    public int y;
     public int width, height;
 
     String imageDirectory;
-    Image image;
+    public Image image;
+
+    public boolean isVisible;
 
 
     //-------------------------------------------------------Constructors-----------------------------------------------------------------\\
@@ -35,6 +37,7 @@ public class Picture {
 
         this.width = width;
         this.height = height;
+        this.isVisible = true;
     }
 
     public Picture(int x, int y, String imageDirectory) {
@@ -52,9 +55,10 @@ public class Picture {
 
         this.width = image.getWidth(null);
         this.height = image.getHeight(null);
+        this.isVisible = true;
     }
 
-    public Picture(int x, int y, int width, int height, String imageDirectory, boolean centerAtCoords) {
+    public Picture(int x, int y, String imageDirectory, boolean isVisible) {
 
         //Attempts to render image
         try {
@@ -63,10 +67,12 @@ public class Picture {
             System.out.println("Image doesn't exist. " + imageDirectory);
         }
 
-        this.width = width;
-        this.height = height;
-        this.x = x - this.width / 2;
-        this.y = y - this.width / 2;
+        this.width = image.getWidth(null);
+        this.height = image.getHeight(null);
+
+        this.x = x;
+        this.y = y;
+        this.isVisible = isVisible;
     }
 
 
@@ -78,7 +84,8 @@ public class Picture {
 
     //Draws image
     public void draw(Graphics g) {
-        g.drawImage(this.image, this.x, this.y, this.width, this.height, null);
+        if (this.isVisible)
+            g.drawImage(this.image, this.x, this.y, this.width, this.height, null);
     }
 
 
@@ -104,15 +111,21 @@ public class Picture {
     }
 
 
-    public void resize(int scaleX, int scaleY, boolean isScaled) {
+    public void resize(double scaleX, double scaleY, boolean isScaled) {
         if (isScaled) {
-            this.width = this.width * scaleX;
-            this.height = this.height * scaleY;
+            this.width = (int) (this.width * scaleX);
+            this.height = (int) (this.height * scaleY);
             this.image = image.getScaledInstance(this.width, this.height, Image.SCALE_SMOOTH);
         } else {
-            this.width = scaleX;
-            this.height = scaleY;
+            this.width = (int) scaleX;
+            this.height = (int) scaleY;
             this.image = image.getScaledInstance(this.width, this.height, Image.SCALE_SMOOTH);
         }
+    }
+
+    public void resize(double scale) {
+        this.width = (int) (this.width * scale);
+        this.height = (int) (this.height * scale);
+        this.image = image.getScaledInstance(this.width, this.height, Image.SCALE_SMOOTH);
     }
 }

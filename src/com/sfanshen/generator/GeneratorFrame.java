@@ -22,7 +22,7 @@ public class GeneratorFrame {
         this.height = Const.GENERATOR_FRAME_HEIGHT;
 
         this.parentGenerator = parentGenerator;
-        this.button = new GeneratorButton(Const.GENERATOR_BUTTON_X, this.y + Const.GENERATOR_FRAME_HEIGHT / 2 - Const.GENERATOR_BUTTON_HEIGHT / 2, Const.GENERATOR_BUTTON_WIDTH, Const.GENERATOR_BUTTON_HEIGHT, parentGenerator);
+        this.button = new GeneratorButton(this.x + Const.GENERATOR_BUTTON_X, this.y + Const.GENERATOR_FRAME_HEIGHT / 2 - Const.GENERATOR_BUTTON_HEIGHT / 2, Const.GENERATOR_BUTTON_WIDTH, Const.GENERATOR_BUTTON_HEIGHT, parentGenerator);
         this.icon = new Picture(0, 0, Const.GENERATOR_ICON_WIDTH, Const.GENERATOR_ICON_HEIGHT, iconDirectory);
     }
 
@@ -37,7 +37,7 @@ public class GeneratorFrame {
 
 
     public void updateButtonDims(){
-        this.button.x = Const.GENERATOR_BUTTON_X;
+        this.button.x = this.x + Const.GENERATOR_BUTTON_X;
         this.button.y = (int) (this.y + Const.GENERATOR_FRAME_HEIGHT / 2 - Const.GENERATOR_BUTTON_HEIGHT / 2);
         this.button.width = Const.GENERATOR_BUTTON_WIDTH;
         this.button.height = Const.GENERATOR_BUTTON_HEIGHT;
@@ -63,8 +63,11 @@ public class GeneratorFrame {
         int y = (this.y + this.height / 2);
         String string;
 
-        string = Global.capitalizeFirstLetters(this.parentGenerator.name) + ": " + this.parentGenerator.purchasedAmount.toSuffixVersion() + " [+" + this.parentGenerator.generatedAmount.toSuffixVersion() + "] (+" + BigNum.multiply(this.parentGenerator.production, this.parentGenerator.amount.amount).toSuffixVersion() + " " + this.parentGenerator.produce.name + " per tick)";
-        GameFrame.drawYCenteredString(g, string, x, y , Const.DESC_FONT);
+        string = Global.capitalizeFirstLetters(this.parentGenerator.name) + ": " + this.parentGenerator.purchasedAmount.toSuffixVersion() + " [+" + this.parentGenerator.generatedAmount.toSuffixVersion() + "]";
+        GameFrame.drawYCenteredString(g, string, x, y - Const.GENERATOR_FRAME_LINE_SPACING / 2 - g.getFontMetrics(Const.DESC_FONT).getHeight() / 2, Const.DESC_FONT);
+
+        string = "(+" + BigNum.multiply(BigNum.multiply(this.parentGenerator.production, this.parentGenerator.amount.amount), Global.ticksPerSec).toSuffixVersion() + " " + this.parentGenerator.produce.name + " per sec)";
+        GameFrame.drawYCenteredString(g, string, x, y + Const.GENERATOR_FRAME_LINE_SPACING / 2 + g.getFontMetrics(Const.DESC_FONT).getHeight() / 2, Const.DESC_FONT);
 
         string = "(×" + this.parentGenerator.productionMultiplier.toSuffixVersion() + ")";
         GameFrame.drawCenteredString(g, string, x2, y , Const.DESC_FONT);

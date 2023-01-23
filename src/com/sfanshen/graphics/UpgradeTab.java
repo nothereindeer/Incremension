@@ -19,10 +19,10 @@ public class UpgradeTab extends GameTab {
 
         for (int i = 0; i < upgrades.length; i++) {
             int totalFrames = upgrades.length;
-            int height = this.height - 2 * Const.FRAME_INFO_OFFSET_Y;
-            int width = this.width / totalFrames - Const.FRAME_INFO_OFFSET_X;
-            int x = this.x + ((this.width / (totalFrames + 1)) * (i + 1)) + Const.FRAME_INFO_OFFSET_X / 2 - width / 2;
-            int y = this.y + Const.FRAME_INFO_OFFSET_Y;
+            int height = this.height - 2 * Const.UPGRADE_FRAME_INFO_OFFSET_Y;
+            int width = this.width / totalFrames - Const.UPGRADE_FRAME_INFO_OFFSET_X;
+            int x = this.x + ((this.width / (totalFrames + 1)) * (i + 1)) + Const.UPGRADE_FRAME_INFO_OFFSET_X / 2 - width / 2;
+            int y = this.y + Const.UPGRADE_FRAME_INFO_OFFSET_Y;
 
             UpgradesFrame upgradesFrame = new UpgradesFrame(x, y, width, height, upgrades[i]);
             this.upgradesFrames[i] = upgradesFrame;
@@ -65,7 +65,7 @@ public class UpgradeTab extends GameTab {
     }
 
     static void drawPrice(Graphics2D g, Upgrade upgrade){
-        String string = "Cost: " + upgrade.price.bigNum + " " + upgrade.purchaseCurrency.name;
+        String string = "Cost: " + upgrade.price.toSuffixVersion() + " " + upgrade.purchaseCurrency.name;
         int x = Const.FRAME_X + Const.FRAME_WIDTH / 2;
         int y = (int) (Const.UPG_DESC_Y + Const.UPG_DESC_HEIGHT / 2 - g.getFontMetrics(Const.DESC_FONT).getHeight() - Const.UPG_DESC_LINE_SPACING);
         GameFrame.drawCenteredString(g, string, x, y, Const.DESC_FONT);
@@ -111,7 +111,7 @@ public class UpgradeTab extends GameTab {
             BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
 
             for (Currency boostedCurrency: boostUpgrade.boostedCurrencies.keySet())
-                string = "Effect: " + boostUpgrade.boostedCurrencies.get(boostedCurrency).operation + boostUpgrade.calculateBoost(boostedCurrency).bigNum + " " + boostedCurrency.name;
+                string = "Effect: " + boostUpgrade.boostedCurrencies.get(boostedCurrency).operation + boostUpgrade.calculateBoost(boostedCurrency).toSuffixVersion() + " " + boostedCurrency.name;
 
         }
         else if (upgrade instanceof FeatureUpgrade){

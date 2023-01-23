@@ -12,7 +12,7 @@ public class UpgradeButton extends GameButton {
     Upgrade parentUpgrade;
 
     public UpgradeButton(Picture icon, Upgrade parentUpgrade) {
-        super(0, 0, Const.UPGRADE_WIDTH, Const.UPGRADE_HEIGHT);
+        super(0, 0, Const.UPGRADE_SIZE, Const.UPGRADE_SIZE);
         this.icon = icon;
         this.parentUpgrade = parentUpgrade;
     }
@@ -37,17 +37,19 @@ public class UpgradeButton extends GameButton {
     public void drawBorder(Graphics2D g, boolean isMaxed, boolean canBePurchased) {
         if (isMaxed) {
             g.setColor(Const.MARIO_GREEN);
-        } else if (this.isMouseHovering){
-            g.setColor(Const.DEPRESSED_GOOGLE_HIGHLIGHT);
-        } else if (canBePurchased) {
+        } else if (this.isMouseHovering && canBePurchased){
             g.setColor(Const.SUN_YELLOW);
+        } else if (this.isMouseHovering){
+            g.setColor(Const.DEPRESSEDER_GOOGLE_HIGHLIGHT);
+        } else if (canBePurchased) {
+            g.setColor(Const.DARKER_SUN_YELLOW);
         } else {
-            g.setColor(Const.B2B_GRAY);
+            g.setColor(Const.GRAY);
         }
 
         Stroke oldStroke = g.getStroke();
         g.setStroke(new BasicStroke((float) Const.UPGRADE_BORDER_WIDTH));
-        Rectangle border = new Rectangle(this.x, this.y, Const.UPGRADE_WIDTH, Const.UPGRADE_HEIGHT);
+        Rectangle border = new Rectangle(this.x, this.y, Const.UPGRADE_SIZE, Const.UPGRADE_SIZE);
         g.draw(border);
         g.setStroke(oldStroke);
     }
@@ -63,10 +65,10 @@ public class UpgradeButton extends GameButton {
             g.setColor(Const.MORE_SUN_YELLOW);
         }
 
-        int width = (int) (Const.UPGRADE_WIDTH - 2 * Const.UPGRADE_BORDER_WIDTH);
-        int height = (int) ((Const.UPGRADE_HEIGHT - 2 * Const.UPGRADE_BORDER_WIDTH) * boughtPercentage);
+        int width = (int) (Const.UPGRADE_SIZE - 2 * Const.UPGRADE_BORDER_WIDTH);
+        int height = (int) ((Const.UPGRADE_SIZE - 2 * Const.UPGRADE_BORDER_WIDTH) * boughtPercentage);
         int x = (int) (this.x + Const.UPGRADE_BORDER_WIDTH);
-        int y = (int) (this.y + Const.UPGRADE_HEIGHT - Const.UPGRADE_BORDER_WIDTH - height);
+        int y = (int) (this.y + Const.UPGRADE_SIZE - Const.UPGRADE_BORDER_WIDTH - height);
         if (height > 0) {
             Rectangle fill = new Rectangle(x, y, width, height);
             g.fill(fill);

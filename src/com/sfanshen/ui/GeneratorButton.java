@@ -29,17 +29,19 @@ public class GeneratorButton extends GameButton{
         int x = this.x + this.width / 2;
         int y = this.y + this.height / 2;
         g.setColor(Const.GOOGLE_HIGHLIGHT);
-        GameFrame.drawCenteredString(g, "Buy For " + this.purchasedGenerator.price.toSuffixVersion() + " " + Global.capitalizeFirstLetters(this.purchasedGenerator.purchaseCurrency.name), x, y, Const.DESC_FONT);
+        GameFrame.drawCenteredString(g, "Buy For " + this.purchasedGenerator.price.toSuffixVersion() + " " + Global.capitalizeFirstLetters(this.purchasedGenerator.purchaseCurrency.name), x, y, Const.BUY_BUTTON_FONT);
 
     }
 
     public void drawFill(Graphics2D g){
-        if (this.isMouseHovering)
+        if (this.purchasedGenerator.isPurchasable() && this.isMouseHovering)
             g.setColor(Const.DEPRESSED_GOOGLE_HIGHLIGHT);
-        if (this.purchasedGenerator.purchaseCurrency.amount.isGreaterEqualTo(this.purchasedGenerator.price))
+        else if (this.isMouseHovering)
+            g.setColor(Const.DARK_GRAY);
+        else if (this.purchasedGenerator.isPurchasable())
             g.setColor(Const.GRAY);
         else
-            g.setColor(Const.DARK_GRAY);
+            g.setColor(Const.LESS_DARK_GRAY);
 
 
         g.fillRoundRect(this.x, this.y, this.width, this.height, Const.GENERATOR_BUTTON_ROUND_CORNER_OFFSET, Const.GENERATOR_BUTTON_ROUND_CORNER_OFFSET);

@@ -61,17 +61,17 @@ public class Generator {
         this.priceFormula = priceFormula;
         this.purchaseCurrency = purchaseCurrency;
 
-        this.amount = new Currency(name, new Picture(0, 0, Const.GENERATOR_ICON_WIDTH, Const.GENERATOR_ICON_HEIGHT, Global.programDirectory + "Images/Icons/Generator/" + name));
+        this.amount = new Currency(name, new Picture(0, 0, Const.GENERATOR_ICON_WIDTH, Const.GENERATOR_ICON_HEIGHT, Global.programDirectory + "Images/Icons/Generator/" + name + ".png"));
         this.produce = currencyProduced;
         this.generatedAmount = new BigNum(0);
         this.purchasedAmount = new BigNum(0);
         this.purchasedAmountInTier = new BigNum(0);
 
-        this.baseProduction = baseProduction;
+        this.baseProduction = BigNum.divide(baseProduction, Global.ticksPerSec);
         this.productionMultiplier = new BigNum(1);
         this.productionMultiplierTier = 1;
 
-        this.generatorFrame = new GeneratorFrame(Global.programDirectory + "Images/Icons/Generator/" + name, this);
+        this.generatorFrame = new GeneratorFrame(Global.programDirectory + "Images/Icons/Generator/" + name + ".png", this);
 
         this.isUnlocked = true;
 
@@ -89,6 +89,9 @@ public class Generator {
     public BigNum calcAmtInTier(){
         return Const.GENERATOR_MULTIPLIER_INTERVAL.calculate(this.productionMultiplierTier);
     }
+    public boolean isPurchasable(){
+        return this.purchaseCurrency.amount.isGreaterEqualTo(this.price);
+    }
 
     public void calculatePrice(){
         this.price = this.priceFormula.calculate(this.purchasedAmount);
@@ -101,7 +104,7 @@ public class Generator {
     }
 
     public void buy(){
-        if (this.purchaseCurrency.amount.isGreaterEqualTo(this.price)) {
+        if (this.isPurchasable()) {
             this.purchaseCurrency.amount.subtract(this.price);
 
             this.purchasedAmount.add(1);

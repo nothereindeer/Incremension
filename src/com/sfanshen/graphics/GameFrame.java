@@ -2,12 +2,14 @@ package com.sfanshen.graphics;
 
 import com.sfanshen.main.Const;
 import com.sfanshen.currency.Currency;
+import com.sfanshen.main.FinalGame;
 import com.sfanshen.main.Global;
 import com.sfanshen.ui.BoardAndMouse;
 import com.sfanshen.ui.TabSwitchButton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 
 public class GameFrame {
@@ -19,6 +21,9 @@ public class GameFrame {
 
     //-------------------------------------------------------Constructor-----------------------------------------------------------------\\
     public GameFrame() {
+
+       ;
+
         frame = new JFrame("test");
         frame.setSize(Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,8 +38,21 @@ public class GameFrame {
 
         frame.add(currentGraphicsPanel);
 
+
         frame.setVisible(true);
         currentGraphicsPanel.setBackground(Const.NOT_WHITE);
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (windowEvent.getID() == WindowEvent.WINDOW_CLOSING) {
+                    try {
+                        FinalGame.saveProgress();
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        });
     }
 
     //-------------------------------------------------------Graphics Rendering-----------------------------------------------------------------\\
@@ -74,8 +92,8 @@ public class GameFrame {
                 drawMenu(g2);
                 break;
             case ("main"): ;
-                drawFrame(g2);
                 drawTabSelection(g2);
+                drawFrame(g2);
                 drawCurrencies(g2);
                 drawTab(g2);
             case ("settings"):
@@ -84,10 +102,15 @@ public class GameFrame {
 
 
     public void drawMenu(Graphics2D g) {
-        Global.playButton.move(800, 600, true);
+        Global.playButton.move(Const.PLAY_BUTTON_X, Const.PLAY_BUTTON_Y, true);
+        Global.playButtonDark.move(Const.PLAY_BUTTON_X, Const.PLAY_BUTTON_Y, true);
+        Global.playButtonDark.draw(g);
         Global.playButton.draw(g);
+
+
+        Global.titleImage.move(Const.TITLE_IMAGE_X, Const.TITLE_IMAGE_Y, true);
         Global.titleImage.draw(g);
-        Global.loadingBar.draw(g);
+//        Global.loadingBar.draw(g);
     }
 
 
@@ -108,12 +131,7 @@ public class GameFrame {
         Stroke oldStroke = g.getStroke();
 
         for (TabSwitchButton button : Global.tabSwitchButtons){
-            g.drawRect(button.x, button.y, button.width, button.height);
-
-            int x = button.x + button.width / 2;
-            int y = button.y + button.height / 2;
-            drawCenteredString(g, Global.capitalizeFirstLetters(button.switchedTab), x, y, Const.CURRENCY_FONT);
-
+            button.draw(g);
         }
 
         g.setStroke(oldStroke);

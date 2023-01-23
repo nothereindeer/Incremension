@@ -20,7 +20,7 @@ public class UpgradesFrame {
         this.width = width;
         this.height = height;
         this.upgrades = upgrades;
-        this.numPerRow = (int) (width / (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
+        this.numPerRow = (int) (width / (Const.UPGRADE_SIZE + Const.UPGRADE_OFFSET));
     }
 
     public UpgradesFrame(int x, int y, int width, int height, Upgrade[] upgrades) {
@@ -29,7 +29,7 @@ public class UpgradesFrame {
         this.width = width;
         this.height = height;
         this.upgrades = new ArrayList<>(Arrays.asList(upgrades));
-        this.numPerRow = (int) (width / (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
+        this.numPerRow = (int) (width / (Const.UPGRADE_SIZE + Const.UPGRADE_OFFSET));
     }
 
 
@@ -70,7 +70,7 @@ public class UpgradesFrame {
 
     public static void drawBlank(Graphics2D g, int x, int y) {
         g.setColor(Const.DARKISH_BROWN);
-        g.drawRect(x, y, Const.UPGRADE_WIDTH, Const.UPGRADE_HEIGHT);
+        g.drawRect(x, y, Const.UPGRADE_SIZE, Const.UPGRADE_ICON_SIZE);
     }
 
     public int[] calculateCoords(int i) {
@@ -83,13 +83,13 @@ public class UpgradesFrame {
 
         if (i >= lastRowStartingIndex) {
             int amtOnRow = this.upgrades.size() - lastRowStartingIndex;
-            sideOffset = (int) (this.width - amtOnRow * (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET) - Const.UPGRADE_OFFSET) / 2;
+            sideOffset = (int) (this.width - amtOnRow * (Const.UPGRADE_ICON_SIZE + Const.UPGRADE_OFFSET) - Const.UPGRADE_OFFSET) / 2;
         } else {
-            sideOffset = (int) (this.width - this.numPerRow * (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET) - Const.UPGRADE_OFFSET) / 2;
+            sideOffset = (int) (this.width - this.numPerRow * (Const.UPGRADE_SIZE + Const.UPGRADE_OFFSET) - Const.UPGRADE_OFFSET) / 2;
         }
 
-        x = (int) (this.x + sideOffset + column * (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
-        y = (int) (this.y + row * (Const.UPGRADE_WIDTH + Const.UPGRADE_OFFSET));
+        x = (int) (this.x + sideOffset + column * (Const.UPGRADE_SIZE + Const.UPGRADE_OFFSET));
+        y = (int) (this.y + row * (Const.UPGRADE_SIZE + Const.UPGRADE_OFFSET));
 
         return new int[]{x, y};
     }
