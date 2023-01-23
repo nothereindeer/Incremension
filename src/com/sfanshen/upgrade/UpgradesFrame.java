@@ -35,16 +35,16 @@ public class UpgradesFrame {
 
     public void draw(Graphics2D g) {
         for (Upgrade upgrade : this.upgrades) {
-            if (upgrade.upgradeButton.isMouseHovering){
+            if (upgrade.upgradeButton.isMouseHovering) {
                 UpgradeTab.drawUpgDesc(g, upgrade);
             }
             //If upgrade is unlocked
             if (upgrade.isUnlocked) {
                 //Draws upgrade
                 if (upgrade instanceof BoostUpgrade)
-                   drawBoostUpgrade(g, upgrade);
+                    drawBoostUpgrade(g, upgrade);
                 else if (upgrade instanceof FeatureUpgrade)
-                   drawFeatureUpgrade(g, upgrade);
+                    drawFeatureUpgrade(g, upgrade);
 
             }
 
@@ -55,13 +55,13 @@ public class UpgradesFrame {
         }
     }
 
-    public void drawBoostUpgrade(Graphics2D g, Upgrade upgrade){
+    public void drawBoostUpgrade(Graphics2D g, Upgrade upgrade) {
         BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
         double boughtPercentage = Math.round(boostUpgrade.level / (double) (boostUpgrade).maxLevel * 100.0) / 100.0;
         upgrade.upgradeButton.draw(g, Global.boostUpgradeIcon, upgrade.isPurchasable(), boostUpgrade.level >= boostUpgrade.maxLevel, boughtPercentage);
     }
 
-    public void drawFeatureUpgrade(Graphics2D g, Upgrade upgrade){
+    public void drawFeatureUpgrade(Graphics2D g, Upgrade upgrade) {
         FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
         double boughtPercentage = featureUpgrade.isBought ? 1 : 0;
         upgrade.upgradeButton.draw(g, Global.featureUpgradeIcon, upgrade.isPurchasable(), ((FeatureUpgrade) upgrade).isBought, boughtPercentage);

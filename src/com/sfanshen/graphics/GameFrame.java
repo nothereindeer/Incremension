@@ -22,7 +22,7 @@ public class GameFrame {
     //-------------------------------------------------------Constructor-----------------------------------------------------------------\\
     public GameFrame() {
 
-       ;
+        ;
 
         frame = new JFrame("test");
         frame.setSize(Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT);
@@ -41,18 +41,6 @@ public class GameFrame {
 
         frame.setVisible(true);
         currentGraphicsPanel.setBackground(Const.NOT_WHITE);
-
-        frame.addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                if (windowEvent.getID() == WindowEvent.WINDOW_CLOSING) {
-                    try {
-                        FinalGame.saveProgress();
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        });
     }
 
     //-------------------------------------------------------Graphics Rendering-----------------------------------------------------------------\\
@@ -91,7 +79,8 @@ public class GameFrame {
             case ("main menu"):
                 drawMenu(g2);
                 break;
-            case ("main"): ;
+            case ("main"):
+                ;
                 drawTabSelection(g2);
                 drawFrame(g2);
                 drawCurrencies(g2);
@@ -125,12 +114,12 @@ public class GameFrame {
         g.setStroke(oldStroke);
     }
 
-    public void drawTabSelection(Graphics2D g){
+    public void drawTabSelection(Graphics2D g) {
 
         g.setColor(Const.DEPRESSED_GOOGLE_HIGHLIGHT);
         Stroke oldStroke = g.getStroke();
 
-        for (TabSwitchButton button : Global.tabSwitchButtons){
+        for (TabSwitchButton button : Global.tabSwitchButtons) {
             button.draw(g);
         }
 
@@ -164,12 +153,7 @@ public class GameFrame {
     }
 
 
-
-
-
-
-
-    public static void drawCenteredString(Graphics2D g, String text, int centerX, int centerY, Font font){
+    public static void drawCenteredString(Graphics2D g, String text, int centerX, int centerY, Font font) {
         FontMetrics metrics = g.getFontMetrics(font);
         int x = centerX - metrics.stringWidth(text) / 2;
         int y = centerY - metrics.getHeight() / 2 + metrics.getAscent();
@@ -178,7 +162,7 @@ public class GameFrame {
         g.drawString(text, x, y);
     }
 
-    public static void drawXCenteredString(Graphics2D g, String text, int centerX, int topY, Font font){
+    public static void drawXCenteredString(Graphics2D g, String text, int centerX, int topY, Font font) {
         FontMetrics metrics = g.getFontMetrics(font);
         int x = centerX - metrics.stringWidth(text) / 2;
         int y = topY + metrics.getAscent();
@@ -187,7 +171,7 @@ public class GameFrame {
         g.drawString(text, x, y);
     }
 
-    public static void drawYCenteredString(Graphics2D g, String text, int topX, int centerY, Font font){
+    public static void drawYCenteredString(Graphics2D g, String text, int topX, int centerY, Font font) {
         FontMetrics metrics = g.getFontMetrics(font);
         int x = topX;
         int y = centerY - metrics.getHeight() / 2 + metrics.getAscent();

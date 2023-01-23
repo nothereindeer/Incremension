@@ -58,7 +58,7 @@ public class BigNum {
             int lackingDigits = (int) Math.abs(Math.floor(Math.log10(this.coefficient)));
             this.coefficient = this.coefficient * Math.pow(10, lackingDigits);
             this.exponent = this.exponent - lackingDigits;
-        } else if (this.coefficient == 0){
+        } else if (this.coefficient == 0) {
             this.exponent = 0;
         }
 
@@ -87,10 +87,9 @@ public class BigNum {
             Double roundedCoefficient = (double) (Math.round(this.coefficient * (Math.pow(10, this.exponent % 3)) * (Math.pow(10, Const.DISPLAYED_DIGITS - this.exponent % 3))) / (Math.pow(10, Const.DISPLAYED_DIGITS - this.exponent % 3)));
 
             String suffixOnes;
-            if (suffixValue <= 2){
+            if (suffixValue <= 2) {
                 suffixOnes = findSmallExponentOnesSuffix(suffixOnesValue);
-            }
-            else{
+            } else {
                 suffixOnes = findExponentOnesSuffix(suffixOnesValue);
             }
 
@@ -103,7 +102,7 @@ public class BigNum {
         return suffixVersion.toString();
     }
 
-    String findSmallExponentOnesSuffix(int exponentOnes){
+    String findSmallExponentOnesSuffix(int exponentOnes) {
         switch (exponentOnes) {
             case 1:
                 return "M";
@@ -116,6 +115,7 @@ public class BigNum {
                 return "";
         }
     }
+
     String findExponentOnesSuffix(int exponentOnes) {
         switch (exponentOnes) {
             case 1:
@@ -314,8 +314,7 @@ public class BigNum {
                 this.coefficient = this.coefficient + addend.coefficient;
 
             }
-        }
-        else if (this.exponent < addend.exponent) {
+        } else if (this.exponent < addend.exponent) {
             this.coefficient = addend.coefficient;
             this.exponent = addend.exponent;
         }

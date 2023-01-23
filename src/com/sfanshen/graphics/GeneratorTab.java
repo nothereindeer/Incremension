@@ -36,7 +36,7 @@ public class GeneratorTab extends GameTab {
         }
     }
 
-    public void drawBlank(Graphics2D g, int x, int y){
+    public void drawBlank(Graphics2D g, int x, int y) {
 
     }
 

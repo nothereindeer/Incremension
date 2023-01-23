@@ -10,17 +10,19 @@ import com.sun.prism.paint.Gradient;
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
 
-public class GeneratorButton extends GameButton{
+public class GeneratorButton extends GameButton {
     Generator purchasedGenerator;
-    public GeneratorButton(int x, int y, int width, int height, Generator purchasedGenerator){
+
+    public GeneratorButton(int x, int y, int width, int height, Generator purchasedGenerator) {
         super(x, y, width, height);
         this.purchasedGenerator = purchasedGenerator;
     }
 
-    public void click(){
+    public void click() {
         this.purchasedGenerator.buy();
     }
-    public void draw(Graphics2D g){
+
+    public void draw(Graphics2D g) {
         this.drawFill(g);
         double fillPercentage = BigNum.divide(this.purchasedGenerator.purchasedAmountInTier, this.purchasedGenerator.calcAmtInTier()).toNum();
         GradientPaint paint = new GradientPaint((float) (this.x + this.width * fillPercentage - 1), this.y + this.height / 2, Const.SUN_YELLOW, (float) (this.x + this.width * fillPercentage), this.y + this.height / 2, Const.GOOGLE_HIGHLIGHT, false);
@@ -33,7 +35,7 @@ public class GeneratorButton extends GameButton{
 
     }
 
-    public void drawFill(Graphics2D g){
+    public void drawFill(Graphics2D g) {
         if (this.purchasedGenerator.isPurchasable() && this.isMouseHovering)
             g.setColor(Const.DEPRESSED_GOOGLE_HIGHLIGHT);
         else if (this.isMouseHovering)

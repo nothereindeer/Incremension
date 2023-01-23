@@ -133,13 +133,12 @@ public class Global {
         tabSwitchButtons = new ArrayList<>();
         createTabSwitchButtons();
 
-        System.setProperty("awt.useSystemAAFontSettings","on");
+        System.setProperty("awt.useSystemAAFontSettings", "on");
         System.setProperty("swing.aatext", "true");
     }
 
 
-
-    public static void createTabSwitchButtons(){
+    public static void createTabSwitchButtons() {
 
         int height = Const.TAB_SELECTION_HEIGHT;
         int i = 0;
@@ -153,6 +152,7 @@ public class Global {
             i = i + 1;
         }
     }
+
     //Crams all upgrades into the upgrade dictionary
     public static void determineUISize() {
         for (GameTab gameTab : gameTabs.values()) {
@@ -164,8 +164,7 @@ public class Global {
                         upgrades.put(upgrade.name, upgrade);
                     }
                 }
-            }
-            else if (gameTab instanceof GeneratorTab){
+            } else if (gameTab instanceof GeneratorTab) {
                 GeneratorTab generatorTab = (GeneratorTab) gameTab;
                 determineGeneratorDimensions(generatorTab);
             }
@@ -225,14 +224,14 @@ public class Global {
 
     public static void determineGeneratorDimensions(GeneratorTab generatorTab) {
         int amtOnColumn = (Const.FRAME_HEIGHT - Const.GENERATOR_FRAME_Y_OFFSET) / (Const.GENERATOR_FRAME_HEIGHT + Const.GENERATOR_FRAME_Y_OFFSET);
-        for (int i = 0; i < generatorTab.generators.size(); i ++){
+        for (int i = 0; i < generatorTab.generators.size(); i++) {
             Generator generator = generatorTab.generators.get(i);
             int x;
             int y;
             if (i >= amtOnColumn) {
                 x = Const.FRAME_X + Const.GENERATOR_FRAME_WIDTH + Const.GENERATOR_FRAME_X_OFFSET * 2;
                 y = Const.FRAME_Y + Const.GENERATOR_FRAME_Y_OFFSET + (i - amtOnColumn) * (Const.GENERATOR_FRAME_HEIGHT + Const.GENERATOR_FRAME_Y_OFFSET);
-            } else{
+            } else {
                 x = Const.FRAME_X + Const.GENERATOR_FRAME_X_OFFSET;
                 y = Const.FRAME_Y + Const.GENERATOR_FRAME_Y_OFFSET + i * (Const.GENERATOR_FRAME_HEIGHT + Const.GENERATOR_FRAME_Y_OFFSET);
             }

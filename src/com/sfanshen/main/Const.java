@@ -28,7 +28,7 @@ public class Const {
     public static final int FRAME_BORDER_THICKNESS = SCREEN_HEIGHT / 240;
 
     public static final int TAB_SELECTION_OFFSET = SCREEN_WIDTH / 320;
-    public static final int TAB_SELECTION_HEIGHT = SCREEN_HEIGHT / 240;
+    public static final int TAB_SELECTION_HEIGHT = SCREEN_HEIGHT / 24;
 
     //Currency display information
     public static final int CURRENCY_TEXT_SIZE = SCREEN_HEIGHT / 75;
@@ -43,7 +43,7 @@ public class Const {
     public static final int UPGRADE_SIZE = (int) (FRAME_WIDTH / 15);
     public static final double UPGRADE_OFFSET = UPGRADE_SIZE * 0.1;
     public static final double UPGRADE_BORDER_WIDTH = 0.05 * UPGRADE_SIZE;
-    public static final int UPGRADE_ICON_SIZE = (int)(0.71 * UPGRADE_SIZE);
+    public static final int UPGRADE_ICON_SIZE = (int) (0.71 * UPGRADE_SIZE);
     public static final int UPGRADE_TYPE_ICON_SIZE = UPGRADE_SIZE / 7;
 
 
@@ -51,13 +51,13 @@ public class Const {
     public static final int UPG_DESC_FONT_SIZE = SCREEN_HEIGHT / 75;
     public static final int UPG_DESC_TITLE_FONT_SIZE = SCREEN_HEIGHT / 60;
     public static final int UPG_DESC_Y = (int) (0.75 * FRAME_HEIGHT + FRAME_Y);
-    public static final int UPG_DESC_HEIGHT =  FRAME_Y + FRAME_HEIGHT - UPG_DESC_Y;
+    public static final int UPG_DESC_HEIGHT = FRAME_Y + FRAME_HEIGHT - UPG_DESC_Y;
     public static final int UPG_DESC_LINE_SPACING = FRAME_HEIGHT / 168;
 
     //Generator
     public static final int GENERATOR_FRAME_WIDTH = (int) (0.45 * FRAME_WIDTH);
     public static final int GENERATOR_FRAME_HEIGHT = (int) (0.1 * FRAME_HEIGHT);
-    public static final int GENERATOR_FRAME_X_OFFSET = (int)((FRAME_WIDTH - 2 * GENERATOR_FRAME_WIDTH) / 3);
+    public static final int GENERATOR_FRAME_X_OFFSET = (int) ((FRAME_WIDTH - 2 * GENERATOR_FRAME_WIDTH) / 3);
     public static final int GENERATOR_FRAME_Y_OFFSET = (int) (0.05 * FRAME_HEIGHT);
     public static final int GENERATOR_FRAME_LINE_SPACING = FRAME_HEIGHT / 168;
     public static final int GENERATOR_FRAME_ROUND_CORNER_OFFSET = (int) (0.2 * GENERATOR_FRAME_HEIGHT);
@@ -88,7 +88,7 @@ public class Const {
     public static final Color DARK_SUN_YELLOW = new Color(204, 204, 30);
 
     public static final Color MORE_SUN_YELLOW = new Color(255, 255, 100);
-    public static final Color DARKER_SUN_YELLOW = new Color (150, 150, 30);
+    public static final Color DARKER_SUN_YELLOW = new Color(150, 150, 30);
     public static final Color BAGE_OR_SMTHNNN = new Color(239, 188, 155);
     public static final Color PINK_RED = new Color(229, 83, 129);
     public static final Color PLAIN_BLUE = new Color(37, 110, 255);

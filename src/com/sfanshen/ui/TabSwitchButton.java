@@ -15,11 +15,11 @@ public class TabSwitchButton extends GameButton {
 
     }
 
-    public void click(){
+    public void click() {
         Global.currentTab = this.switchedTab;
     }
-    
-    public void draw(Graphics2D g){
+
+    public void draw(Graphics2D g) {
         if (this.isMouseHovering)
             g.setColor(Const.GOOGLE_HIGHLIGHT);
         else

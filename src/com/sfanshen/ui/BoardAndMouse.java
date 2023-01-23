@@ -54,7 +54,6 @@ public class BoardAndMouse {
         }
 
 
-
         public void clickMainMenu() {
             if (Global.playButton.isMouseInPicture()) {
                 Global.currentScreen = "main";
@@ -70,8 +69,7 @@ public class BoardAndMouse {
                 GameTab currentTab = Global.gameTabs.get(Global.currentTab);
                 if (currentTab instanceof UpgradeTab) {
                     clickUpgradeTab(currentTab);
-                }
-                else if (currentTab instanceof GeneratorTab){
+                } else if (currentTab instanceof GeneratorTab) {
                     clickGeneratorTab(currentTab);
                 }
             }
@@ -91,7 +89,7 @@ public class BoardAndMouse {
 
         public void clickGeneratorTab(GameTab tab) {
             GeneratorTab generatorTab = (GeneratorTab) tab;
-            for (Generator gen : generatorTab.generators){
+            for (Generator gen : generatorTab.generators) {
                 GeneratorButton genBut = gen.generatorFrame.button;
                 if (genBut.isMouseInFrame()) {
                     genBut.click();
@@ -103,7 +101,7 @@ public class BoardAndMouse {
     }
 
     public static void checkMousePosition() {
-        switch(Global.currentScreen){
+        switch (Global.currentScreen) {
             case "main menu":
                 mouseHoveringTitleScreen();
             case "main":
@@ -113,23 +111,25 @@ public class BoardAndMouse {
 
     }
 
-    public static void mouseHoveringTitleScreen(){
+    public static void mouseHoveringTitleScreen() {
         Global.playButtonDark.isVisible = Global.playButton.isMouseInPicture();
         Global.playButton.isVisible = !Global.playButton.isMouseInPicture();
     }
-    public static void mouseHoveringMainScreen(){
+
+    public static void mouseHoveringMainScreen() {
         if (isMouseInFrame(Const.FRAME_X, Const.FRAME_Y, Const.FRAME_WIDTH, Const.FRAME_HEIGHT)) {
             GameTab currentTab = Global.gameTabs.get(Global.currentTab);
             if (currentTab instanceof UpgradeTab) {
                 mouseHoveringUpgradeTab(currentTab);
-            } else if (currentTab instanceof  GeneratorTab)
+            } else if (currentTab instanceof GeneratorTab)
                 mouseHoveringGeneratorTab(currentTab);
         }
-        for (TabSwitchButton button : Global.tabSwitchButtons){
+        for (TabSwitchButton button : Global.tabSwitchButtons) {
             button.isMouseHovering = button.isMouseInFrame();
         }
     }
-    public static void mouseHoveringUpgradeTab(GameTab currentTab){
+
+    public static void mouseHoveringUpgradeTab(GameTab currentTab) {
         UpgradeTab upgradeTab = (UpgradeTab) currentTab;
 
         for (UpgradesFrame upgradesFrame : upgradeTab.upgradesFrames) {
@@ -140,7 +140,7 @@ public class BoardAndMouse {
         }
     }
 
-    public static void mouseHoveringGeneratorTab(GameTab currentTab){
+    public static void mouseHoveringGeneratorTab(GameTab currentTab) {
         GeneratorTab generatorTab = (GeneratorTab) currentTab;
 
         for (Generator generator : generatorTab.generators) {

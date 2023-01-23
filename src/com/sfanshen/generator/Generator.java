@@ -79,38 +79,41 @@ public class Generator {
         this.calculatePrice();
     }
 
-    public void increaseProductionMultiplier(){
+    public void increaseProductionMultiplier() {
         this.productionMultiplier.multiply(Const.GENERATOR_MULTIPLIER_VALUE);
         this.productionMultiplierTier += 1;
         this.purchasedAmountInTier.set(0);
         this.calculateProduction();
     }
 
-    public BigNum calcAmtInTier(){
+    public BigNum calcAmtInTier() {
         return Const.GENERATOR_MULTIPLIER_INTERVAL.calculate(this.productionMultiplierTier);
     }
-    public boolean isPurchasable(){
+
+    public boolean isPurchasable() {
         return this.purchaseCurrency.amount.isGreaterEqualTo(this.price);
     }
 
-    public void calculatePrice(){
+    public void calculatePrice() {
         this.price = this.priceFormula.calculate(this.purchasedAmount);
     }
-    public void calculateProduction(){
+
+    public void calculateProduction() {
         this.production = BigNum.multiply(baseProduction, productionMultiplier);
     }
-    public void calculateAmount(){
+
+    public void calculateAmount() {
         this.amount.amount = BigNum.add(this.purchasedAmount, this.generatedAmount);
     }
 
-    public void buy(){
+    public void buy() {
         if (this.isPurchasable()) {
             this.purchaseCurrency.amount.subtract(this.price);
 
             this.purchasedAmount.add(1);
             this.purchasedAmountInTier.add(1);
 
-            if (this.purchasedAmountInTier.isGreaterEqualTo(Const.GENERATOR_MULTIPLIER_INTERVAL.calculate(this.productionMultiplierTier))){
+            if (this.purchasedAmountInTier.isGreaterEqualTo(Const.GENERATOR_MULTIPLIER_INTERVAL.calculate(this.productionMultiplierTier))) {
                 increaseProductionMultiplier();
             }
 
@@ -118,6 +121,7 @@ public class Generator {
             calculateAmount();
         }
     }
+
     public void generate() {
         calculateAmount();
         this.produce.amount.add(BigNum.multiply(this.amount.amount, BigNum.multiply(this.production, this.productionMultiplier)));

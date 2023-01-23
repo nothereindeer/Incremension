@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 //Main Program
 public class FinalGame {
     public static boolean isRunning;
+
     public static void main(String[] args) throws Exception {
 
         //Temporary variable
@@ -46,7 +47,7 @@ public class FinalGame {
 
         coins.set(10);
 
-        updateSaveVersion();
+        //updateSaveVersion();
 
         //-------------------------------------------------------Game Loop-----------------------------------------------------------------\\
         while (isRunning) {
@@ -69,7 +70,8 @@ public class FinalGame {
 
             try {
                 Thread.sleep(1000 / Const.FPS);
-            }catch(Exception e){}
+            } catch (Exception e) {
+            }
 
         }
     }
@@ -77,9 +79,7 @@ public class FinalGame {
     //-------------------------------------------------------Methods-----------------------------------------------------------------\\
 
 
-
-
-    public static void updateMousePosition(GameFrame gameFrame){
+    public static void updateMousePosition(GameFrame gameFrame) {
         Point point = MouseInfo.getPointerInfo().getLocation();
         SwingUtilities.convertPointFromScreen(point, gameFrame.frame);
         Global.mouseX = point.getX() - Const.MOUSE_X_OFFSET;
@@ -87,25 +87,32 @@ public class FinalGame {
     }
 
 
-
     //-----------------------File Saving & Loading-----------------------\\
 
-
     public static void updateSaveVersion() throws Exception {
-        File saveVersionFile = new File(Global.programDirectory + "Save Version.txt");
+        File saveVersionFile = new File(Global.programDirectory + "Saves/Save Version.txt");
+        File saveFile = new File(Global.programDirectory + "Saves/save" + Global.saveVersion + ".txt");
         Scanner sc = new Scanner(saveVersionFile);
+        Scanner sc2 = new Scanner(saveFile);
 
-        Global.saveVersion = sc.nextInt();
+        try {
+            Global.saveVersion = sc2.nextInt();
+        } catch (Exception e) {
+            PrintWriter output = new PrintWriter(saveVersionFile);
+            output.println(0);
+            output.close();
+            System.out.println("AA");
+        }
     }
 
     public static void loadProgress() throws Exception {
         updateSaveVersion();
-        File saveFile = new File(Global.programDirectory + "Saves/" + Global.saveVersion + ".txt");
+        File saveFile = new File(Global.programDirectory + "Saves/save" + Global.saveVersion + ".txt");
         Scanner sc = new Scanner(saveFile);
 
         String line = "";
 
-        while (!line.equals("Currencies")) {
+        while (!line.equals("Currencies:")) {
             line = sc.nextLine();
         }
 
@@ -114,11 +121,10 @@ public class FinalGame {
         //Reached start of currency saves
         while (!line.equals("")) {
             Currency currency = Global.currencies.get(line.split(":")[0]);
-            currency.amount.set(Integer.parseInt(line.split(":")[1]));
+            currency.amount.set(new BigNum(line.split(":")[1]));
             line = sc.nextLine();
         }
 
-        sc.nextLine();
         line = sc.nextLine();
         //Reached start of upgrade saves
         while (!line.equals("")) {
@@ -126,6 +132,7 @@ public class FinalGame {
             if (upgrade instanceof BoostUpgrade) {
                 BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
                 boostUpgrade.level = Integer.parseInt(line.split(":")[1]);
+                System.out.println(boostUpgrade.level);
             } else if (upgrade instanceof FeatureUpgrade) {
                 FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
                 featureUpgrade.isBought = (Integer.parseInt(line.split(":")[1]) > 0);
@@ -133,17 +140,20 @@ public class FinalGame {
 
             line = sc.nextLine();
         }
+
+
+        for (Currency currency : Global.currencies.values()){
+            currency.calculateBoost();
+        }
     }
 
     public static void saveProgress() throws Exception {
         updateSaveVersion();
-        File saveFile = new File(Global.programDirectory + "Saves/" + (Global.saveVersion + 1) + ".txt");
-        if (saveFile.createNewFile())
-            System.out.println("New save file created");
-        else
-            System.out.println("File already exists");
+        //Global.saveVersion = Global.saveVersion + 1;
+        File saveFile = new File(Global.programDirectory + "Saves/save" + (Global.saveVersion) + ".txt");
         PrintWriter output = new PrintWriter(saveFile);
 
+        output.println(Global.saveVersion);
 
         output.println("Currencies:");
 
@@ -153,32 +163,25 @@ public class FinalGame {
 
         output.println("\nUpgrades:");
 
-        for (GameTab gameTab : Global.gameTabs.values()) {
-            if (gameTab instanceof UpgradeTab) {
-                UpgradeTab upgradeTab = (UpgradeTab) gameTab;
-
-                for (UpgradesFrame upgradesFrame : upgradeTab.upgradesFrames) {
-                    for (Upgrade upgrade : upgradesFrame.upgrades) {
-                        output.print(upgrade.name + ":");
-                        if (upgrade instanceof BoostUpgrade) {
-                            BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
-                            output.println(boostUpgrade.level);
-                        } else if (upgrade instanceof FeatureUpgrade) {
-                            FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
-                            if (featureUpgrade.isBought) {
-                                output.println("1");
-                            } else {
-                                output.println("0");
-                            }
-                        } else {
-                            System.out.println("Error while saving files: Attempted looping through upgrades, found illegal upgrade type");
-                        }
-                    }
+        for (Upgrade upgrade : Global.upgrades.values()) {
+            output.print(upgrade.name + ":");
+            if (upgrade instanceof BoostUpgrade) {
+                BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
+                output.println(boostUpgrade.level);
+            } else if (upgrade instanceof FeatureUpgrade) {
+                FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
+                if (featureUpgrade.isBought) {
+                    output.println("1");
+                } else {
+                    output.println("0");
                 }
+            } else {
+                System.out.println("Error while saving files: Attempted looping through upgrades, found illegal upgrade type");
             }
         }
 
+        output.println();
+        output.close();
     }
-
 
 }

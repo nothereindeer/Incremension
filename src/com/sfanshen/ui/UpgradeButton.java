@@ -18,7 +18,7 @@ public class UpgradeButton extends GameButton {
     }
 
 
-    public void click(){
+    public void click() {
         this.parentUpgrade.buy();
     }
 
@@ -37,9 +37,9 @@ public class UpgradeButton extends GameButton {
     public void drawBorder(Graphics2D g, boolean isMaxed, boolean canBePurchased) {
         if (isMaxed) {
             g.setColor(Const.MARIO_GREEN);
-        } else if (this.isMouseHovering && canBePurchased){
+        } else if (this.isMouseHovering && canBePurchased) {
             g.setColor(Const.SUN_YELLOW);
-        } else if (this.isMouseHovering){
+        } else if (this.isMouseHovering) {
             g.setColor(Const.DEPRESSEDER_GOOGLE_HIGHLIGHT);
         } else if (canBePurchased) {
             g.setColor(Const.DARKER_SUN_YELLOW);
@@ -55,13 +55,11 @@ public class UpgradeButton extends GameButton {
     }
 
     public void drawFill(Graphics2D g, double boughtPercentage, boolean isMaxed) {
-        if (isMaxed){
+        if (isMaxed) {
             g.setColor(Const.LIGHT_MARIO_GREEN);
-        }
-        else if (this.isMouseHovering){
+        } else if (this.isMouseHovering) {
             g.setColor(Const.GOOGLE_HIGHLIGHT);
-        }
-        else{
+        } else {
             g.setColor(Const.MORE_SUN_YELLOW);
         }
 

@@ -12,7 +12,7 @@ public class Formula {
     public Formula(String formula) {
         int length = formula.split(" ").length;
         int termCount = length / 2 + 1;
-        switch (termCount){
+        switch (termCount) {
             case 2:
                 this.formulaType = "linear";
                 break;
@@ -55,7 +55,7 @@ public class Formula {
     }
 
 
-    public BigNum calculateLinear(BigNum x){
+    public BigNum calculateLinear(BigNum x) {
         String[] terms = this.formula.split(" ");
         BigNum m = new BigNum(terms[0].substring(0, terms[0].length() - 1));
         BigNum b = new BigNum(terms[2]);
@@ -63,7 +63,7 @@ public class Formula {
         return BigNum.add(BigNum.multiply(m, x), b);
     }
 
-    public BigNum calculateQuadratic(BigNum x){
+    public BigNum calculateQuadratic(BigNum x) {
         String[] terms = this.formula.split(" ");
         BigNum a = new BigNum(Integer.parseInt(terms[0].substring(0, terms[0].length() - 3)));
         BigNum b = new BigNum(Integer.parseInt(terms[2].substring(0, terms[2].length() - 1)));
@@ -72,7 +72,7 @@ public class Formula {
         return BigNum.add(BigNum.add(BigNum.multiply(a, BigNum.pow(x, 2)), BigNum.multiply(b, x)), c);
     }
 
-    public BigNum calculateQuartic(BigNum x){
+    public BigNum calculateQuartic(BigNum x) {
         String[] terms = this.formula.split(" ");
         BigNum a = new BigNum(Integer.parseInt(terms[0].substring(0, terms[0].length() - 3)));
         BigNum b = new BigNum(Integer.parseInt(terms[2].substring(0, terms[2].length() - 3)));
