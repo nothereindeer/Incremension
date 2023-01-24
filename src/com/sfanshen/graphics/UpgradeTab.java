@@ -107,7 +107,7 @@ public class UpgradeTab extends GameTab {
             BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
 
             for (Currency boostedCurrency : boostUpgrade.boostedCurrencies.keySet())
-                string = "Effect: " + boostUpgrade.boostedCurrencies.get(boostedCurrency).operation + boostUpgrade.calculateBoost(boostedCurrency).toSuffixVersion() + " " + boostedCurrency.name;
+                string = "Effect: " + boostUpgrade.boostedCurrencies.get(boostedCurrency).operation + boostUpgrade.calculateBoost(boostedCurrency).toNum() + " " + boostedCurrency.name;
 
         } else if (upgrade instanceof FeatureUpgrade) {
             string = "Effect: Unlocked";

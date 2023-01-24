@@ -9,85 +9,72 @@ import com.sfanshen.main.Global;
 
 public class Generator {
 
-    String name;
-    String description;
-
+    public String name;
     BigNum baseProduction;
-    int productionMultiplierTier;
+    public int tier;
     public BigNum purchasedAmountInTier;
     BigNum productionMultiplier;
     BigNum production;
 
     public BigNum price;
+    BigNum[] tierPrices;
     Formula priceFormula;
     public Currency purchaseCurrency;
 
-    BigNum purchasedAmount;
-    BigNum generatedAmount;
-    Currency amount;
+    public int purchasedAmount;
+    public Currency generatedAmount;
+    public BigNum amount;
 
     Currency produce;
 
     public GeneratorFrame generatorFrame;
     public boolean isUnlocked;
 
-    public Generator(String name, Currency currencyProduced, BigNum baseProduction, Formula priceFormula, Currency purchaseCurrency, String iconPictureDirectory, String description) {
+    public Generator(String name, String currencyProduced, String baseProduction, String purchaseCurrency, String priceFormula, String[] tierPrices) {
         this.name = name;
-        this.description = description;
-        this.priceFormula = priceFormula;
-        this.purchaseCurrency = purchaseCurrency;
+        instantiateTierPrices(tierPrices);
+        this.priceFormula = new Formula(priceFormula);
+        this.purchaseCurrency = Global.findCurrency(purchaseCurrency);
 
-        this.amount = new Currency(name, new Picture(0, 0, Const.GENERATOR_ICON_WIDTH, Const.GENERATOR_ICON_HEIGHT, iconPictureDirectory));
-        this.produce = currencyProduced;
-        this.isUnlocked = true;
-
-        this.purchasedAmount = new BigNum(0);
+        this.amount = new BigNum(0);
+        this.purchasedAmount = 0;
+        this.generatedAmount = new Currency(name, new Picture(0, 0, Const.GENERATOR_ICON_WIDTH, Const.GENERATOR_ICON_HEIGHT, Global.programDirectory + "Images/Icons/Generator/" + name + ".png"));
         this.purchasedAmountInTier = new BigNum(0);
 
-
-        this.baseProduction = baseProduction;
+        this.produce = Global.findCurrency(currencyProduced);
+        this.baseProduction = BigNum.divide(new BigNum(baseProduction), Global.ticksPerSec);
         this.productionMultiplier = new BigNum(1);
-        this.productionMultiplierTier = 1;
-
-        this.generatorFrame = new GeneratorFrame(iconPictureDirectory, this);
-
-        this.calculateProduction();
-        this.calculatePrice();
-    }
-
-    public Generator(String name, Currency currencyProduced, BigNum baseProduction, Formula priceFormula, Currency purchaseCurrency) {
-        this.name = name;
-        this.description = "";
-        this.priceFormula = priceFormula;
-        this.purchaseCurrency = purchaseCurrency;
-
-        this.amount = new Currency(name, new Picture(0, 0, Const.GENERATOR_ICON_WIDTH, Const.GENERATOR_ICON_HEIGHT, Global.programDirectory + "Images/Icons/Generator/" + name + ".png"));
-        this.produce = currencyProduced;
-        this.generatedAmount = new BigNum(0);
-        this.purchasedAmount = new BigNum(0);
-        this.purchasedAmountInTier = new BigNum(0);
-
-        this.baseProduction = BigNum.divide(baseProduction, Global.ticksPerSec);
-        this.productionMultiplier = new BigNum(1);
-        this.productionMultiplierTier = 1;
+        this.tier = 1;
 
         this.generatorFrame = new GeneratorFrame(Global.programDirectory + "Images/Icons/Generator/" + name + ".png", this);
 
         this.isUnlocked = true;
 
+        Global.generators.put(this.name, this);
+
         this.calculateProduction();
         this.calculatePrice();
     }
 
+    public void instantiateTierPrices(String[] tierPrices) {
+        BigNum[] convertedTierPrices = new BigNum[tierPrices.length];
+        for (int i = 0; i < tierPrices.length; i++) {
+            String tierPrice = tierPrices[i];
+            convertedTierPrices[i] = new BigNum(tierPrice);
+        }
+
+        this.tierPrices = convertedTierPrices;
+    }
+
     public void increaseProductionMultiplier() {
-        this.productionMultiplier.multiply(Const.GENERATOR_MULTIPLIER_VALUE);
-        this.productionMultiplierTier += 1;
+        calculateProductionMultiplier();
+        this.tier += 1;
         this.purchasedAmountInTier.set(0);
         this.calculateProduction();
     }
 
-    public BigNum calcAmtInTier() {
-        return Const.GENERATOR_MULTIPLIER_INTERVAL.calculate(this.productionMultiplierTier);
+    public void calculateProductionMultiplier() {
+        this.productionMultiplier = new BigNum(Math.pow(Const.GENERATOR_MULTIPLIER_VALUE, this.tier));
     }
 
     public boolean isPurchasable() {
@@ -95,7 +82,10 @@ public class Generator {
     }
 
     public void calculatePrice() {
-        this.price = this.priceFormula.calculate(this.purchasedAmount);
+        if (this.tier > 1)
+            this.price = BigNum.multiply(this.priceFormula.calculate(this.purchasedAmount), this.tierPrices[this.tier - 1]);
+        else
+            this.price = this.priceFormula.calculate(this.purchasedAmount);
     }
 
     public void calculateProduction() {
@@ -103,27 +93,31 @@ public class Generator {
     }
 
     public void calculateAmount() {
-        this.amount.amount = BigNum.add(this.purchasedAmount, this.generatedAmount);
+        this.amount = BigNum.add(this.generatedAmount.amount, this.purchasedAmount);
+    }
+
+    public void calculateTier(){
+        this.tier = this.purchasedAmount / Const.GENERATOR_MULTIPLIER_INTERVAL;
     }
 
     public void buy() {
         if (this.isPurchasable()) {
             this.purchaseCurrency.amount.subtract(this.price);
 
-            this.purchasedAmount.add(1);
+            this.purchasedAmount = this.purchasedAmount + 1;
             this.purchasedAmountInTier.add(1);
 
-            if (this.purchasedAmountInTier.isGreaterEqualTo(Const.GENERATOR_MULTIPLIER_INTERVAL.calculate(this.productionMultiplierTier))) {
+            if (this.purchasedAmountInTier.isGreaterEqualTo(Const.GENERATOR_MULTIPLIER_INTERVAL)) {
                 increaseProductionMultiplier();
             }
 
             this.calculatePrice();
-            calculateAmount();
+            this.calculateAmount();
         }
     }
 
     public void generate() {
         calculateAmount();
-        this.produce.amount.add(BigNum.multiply(this.amount.amount, BigNum.multiply(this.production, this.productionMultiplier)));
+        this.produce.increase(BigNum.multiply(this.amount, BigNum.multiply(this.production, this.productionMultiplier)));
     }
 }

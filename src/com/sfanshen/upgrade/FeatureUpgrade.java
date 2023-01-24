@@ -8,14 +8,14 @@ public class FeatureUpgrade extends Upgrade {
     public boolean isBought;
     public String effect;
 
-    FeatureUpgrade(String name, Formula priceFormula, Currency purchaseCurrency, boolean isPermanent, String description) {
+    FeatureUpgrade(String name, String priceFormula, String purchaseCurrency, boolean isPermanent, String description) {
 
         super(name, priceFormula, purchaseCurrency, description);
 
         this.isBought = false;
     }
 
-    FeatureUpgrade(String name, Formula priceFormula, Currency purchaseCurrency, boolean isPermanent) {
+    FeatureUpgrade(String name, String priceFormula, String purchaseCurrency, boolean isPermanent) {
 
         super(name, priceFormula, purchaseCurrency);
 

@@ -382,6 +382,9 @@ public class BigNum {
         this.pow((int) exponent.toNum());
     }
 
+    public void floor(){
+        this.coefficient = Math.floor(this.coefficient);
+    }
 
     //-----------------------Static Operations-----------------------\\
     //These operation methods return a new BigNum object
@@ -459,4 +462,7 @@ public class BigNum {
     public static BigNum log10(BigNum base) {
         return (new BigNum(Math.log10(base.coefficient) + base.exponent));
     }
+
+
+
 }

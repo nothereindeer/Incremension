@@ -10,7 +10,7 @@ public class Currency {
     public String name;
     public BigNum amount;
     //Additive boosts are applied according to math rules (BEDMAS duh)
-    BigNum finalBoost;
+    public BigNum finalBoost;
     BigNum additiveBoost;
     BigNum multiplicativeBoost;
     BigNum exponentialBoost;
@@ -47,8 +47,8 @@ public class Currency {
 
 
     //Set
-    public void set(BigNum amount) {
-        this.amount.set(amount);
+    public void set(String amount) {
+        this.amount.set(new BigNum(amount));
     }
 
     public void set(int amount) {

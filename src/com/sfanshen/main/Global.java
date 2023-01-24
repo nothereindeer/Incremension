@@ -10,6 +10,7 @@ import com.sfanshen.upgrade.UpgradesFrame;
 
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class Global {
 
@@ -18,13 +19,13 @@ public class Global {
     public static int saveVersion;
 
     //Easy-access libraries
-    public static HashMap<String, Currency> currencies;
+    public static LinkedHashMap<String, Currency> currencies;
     public static HashMap<String, Upgrade> upgrades;
-    public static HashMap<String, GameTab> gameTabs;
+    public static HashMap<String, Generator> generators;
+    public static LinkedHashMap<String, GameTab> gameTabs;
 
 
     //BUTTON
-    public static ArrayList<GameTab> orderedGameTabs;
     public static ArrayList<TabSwitchButton> tabSwitchButtons;
 
     //Displayed screen
@@ -54,8 +55,9 @@ public class Global {
         mouseX = 0;
         mouseY = 0;
 
-        gameTabs = new HashMap<>();
-        currencies = new HashMap<>();
+        gameTabs = new LinkedHashMap<>();
+        currencies = new LinkedHashMap<>();
+        generators = new HashMap<>();
         upgrades = new HashMap<>();
 
         saveVersion = 0;
@@ -79,9 +81,10 @@ public class Global {
         titleImage.resize(1.5);
 
 
-        currencies.put("coins", (new Currency("coins", coinIcon)));
-        currencies.put("rubies", (new Currency("rubies", rubyIcon)));
+        currencies.put("Coins", (new Currency("Coins", coinIcon)));
+        currencies.put("Rubies", (new Currency("Rubies", rubyIcon)));
 
+        tabSwitchButtons = new ArrayList<>();
 
 
 
@@ -99,11 +102,11 @@ public class Global {
          */
 
         Upgrade[] coinUpgrades = {
-                new BoostUpgrade("Better pickaxes", new Formula("*100x + 100"), currencies.get("coins"), currencies.get("coins"), "*1x + 1", 10),
-                new BoostUpgrade("Drills", new Formula("*5000x + 5000"), currencies.get("coins"), currencies.get("coins"), "*3x + 1", 1),
-                new BoostUpgrade("Bulldozers", new Formula("*50000x + 20000"), currencies.get("coins"), currencies.get("coins"), "*6x + 1", 3),
-                new BoostUpgrade("Mines", new Formula("*250000x + 500000"), currencies.get("coins"), currencies.get("coins"), "*6x^2 + 6x + 1", 5),
-                new BoostUpgrade("Energy drinks", new Formula("*1000000x + 10000000"), currencies.get("coins"), currencies.get("coins"), "*12x^2 + 10x + 1", 5)
+                new BoostUpgrade("Better pickaxes", "*100x + 100", "Coins", "Coins", "*1x + 1", 10),
+                new BoostUpgrade("Drills", "*5000x + 5000", "Coins", "Coins", "*3x + 1", 1),
+                new BoostUpgrade("Bulldozers", "*5e4x^2 + 5e5x + 1e5", "Coins", "Coins", "*0.5x^2 + 1.5x + 1", 3),
+                new BoostUpgrade("Mines", "*7.5e6x^2 + 2e7x + 1.5e7", "Coins", "Coins", "*0.25x^2 + 0.5x + 1", 5),
+                new BoostUpgrade("Energy drinks", "*2e10x^2 + 8.5e10x + 7.5e10", "Coins", "Coins", "+0.05x^2 + 0.35x + 0", 5)
         };
 
         /* To create generators:
@@ -115,22 +118,48 @@ public class Global {
             Formula rules apply as in upgrade creation
          */
         Generator[] coinGenerators = {
-                new Generator("Miner", currencies.get("coins"), new BigNum(1), new Formula("*12x + 10"), currencies.get("coins")),
-                new Generator("Foreman", currencies.get("coins"), new BigNum(150000), new Formula("*3e6x + 2e6"), currencies.get("coins")),
-                new Generator("A.I miner", currencies.get("coins"), new BigNum(3000000), new Formula("*3e8x + 0"), currencies.get("coins")),
-                new Generator("Jumbo drill", currencies.get("coins"), new BigNum("2e7"), new Formula("*3e9x + 5e9"), currencies.get("coins")),
-                new Generator("Dynamiter", currencies.get("coins"), new BigNum("4e8"), new Formula("*7e10x + 6e10"), currencies.get("coins")),
-                new Generator("Crystal miner", currencies.get("coins"), new BigNum("1e10"), new Formula("*1e12x + 5e11"), currencies.get("coins")),
-                new Generator("A.I mine", currencies.get("coins"), new BigNum("1e12"), new Formula("*5e13x + 1e13"), currencies.get("coins")),
-                new Generator("Excavator", currencies.get("coins"), new BigNum("9e14"), new Formula("*8e14x + 1e15"), currencies.get("coins"))
+                new Generator("Miner", "Coins","1","Coins","*0.5x^2 + 3x + 5", new String[]{
+                        "5e4",
+                        "1e8",
+                        "5e14"
+                }),
+                new Generator("Foreman", "Miner", "0.9", "Coins", "*2.5e3x^2 + 8e3x + 3e4", new String[]{
+                        "5e12",
+                        "5e19"
+                }),
+                new Generator("A.I miner", "Foreman", "0.8", "Coins", "*2e7x^2 + 7.5e7x + 1e8", new String[]{
+                        "5e15",
+                        "5e24"
+                }),
+                new Generator("Jumbo drill", "A.I miner", "0.7", "Coins", "*3e9x + 5e9", new String[]{
+                        "5e18",
+                        "5e28"
+                }),
+                new Generator("Dynamiter", "Jumbo drill", "0.6", "Coins", "*7e10x + 6e10", new String[]{
+                        "5e21",
+                        "5e33"
+                }),
+                new Generator("Crystal miner", "Dynamiter", "0.5", "Coins", "*1e12x + 5e11", new String[]{
+                        "5e24",
+                        "5e39"
+                }),
+                new Generator("A.I mine", "Crystal miner", "0.4", "Coins", "*5e13x + 1e13", new String[]{
+                        "5e27",
+                        "5e45"
+                }),
+                new Generator("Excavator", "A.I mine", "0.3", "Coins", "*8e14x + 1e15", new String[]{
+                        "5e30",
+                        "5e56"
+                })
         };
 
-        orderedGameTabs = new ArrayList<>();
+
+
         new GeneratorTab("coin generators", coinGenerators);
         new UpgradeTab("coin upgrades", new Upgrade[][]{coinUpgrades});
+
         determineUISize();
         organizeUpgrades();
-        tabSwitchButtons = new ArrayList<>();
         createTabSwitchButtons();
 
         System.setProperty("awt.useSystemAAFontSettings", "on");
@@ -142,7 +171,7 @@ public class Global {
 
         int height = Const.TAB_SELECTION_HEIGHT;
         int i = 0;
-        for (GameTab gameTab : Global.orderedGameTabs) {
+        for (GameTab gameTab : Global.gameTabs.values()) {
             int width = (Const.FRAME_WIDTH - 2 * Const.TAB_SELECTION_OFFSET) / Global.gameTabs.size();
 
             int x = Const.FRAME_X + Const.TAB_SELECTION_OFFSET + (i * width);
@@ -160,9 +189,6 @@ public class Global {
                 UpgradeTab upgradeTab = (UpgradeTab) gameTab;
                 for (UpgradesFrame upgradeFrame : upgradeTab.upgradesFrames) {
                     determineUpgradeDimensions(upgradeFrame);
-                    for (Upgrade upgrade : upgradeFrame.upgrades) {
-                        upgrades.put(upgrade.name, upgrade);
-                    }
                 }
             } else if (gameTab instanceof GeneratorTab) {
                 GeneratorTab generatorTab = (GeneratorTab) gameTab;
@@ -211,6 +237,8 @@ public class Global {
         for (int i = 0; i < upgradesFrame.upgrades.size(); i++) {
             Upgrade upgrade = upgradesFrame.upgrades.get(i);
 
+            upgrades.put(upgrade.name, upgrade);
+
             int x = upgradesFrame.calculateCoords(i)[0];
             int y = upgradesFrame.calculateCoords(i)[1];
 
@@ -226,6 +254,9 @@ public class Global {
         int amtOnColumn = (Const.FRAME_HEIGHT - Const.GENERATOR_FRAME_Y_OFFSET) / (Const.GENERATOR_FRAME_HEIGHT + Const.GENERATOR_FRAME_Y_OFFSET);
         for (int i = 0; i < generatorTab.generators.size(); i++) {
             Generator generator = generatorTab.generators.get(i);
+
+            generators.put(generator.name, generator);
+
             int x;
             int y;
             if (i >= amtOnColumn) {
@@ -239,6 +270,17 @@ public class Global {
             generator.generatorFrame.y = y;
             generator.generatorFrame.x = x;
             generator.generatorFrame.updateButtonDims();
+        }
+    }
+
+    public static Currency findCurrency(String currency){
+        if (Global.currencies.containsKey(currency))
+            return Global.currencies.get(currency);
+        else if (Global.generators.containsKey(currency))
+            return Global.generators.get(currency).generatedAmount;
+        else{
+            System.out.println("Error while finding currency: Nonexistent currency: " + currency);
+            return null;
         }
     }
 }

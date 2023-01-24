@@ -65,19 +65,19 @@ public class Formula {
 
     public BigNum calculateQuadratic(BigNum x) {
         String[] terms = this.formula.split(" ");
-        BigNum a = new BigNum(Integer.parseInt(terms[0].substring(0, terms[0].length() - 3)));
-        BigNum b = new BigNum(Integer.parseInt(terms[2].substring(0, terms[2].length() - 1)));
-        BigNum c = new BigNum(Integer.parseInt(terms[4]));
+        BigNum a = new BigNum(terms[0].substring(0, terms[0].length() - 3));
+        BigNum b = new BigNum(terms[2].substring(0, terms[2].length() - 1));
+        BigNum c = new BigNum(terms[4]);
 
         return BigNum.add(BigNum.add(BigNum.multiply(a, BigNum.pow(x, 2)), BigNum.multiply(b, x)), c);
     }
 
     public BigNum calculateQuartic(BigNum x) {
         String[] terms = this.formula.split(" ");
-        BigNum a = new BigNum(Integer.parseInt(terms[0].substring(0, terms[0].length() - 3)));
-        BigNum b = new BigNum(Integer.parseInt(terms[2].substring(0, terms[2].length() - 3)));
-        BigNum c = new BigNum(Integer.parseInt(terms[4].substring(0, terms[4].length() - 1)));
-        BigNum d = new BigNum(Integer.parseInt(terms[6]));
+        BigNum a = new BigNum(terms[0].substring(0, terms[0].length() - 3));
+        BigNum b = new BigNum(terms[2].substring(0, terms[2].length() - 3));
+        BigNum c = new BigNum(terms[4].substring(0, terms[4].length() - 1));
+        BigNum d = new BigNum(terms[6]);
 
         return BigNum.add(BigNum.add(BigNum.add(BigNum.multiply(a, BigNum.pow(x, 3)), BigNum.multiply(b, BigNum.pow(x, 2))), BigNum.multiply(c, x)), d);
     }

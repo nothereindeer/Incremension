@@ -25,7 +25,6 @@ public abstract class GameTab {
         this.height = Const.FRAME_HEIGHT;
 
         Global.gameTabs.put(this.name, this);
-        Global.orderedGameTabs.add(this);
     }
 
     abstract void draw(Graphics2D g);

@@ -84,6 +84,7 @@ public class Const {
     public static final Color LIGHT_MARIO_GREEN = new Color(90, 220, 60);
 
     public static final Color NOT_WHITE = new Color(13, 31, 45);
+    public static final Color CREAM_WHITE = new Color(255, 255, 200);
     public static final Color SUN_YELLOW = new Color(230, 241, 74);
     public static final Color DARK_SUN_YELLOW = new Color(204, 204, 30);
 
@@ -127,7 +128,6 @@ public class Const {
 
 
     //Generators
-    public static final Formula GENERATOR_MULTIPLIER_INTERVAL = new Formula("*10x + 0");
+    public static final int GENERATOR_MULTIPLIER_INTERVAL = 10;
     public static final int GENERATOR_MULTIPLIER_VALUE = 2;
-
 }

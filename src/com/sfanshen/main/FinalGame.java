@@ -39,14 +39,12 @@ public class FinalGame {
         generators.start();
 
         //Quick access
-        Currency coins = Global.currencies.get("coins");
+        Currency coins = Global.currencies.get("Coins");
         Currency prestigePoints = Global.currencies.get("prestige points");
 
         //UI
         GameFrame gameFrame = new GameFrame();
-
-        coins.set(10);
-
+        loadProgress();
         //updateSaveVersion();
 
         //-------------------------------------------------------Game Loop-----------------------------------------------------------------\\
@@ -90,13 +88,11 @@ public class FinalGame {
     //-----------------------File Saving & Loading-----------------------\\
 
     public static void updateSaveVersion() throws Exception {
-        File saveVersionFile = new File(Global.programDirectory + "Saves/Save Version.txt");
-        File saveFile = new File(Global.programDirectory + "Saves/save" + Global.saveVersion + ".txt");
+        File saveVersionFile = new File(Global.programDirectory + "Save Version.txt");
         Scanner sc = new Scanner(saveVersionFile);
-        Scanner sc2 = new Scanner(saveFile);
 
         try {
-            Global.saveVersion = sc2.nextInt();
+            Global.saveVersion = sc.nextInt();
         } catch (Exception e) {
             PrintWriter output = new PrintWriter(saveVersionFile);
             output.println(0);
@@ -126,13 +122,13 @@ public class FinalGame {
         }
 
         line = sc.nextLine();
+        line = sc.nextLine();
         //Reached start of upgrade saves
         while (!line.equals("")) {
             Upgrade upgrade = Global.upgrades.get(line.split(":")[0]);
             if (upgrade instanceof BoostUpgrade) {
                 BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
                 boostUpgrade.level = Integer.parseInt(line.split(":")[1]);
-                System.out.println(boostUpgrade.level);
             } else if (upgrade instanceof FeatureUpgrade) {
                 FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
                 featureUpgrade.isBought = (Integer.parseInt(line.split(":")[1]) > 0);
@@ -141,6 +137,20 @@ public class FinalGame {
             line = sc.nextLine();
         }
 
+
+
+        line = sc.nextLine();
+        line = sc.nextLine();
+        //Reached start of generator saves
+        while (!line.equals("") && sc.hasNext()) {
+            Generator generator = Global.generators.get(line.split(":")[0]);
+            generator.purchasedAmount = Integer.parseInt((line.split(":")[1]));
+            generator.generatedAmount.set(line.split(":")[2]);
+            generator.calculateTier();
+            generator.calculateProductionMultiplier();
+
+            line = sc.nextLine();
+        }
 
         for (Currency currency : Global.currencies.values()){
             currency.calculateBoost();
@@ -178,6 +188,12 @@ public class FinalGame {
             } else {
                 System.out.println("Error while saving files: Attempted looping through upgrades, found illegal upgrade type");
             }
+        }
+
+        output.println("\nGenerators:");
+
+        for (Generator generator : Global.generators.values()){
+            output.println(generator.name + ":" + generator.purchasedAmount + ":" + generator.generatedAmount.amount.bigNum);
         }
 
         output.println();

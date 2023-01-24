@@ -24,7 +24,7 @@ public class GeneratorButton extends GameButton {
 
     public void draw(Graphics2D g) {
         this.drawFill(g);
-        double fillPercentage = BigNum.divide(this.purchasedGenerator.purchasedAmountInTier, this.purchasedGenerator.calcAmtInTier()).toNum();
+        double fillPercentage = BigNum.divide(this.purchasedGenerator.purchasedAmountInTier, Const.GENERATOR_MULTIPLIER_INTERVAL).toNum();
         GradientPaint paint = new GradientPaint((float) (this.x + this.width * fillPercentage - 1), this.y + this.height / 2, Const.SUN_YELLOW, (float) (this.x + this.width * fillPercentage), this.y + this.height / 2, Const.GOOGLE_HIGHLIGHT, false);
         g.setPaint(paint);
         g.drawRoundRect(this.x, this.y, this.width, this.height, Const.GENERATOR_BUTTON_ROUND_CORNER_OFFSET, Const.GENERATOR_BUTTON_ROUND_CORNER_OFFSET);

@@ -41,6 +41,17 @@ public class GameFrame {
 
         frame.setVisible(true);
         currentGraphicsPanel.setBackground(Const.NOT_WHITE);
+
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                try {
+                    FinalGame.saveProgress();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     //-------------------------------------------------------Graphics Rendering-----------------------------------------------------------------\\
