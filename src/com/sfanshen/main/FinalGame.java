@@ -55,9 +55,15 @@ public class FinalGame {
                 case "main menu":
 
                 case "main":
-
+                  
                 case "settings":
+                  
 
+            }
+            
+            if(Global.currentScreen.equals("main")){
+              Global.backMusic.start();
+              Global.backMusic.loop();  
             }
 
             //Updates graphics
@@ -118,6 +124,7 @@ public class FinalGame {
         while (!line.equals("")) {
             Currency currency = Global.currencies.get(line.split(":")[0]);
             currency.amount.set(new BigNum(line.split(":")[1]));
+            currency.calculateBoost();
             line = sc.nextLine();
         }
 
@@ -148,13 +155,11 @@ public class FinalGame {
             generator.generatedAmount.set(line.split(":")[2]);
             generator.calculateTier();
             generator.calculateProductionMultiplier();
+            generator.calculatePrice(); 
 
             line = sc.nextLine();
         }
-
-        for (Currency currency : Global.currencies.values()){
-            currency.calculateBoost();
-        }
+        
     }
 
     public static void saveProgress() throws Exception {

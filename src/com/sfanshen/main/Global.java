@@ -1,6 +1,7 @@
 package com.sfanshen.main;
 
 import com.sfanshen.currency.Currency;
+import com.sfanshen.music.Audio; 
 import com.sfanshen.generator.Generator;
 import com.sfanshen.graphics.*;
 import com.sfanshen.ui.TabSwitchButton;
@@ -11,12 +12,18 @@ import com.sfanshen.upgrade.UpgradesFrame;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.awt.*;
+import javax.swing.*; 
 
 public class Global {
 
     //-------------------------------------------------------Variables-----------------------------------------------------------------\\
 
     public static int saveVersion;
+    
+    //Music
+    public static Audio backMusic; 
+    public static Audio startGame; 
 
     //Easy-access libraries
     public static LinkedHashMap<String, Currency> currencies;
@@ -62,7 +69,7 @@ public class Global {
 
         saveVersion = 0;
 
-        programDirectory = "src/com/sfanshen/"; //"../"
+        programDirectory = "com/sfanshen/"; //"../"
         String iconImageDirectory = programDirectory + "Images/Icons/";
         String mainMenuDirectory = programDirectory + "Images/Title screen/";
         Picture coinIcon = new Picture(0, 0, Const.CURRENCY_ICON_SIZE, Const.CURRENCY_ICON_SIZE, iconImageDirectory + "Currency/Coin.png");
@@ -84,6 +91,8 @@ public class Global {
         currencies.put("Coins", (new Currency("Coins", coinIcon)));
         currencies.put("Rubies", (new Currency("Rubies", rubyIcon)));
 
+        backMusic = new Audio(programDirectory + "music/musicFiles/Background music.wav");
+        startGame = new Audio(programDirectory + "music/musicFiles/Play button.wav"); 
         tabSwitchButtons = new ArrayList<>();
 
 
@@ -164,6 +173,9 @@ public class Global {
 
         System.setProperty("awt.useSystemAAFontSettings", "on");
         System.setProperty("swing.aatext", "true");
+        
+       
+        
     }
 
 
