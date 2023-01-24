@@ -8,6 +8,7 @@ public class Const {
     //-------------------------------------------------------UI Constants-----------------------------------------------------------------\\
 
 
+    public static final int MULTIPLIER = 1000;
     public static final int FPS = 100;
     //Screen size
     public static final int SCREEN_WIDTH = 1600;
@@ -35,6 +36,10 @@ public class Const {
     public static final int CURRENCY_ICON_SIZE = SCREEN_HEIGHT / 60;
     public static final int CURRENCY_OFFSET_FROM_TOP = SCREEN_HEIGHT / 60;
     public static final int TEXT_ICON_OFFSET = SCREEN_HEIGHT / 120;
+
+    //Reset button information
+    public static final int RESET_BUTTON_SIZE = SCREEN_HEIGHT / 50;
+
 
     //Upgrade buttons scaling
 

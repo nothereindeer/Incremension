@@ -12,7 +12,7 @@ public class Generator {
     public String name;
     BigNum baseProduction;
     public int tier;
-    public BigNum purchasedAmountInTier;
+    public int purchasedAmountInTier;
     BigNum productionMultiplier;
     BigNum production;
 
@@ -39,7 +39,7 @@ public class Generator {
         this.amount = new BigNum(0);
         this.purchasedAmount = 0;
         this.generatedAmount = new Currency(name, new Picture(0, 0, Const.GENERATOR_ICON_WIDTH, Const.GENERATOR_ICON_HEIGHT, Global.programDirectory + "Images/Icons/Generator/" + name + ".png"));
-        this.purchasedAmountInTier = new BigNum(0);
+        this.purchasedAmountInTier = 0;
 
         this.produce = Global.findCurrency(currencyProduced);
         this.baseProduction = BigNum.divide(new BigNum(baseProduction), Global.ticksPerSec);
@@ -67,14 +67,15 @@ public class Generator {
     }
 
     public void increaseProductionMultiplier() {
-        calculateProductionMultiplier();
         this.tier += 1;
-        this.purchasedAmountInTier.set(0);
+        this.purchasedAmountInTier = 0;
+        this.calculateProductionMultiplier();
         this.calculateProduction();
     }
 
     public void calculateProductionMultiplier() {
-        this.productionMultiplier = new BigNum(Math.pow(Const.GENERATOR_MULTIPLIER_VALUE, this.tier));
+        System.out.println(this.tier);
+        this.productionMultiplier = new BigNum(Math.pow(Const.GENERATOR_MULTIPLIER_VALUE, this.tier - 1));
     }
 
     public boolean isPurchasable() {
@@ -97,7 +98,8 @@ public class Generator {
     }
 
     public void calculateTier(){
-        this.tier = this.purchasedAmount / Const.GENERATOR_MULTIPLIER_INTERVAL;
+        this.tier = this.purchasedAmount / Const.GENERATOR_MULTIPLIER_INTERVAL + 1;
+        this.purchasedAmountInTier = this.purchasedAmount % Const.GENERATOR_MULTIPLIER_INTERVAL;
     }
 
     public void buy() {
@@ -105,9 +107,9 @@ public class Generator {
             this.purchaseCurrency.amount.subtract(this.price);
 
             this.purchasedAmount = this.purchasedAmount + 1;
-            this.purchasedAmountInTier.add(1);
+            this.purchasedAmountInTier = this.purchasedAmountInTier + 1;
 
-            if (this.purchasedAmountInTier.isGreaterEqualTo(Const.GENERATOR_MULTIPLIER_INTERVAL)) {
+            if (this.purchasedAmountInTier >= Const.GENERATOR_MULTIPLIER_INTERVAL) {
                 increaseProductionMultiplier();
             }
 
@@ -118,6 +120,6 @@ public class Generator {
 
     public void generate() {
         calculateAmount();
-        this.produce.increase(BigNum.multiply(this.amount, BigNum.multiply(this.production, this.productionMultiplier)));
+        this.produce.increase(BigNum.multiply(BigNum.multiply(this.amount, BigNum.multiply(this.production, this.productionMultiplier)), Const.MULTIPLIER));
     }
 }

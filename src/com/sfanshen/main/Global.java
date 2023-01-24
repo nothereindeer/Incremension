@@ -69,7 +69,7 @@ public class Global {
 
         saveVersion = 0;
 
-        programDirectory = "com/sfanshen/"; //"../"
+        programDirectory = "src/com/sfanshen/"; //"../"
         String iconImageDirectory = programDirectory + "Images/Icons/";
         String mainMenuDirectory = programDirectory + "Images/Title screen/";
         Picture coinIcon = new Picture(0, 0, Const.CURRENCY_ICON_SIZE, Const.CURRENCY_ICON_SIZE, iconImageDirectory + "Currency/Coin.png");

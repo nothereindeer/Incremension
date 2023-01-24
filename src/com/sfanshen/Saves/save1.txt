@@ -1,17 +1,17 @@
 1
 Currencies:
-Coins:1.1515e2
+Coins:1.637678e6
 Rubies:0.0e0
 
 Upgrades:
 Bulldozers:0
-Better pickaxes:0
+Better pickaxes:10
 Drills:0
 Energy drinks:0
 Mines:0
 
 Generators:
-Miner:6:4.0e0
+Miner:10:0.0e0
 Excavator:0:0.0e0
 A.I miner:0:0.0e0
 Jumbo drill:0:0.0e0

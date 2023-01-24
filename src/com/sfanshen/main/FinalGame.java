@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 
 
 //Main Program
-public class FinalGame {
+public class  FinalGame {
     public static boolean isRunning;
 
     public static void main(String[] args) throws Exception {
@@ -103,7 +103,6 @@ public class FinalGame {
             PrintWriter output = new PrintWriter(saveVersionFile);
             output.println(0);
             output.close();
-            System.out.println("AA");
         }
     }
 
@@ -138,7 +137,7 @@ public class FinalGame {
                 boostUpgrade.level = Integer.parseInt(line.split(":")[1]);
             } else if (upgrade instanceof FeatureUpgrade) {
                 FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
-                featureUpgrade.isBought = (Integer.parseInt(line.split(":")[1]) > 0);
+                featureUpgrade .isBought = (Integer.parseInt(line.split(":")[1]) > 0);
             }
 
             line = sc.nextLine();
