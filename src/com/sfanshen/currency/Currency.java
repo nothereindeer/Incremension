@@ -2,6 +2,7 @@ package com.sfanshen.currency;
 
 import com.sfanshen.main.BigNum;
 import com.sfanshen.graphics.Picture;
+import com.sfanshen.main.Global;
 import com.sfanshen.upgrade.BoostUpgrade;
 
 import java.util.ArrayList;
@@ -20,11 +21,32 @@ public class Currency {
     public ArrayList<BoostUpgrade> multiplicativeUpgrades;
     public ArrayList<BoostUpgrade> exponentialUpgrades;
 
+    public Currency[] resetCurrencies;
+
     //Every currency has its own icon, stored here for convenience
     public Picture icon;
 
 
     //-------------------------------------------------------Constructor-----------------------------------------------------------------\\
+    public Currency(String name, Picture icon, String[] resetCurrencies) {
+        this.name = name;
+        this.amount = new BigNum(0);
+
+        //These array lists are filled in the Global class' method initialize for more efficient code
+        additiveUpgrades = new ArrayList<>();
+        multiplicativeUpgrades = new ArrayList<>();
+        exponentialUpgrades = new ArrayList<>();
+
+        this.finalBoost = new BigNum(1);
+        this.additiveBoost = new BigNum(0);
+        this.multiplicativeBoost = new BigNum(1);
+        this.exponentialBoost = new BigNum(1);
+
+        this.icon = icon;
+
+        instantiateResetCurrencies(resetCurrencies);
+    }
+
     public Currency(String name, Picture icon) {
         this.name = name;
         this.amount = new BigNum(0);
@@ -40,12 +62,20 @@ public class Currency {
         this.exponentialBoost = new BigNum(1);
 
         this.icon = icon;
-    }
 
+        this.resetCurrencies = new Currency[0];
+    }
 
     //-------------------------------------------------------Methods-----------------------------------------------------------------\\
 
+    public void instantiateResetCurrencies(String[] currencyNames){
+        Currency[] currencies = new Currency[currencyNames.length];
+        for (int i = 0; i < currencyNames.length; i ++){
+            currencies[i] = Global.findCurrency(currencyNames[i]);
+        }
 
+        this.resetCurrencies = currencies;
+    }
     //Set
     public void set(String amount) {
         this.amount.set(new BigNum(amount));

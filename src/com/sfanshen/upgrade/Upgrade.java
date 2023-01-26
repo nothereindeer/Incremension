@@ -18,24 +18,27 @@ public abstract class Upgrade {
     public UpgradeButton upgradeButton;
     public boolean isUnlocked;
     public String description;
+    public Currency resetTier;
 
-    public Upgrade(String name, String priceFormula, String purchaseCurrency, String description) {
+    public Upgrade(String name, String priceFormula, String purchaseCurrency, String description, String resetTier) {
         this.name = name;
         this.priceFormula = new Formula(priceFormula);
         this.purchaseCurrency = Global.findCurrency(purchaseCurrency);
         this.upgradeButton = new UpgradeButton(new Picture(0, 0, Const.UPGRADE_ICON_SIZE, Const.UPGRADE_ICON_SIZE, Global.programDirectory + "Images/Icons/Upgrade/" + this.name + ".png"), this);
         this.description = description;
+        this.resetTier = Global.findCurrency(resetTier);
 
         this.isUnlocked = true;
         this.calculatePrice();
     }
 
-    public Upgrade(String name, String priceFormula, String purchaseCurrency) {
+    public Upgrade(String name, String priceFormula, String purchaseCurrency, String resetTier) {
         this.name = name;
         this.priceFormula = new Formula(priceFormula);
         this.purchaseCurrency = Global.findCurrency(purchaseCurrency);
         this.upgradeButton = new UpgradeButton(new Picture(0, 0, Const.UPGRADE_ICON_SIZE, Const.UPGRADE_ICON_SIZE, Global.programDirectory + "Images/Icons/Upgrade/" + this.name + ".png"), this);
         this.description = "";
+        this.resetTier = Global.findCurrency(resetTier);
 
         this.isUnlocked = true;
         this.calculatePrice();

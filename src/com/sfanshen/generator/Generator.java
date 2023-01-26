@@ -74,7 +74,6 @@ public class Generator {
     }
 
     public void calculateProductionMultiplier() {
-        System.out.println(this.tier);
         this.productionMultiplier = new BigNum(Math.pow(Const.GENERATOR_MULTIPLIER_VALUE, this.tier - 1));
     }
 

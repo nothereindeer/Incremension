@@ -111,11 +111,11 @@ public class Global {
          */
 
         Upgrade[] coinUpgrades = {
-                new BoostUpgrade("Better pickaxes", "*100x + 100", "Coins", "Coins", "*1x + 1", 10),
-                new BoostUpgrade("Drills", "*5000x + 5000", "Coins", "Coins", "*3x + 1", 1),
-                new BoostUpgrade("Bulldozers", "*5e4x^2 + 5e5x + 1e5", "Coins", "Coins", "*0.5x^2 + 1.5x + 1", 3),
-                new BoostUpgrade("Mines", "*7.5e6x^2 + 2e7x + 1.5e7", "Coins", "Coins", "*0.25x^2 + 0.5x + 1", 5),
-                new BoostUpgrade("Energy drinks", "*2e10x^2 + 8.5e10x + 7.5e10", "Coins", "Coins", "+0.05x^2 + 0.35x + 0", 5)
+                createCoinUpgrade("Better pickaxes", "*100x + 100", "*1x + 1", 10),
+                createCoinUpgrade("Drills", "*5000x + 5000", "*3x + 1", 1),
+                createCoinUpgrade("Bulldozers", "*5e4x^2 + 5e5x + 1e5", "*0.5x^2 + 1.5x + 1", 3),
+                createCoinUpgrade("Mines", "*7.5e6x^2 + 2e7x + 1.5e7", "*0.25x^2 + 0.5x + 1", 5),
+                createCoinUpgrade("Energy drinks", "*2e10x^2 + 8.5e10x + 7.5e10", "+0.05x^2 + 0.35x + 0", 5)
         };
 
         /* To create generators:
@@ -178,6 +178,11 @@ public class Global {
         
     }
 
+
+    public static BoostUpgrade createCoinUpgrade(String name, String costFormula, String boostFormula, int maxLevel){
+        return new BoostUpgrade(name, costFormula, "Coins", "Coins", boostFormula, maxLevel, "Rubies");
+
+    }
 
     public static void createTabSwitchButtons() {
 

@@ -16,9 +16,9 @@ public class BoostUpgrade extends Upgrade {
 
     public int level;
 
-    public BoostUpgrade(String name, String priceFormula, String purchaseCurrency, String[] boostedCurrencies, String[] boostFormulas, int maxLevel) {
+    public BoostUpgrade(String name, String priceFormula, String purchaseCurrency, String[] boostedCurrencies, String[] boostFormulas, int maxLevel, String resetTier) {
 
-        super(name, priceFormula, purchaseCurrency);
+        super(name, priceFormula, purchaseCurrency, resetTier);
 
         this.maxLevel = maxLevel;
 
@@ -30,9 +30,9 @@ public class BoostUpgrade extends Upgrade {
         }
     }
 
-    public BoostUpgrade(String name, String priceFormula, String purchaseCurrency, String boostedCurrency, String boostFormula, int maxLevel) {
+    public BoostUpgrade(String name, String priceFormula, String purchaseCurrency, String boostedCurrency, String boostFormula, int maxLevel, String resetTier) {
 
-        super(name, priceFormula, purchaseCurrency);
+        super(name, priceFormula, purchaseCurrency, resetTier);
 
         this.maxLevel = maxLevel;
 
@@ -42,9 +42,9 @@ public class BoostUpgrade extends Upgrade {
         this.boostedCurrencies.put(Global.findCurrency(boostedCurrency), new Formula(boostFormula));
     }
 
-    public BoostUpgrade(String name, String priceFormula, String purchaseCurrency, String boostedCurrency, String boostFormula, int maxLevel, String description) {
+    public BoostUpgrade(String name, String priceFormula, String purchaseCurrency, String boostedCurrency, String boostFormula, int maxLevel, String description, String resetTier) {
 
-        super(name, priceFormula, purchaseCurrency, description);
+        super(name, priceFormula, purchaseCurrency, description, resetTier);
 
         this.maxLevel = maxLevel;
 

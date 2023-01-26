@@ -46,7 +46,6 @@ public class  FinalGame {
         GameFrame gameFrame = new GameFrame();
         loadProgress();
         //updateSaveVersion();
-
         //-------------------------------------------------------Game Loop-----------------------------------------------------------------\\
         while (isRunning) {
             //Determines which screen's information to display

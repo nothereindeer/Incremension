@@ -8,7 +8,7 @@ public class Const {
     //-------------------------------------------------------UI Constants-----------------------------------------------------------------\\
 
 
-    public static final int MULTIPLIER = 1000;
+    public static final int MULTIPLIER = 1;
     public static final int FPS = 100;
     //Screen size
     public static final int SCREEN_WIDTH = 1600;
