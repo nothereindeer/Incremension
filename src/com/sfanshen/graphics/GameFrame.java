@@ -22,27 +22,21 @@ public class GameFrame {
     //-------------------------------------------------------Constructor-----------------------------------------------------------------\\
     public GameFrame() {
 
-        ;
-
         frame = new JFrame("test");
         frame.setSize(Const.SCREEN_WIDTH, Const.SCREEN_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        currentGraphicsPanel = new GraphicsPanel();
-
         mouseListener = new BoardAndMouse.MouseListen();
         frame.addMouseListener(mouseListener);
-
         keyListener = new BoardAndMouse.KeyListen();
         frame.addKeyListener(keyListener);
-
+        currentGraphicsPanel = new GraphicsPanel();
         frame.add(currentGraphicsPanel);
-
 
         frame.setVisible(true);
         currentGraphicsPanel.setBackground(Const.NOT_WHITE);
 
-
+        //Save on close
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 try {
@@ -71,7 +65,7 @@ public class GameFrame {
 
     //-------------------------------------------------------Graphical Methods-----------------------------------------------------------------\\
 
-    //Updates frame
+    //----------Main Methods----------\\
     public void updateFrame() {
         frame.repaint();
         try {
@@ -82,6 +76,7 @@ public class GameFrame {
     }
 
 
+    //----------Draw Methods----------\\
     public void drawEverything(Graphics g) {
 
         Graphics2D g2 = (Graphics2D) g;
@@ -100,7 +95,6 @@ public class GameFrame {
         }
     }
 
-
     public void drawMenu(Graphics2D g) {
         Global.playButton.move(Const.PLAY_BUTTON_X, Const.PLAY_BUTTON_Y, true);
         Global.playButtonDark.move(Const.PLAY_BUTTON_X, Const.PLAY_BUTTON_Y, true);
@@ -110,9 +104,7 @@ public class GameFrame {
 
         Global.titleImage.move(Const.TITLE_IMAGE_X, Const.TITLE_IMAGE_Y, true);
         Global.titleImage.draw(g);
-//        Global.loadingBar.draw(g);
     }
-
 
     public void drawFrame(Graphics2D g) {
 

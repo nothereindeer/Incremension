@@ -51,4 +51,6 @@ public abstract class Upgrade {
     }
 
     public abstract void buy();
+
+    public abstract void reset(boolean isUnlocked);
 }

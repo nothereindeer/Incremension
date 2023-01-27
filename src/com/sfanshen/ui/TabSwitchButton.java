@@ -20,7 +20,12 @@ public class TabSwitchButton extends GameButton {
     }
 
     public void draw(Graphics2D g) {
+        this.drawBorderAndFill(g);
+        this.drawName(g);
+        this.drawName(g);
+    }
 
+    public void drawBorderAndFill(Graphics2D g){
         if (this.isMouseHovering && Global.currentTab != this.switchedTab)
             g.setColor(Const.GOOGLE_HIGHLIGHT);
         else
@@ -31,15 +36,16 @@ public class TabSwitchButton extends GameButton {
         if (Global.currentTab == this.switchedTab){
             g.fillRect(this.x, this.y, this.width, this.height);
         }
+    }
 
-        int x = this.x + this.width / 2;
-        int y = this.y + this.height / 2;
-
+    public void drawName(Graphics2D g){
         if (this.isMouseHovering && Global.currentTab != this.switchedTab)
             g.setColor(Const.CREAM_WHITE);
         else
             g.setColor(Color.WHITE);
-        GameFrame.drawCenteredString(g, Global.capitalizeFirstLetters(this.switchedTab), x, y, Const.CURRENCY_FONT);
 
+        int x = this.x + this.width / 2;
+        int y = this.y + this.height / 2;
+        GameFrame.drawCenteredString(g, Global.capitalizeFirstLetters(this.switchedTab), x, y, Const.CURRENCY_FONT);
     }
 }

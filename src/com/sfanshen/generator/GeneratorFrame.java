@@ -16,52 +16,34 @@ public class GeneratorFrame {
     Generator parentGenerator;
     Picture icon;
 
-    GeneratorFrame(int x, int y, String iconDirectory, Generator parentGenerator) {
-        this.x = x;
-        this.y = y;
-        this.width = Const.GENERATOR_FRAME_WIDTH;
-        this.height = Const.GENERATOR_FRAME_HEIGHT;
-
-        this.parentGenerator = parentGenerator;
-        this.button = new GeneratorButton(this.x + Const.GENERATOR_BUTTON_X, this.y + Const.GENERATOR_FRAME_HEIGHT / 2 - Const.GENERATOR_BUTTON_HEIGHT / 2, Const.GENERATOR_BUTTON_WIDTH, Const.GENERATOR_BUTTON_HEIGHT, parentGenerator);
-        this.icon = new Picture(0, 0, Const.GENERATOR_ICON_WIDTH, Const.GENERATOR_ICON_HEIGHT, iconDirectory);
-    }
-
-    GeneratorFrame(String iconDirectory, Generator parentGenerator) {
+    //-------------------------------------------------------Constructor-----------------------------------------------------------------\\
+    GeneratorFrame(Generator parentGenerator) {
         this.width = Const.GENERATOR_FRAME_WIDTH;
         this.height = Const.GENERATOR_FRAME_HEIGHT;
 
         this.parentGenerator = parentGenerator;
         this.button = new GeneratorButton(0, 0, 0, 0, parentGenerator);
-        this.icon = new Picture(0, 0, Const.GENERATOR_ICON_WIDTH, Const.GENERATOR_ICON_HEIGHT, iconDirectory);
+        this.icon = parentGenerator.generatedAmount.icon;
     }
 
 
-    public void updateButtonDims() {
-        this.button.x = this.x + Const.GENERATOR_BUTTON_X;
-        this.button.y = (int) (this.y + Const.GENERATOR_FRAME_HEIGHT / 2 - Const.GENERATOR_BUTTON_HEIGHT / 2);
-        this.button.width = Const.GENERATOR_BUTTON_WIDTH;
-        this.button.height = Const.GENERATOR_BUTTON_HEIGHT;
-    }
+    //-------------------------------------------------------Methods-----------------------------------------------------------------\\
 
+    //----------Draw Methods----------\\
     public void draw(Graphics2D g) {
+
+        //Draws Frame
         g.setColor(Const.GOOGLE_HIGHLIGHT);
         g.drawRoundRect(this.x, this.y, this.width, this.height, Const.GENERATOR_FRAME_ROUND_CORNER_OFFSET, Const.GENERATOR_FRAME_ROUND_CORNER_OFFSET);
 
-        //Draw progress to next bonus
         g.setColor(Const.GOOGLE_HIGHLIGHT);
-        //Draw Frame and Image
         this.drawIcon(g);
-        //Draw Description
         this.drawDesc(g);
-        //Draw Button
         this.button.draw(g);
-
     }
 
     public void drawDesc(Graphics2D g) {
         int x = this.icon.x + this.icon.width + Const.GENERATOR_DESC_LEFT_OFFSET;
-        int x2 = this.button.x + this.button.width + (this.x + this.width - this.button.x - this.button.width) / 2;
         int y = (this.y + this.height / 2);
         String string;
 
@@ -71,8 +53,9 @@ public class GeneratorFrame {
         string = "(+" + BigNum.multiply(BigNum.multiply(BigNum.multiply(this.parentGenerator.production, this.parentGenerator.produce.finalBoost), this.parentGenerator.amount), Global.ticksPerSec).toSuffixVersion() + " " + this.parentGenerator.produce.name + "/s)";
         GameFrame.drawYCenteredString(g, string, x, y + Const.GENERATOR_FRAME_LINE_SPACING / 2 + g.getFontMetrics(Const.DESC_FONT).getHeight() / 2, Const.DESC_FONT);
 
+        x = this.button.x + this.button.width + (this.x + this.width - this.button.x - this.button.width) / 2;
         string = "(×" + this.parentGenerator.productionMultiplier.toSuffixVersion() + ")";
-        GameFrame.drawCenteredString(g, string, x2, y, Const.DESC_FONT);
+        GameFrame.drawCenteredString(g, string, x, y, Const.DESC_FONT);
     }
 
     public void drawIcon(Graphics2D g) {

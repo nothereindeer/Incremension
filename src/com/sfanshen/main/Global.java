@@ -89,7 +89,9 @@ public class Global {
 
 
         currencies.put("Coins", (new Currency("Coins", coinIcon)));
-        currencies.put("Rubies", (new Currency("Rubies", rubyIcon)));
+        currencies.put("Rubies", (new Currency("Rubies", rubyIcon, new String[]{
+                "Coins"
+        })));
 
         backMusic = new Audio(programDirectory + "music/musicFiles/Background music.wav");
         startGame = new Audio(programDirectory + "music/musicFiles/Play button.wav"); 
@@ -286,7 +288,11 @@ public class Global {
 
             generator.generatorFrame.y = y;
             generator.generatorFrame.x = x;
-            generator.generatorFrame.updateButtonDims();
+
+            generator.generatorFrame.button.x = generatorTab.x + Const.GENERATOR_BUTTON_X;
+            generator.generatorFrame.button.y = generatorTab.y + Const.GENERATOR_FRAME_HEIGHT / 2 - Const.GENERATOR_BUTTON_HEIGHT / 2;
+            generator.generatorFrame.width = Const.GENERATOR_BUTTON_WIDTH;
+            generator.generatorFrame.height = Const.GENERATOR_BUTTON_HEIGHT;
         }
     }
 

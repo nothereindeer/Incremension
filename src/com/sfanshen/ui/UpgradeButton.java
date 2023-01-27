@@ -3,6 +3,9 @@ package com.sfanshen.ui;
 import com.sfanshen.graphics.Picture;
 import com.sfanshen.graphics.UpgradeTab;
 import com.sfanshen.main.Const;
+import com.sfanshen.main.Global;
+import com.sfanshen.upgrade.BoostUpgrade;
+import com.sfanshen.upgrade.FeatureUpgrade;
 import com.sfanshen.upgrade.Upgrade;
 
 import java.awt.*;
@@ -17,31 +20,45 @@ public class UpgradeButton extends GameButton {
         this.parentUpgrade = parentUpgrade;
     }
 
-
     public void click() {
         this.parentUpgrade.buy();
     }
 
+    public void draw(Graphics2D g) {
+        boolean isMaxed;
+        double boughtPercentage;
+        Picture upgradeTypeIcon;
 
-    public void draw(Graphics2D g, Picture upgradeTypeIcon, boolean canBePurchased, boolean isMaxed, double boughtPercentage) {
-        drawBorder(g, isMaxed, canBePurchased);
-        drawFill(g, boughtPercentage, isMaxed);
+        if (this.parentUpgrade instanceof BoostUpgrade) {
+            isMaxed = ((BoostUpgrade) this.parentUpgrade).level >= ((BoostUpgrade) this.parentUpgrade).maxLevel;
+            boughtPercentage = ((BoostUpgrade) this.parentUpgrade).level / (double) ((BoostUpgrade) this.parentUpgrade).maxLevel;
+            upgradeTypeIcon = Global.boostUpgradeIcon;
+        }
+        else if (this.parentUpgrade instanceof FeatureUpgrade) {
+            boughtPercentage = ((FeatureUpgrade) this.parentUpgrade).isBought ? 1 : 0;
+            isMaxed = ((FeatureUpgrade) this.parentUpgrade).isBought;
+            upgradeTypeIcon = Global.featureUpgradeIcon;
+        }
+        else {
+            System.out.println("Error: Undefined upgrade type in UpgradeButton.draw");
+            isMaxed = false;
+            boughtPercentage = 0.0;
+            upgradeTypeIcon = Global.boostUpgradeIcon;
+        }
 
-        icon.move(this.x + this.width / 2, this.y + this.height / 2, true);
-        icon.draw(g);
-
-        upgradeTypeIcon.move(this.x + this.width / 2, this.y + this.height / 2 + icon.height / 2, true);
-        upgradeTypeIcon.draw(g);
+        drawBorder(g, isMaxed);
+        drawFill(g, isMaxed, boughtPercentage);
+        drawIcon(g, upgradeTypeIcon);
     }
 
-    public void drawBorder(Graphics2D g, boolean isMaxed, boolean canBePurchased) {
+    public void drawBorder(Graphics2D g, boolean isMaxed) {
         if (isMaxed) {
             g.setColor(Const.MARIO_GREEN);
-        } else if (this.isMouseHovering && canBePurchased) {
+        } else if (this.isMouseHovering && this.parentUpgrade.isPurchasable()) {
             g.setColor(Const.SUN_YELLOW);
         } else if (this.isMouseHovering) {
             g.setColor(Const.DEPRESSEDER_GOOGLE_HIGHLIGHT);
-        } else if (canBePurchased) {
+        } else if (this.parentUpgrade.isPurchasable()) {
             g.setColor(Const.DARKER_SUN_YELLOW);
         } else {
             g.setColor(Const.GRAY);
@@ -54,7 +71,7 @@ public class UpgradeButton extends GameButton {
         g.setStroke(oldStroke);
     }
 
-    public void drawFill(Graphics2D g, double boughtPercentage, boolean isMaxed) {
+    public void drawFill(Graphics2D g, boolean isMaxed, double boughtPercentage) {
         if (isMaxed) {
             g.setColor(Const.LIGHT_MARIO_GREEN);
         } else if (this.isMouseHovering) {
@@ -67,11 +84,19 @@ public class UpgradeButton extends GameButton {
         int height = (int) ((Const.UPGRADE_SIZE - 2 * Const.UPGRADE_BORDER_WIDTH) * boughtPercentage);
         int x = (int) (this.x + Const.UPGRADE_BORDER_WIDTH);
         int y = (int) (this.y + Const.UPGRADE_SIZE - Const.UPGRADE_BORDER_WIDTH - height);
+
         if (height > 0) {
             Rectangle fill = new Rectangle(x, y, width, height);
             g.fill(fill);
             g.draw(fill);
         }
-        g.setColor(Const.SUN_YELLOW);
+    }
+
+    public void drawIcon(Graphics2D g, Picture upgradeTypeIcon){
+        icon.move(this.x + this.width / 2, this.y + this.height / 2, true);
+        icon.draw(g);
+
+        upgradeTypeIcon.move(this.x + this.width / 2, this.y + this.height / 2 + icon.height / 2, true);
+        upgradeTypeIcon.draw(g);
     }
 }

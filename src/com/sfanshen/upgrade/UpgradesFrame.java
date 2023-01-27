@@ -58,13 +58,13 @@ public class UpgradesFrame {
     public void drawBoostUpgrade(Graphics2D g, Upgrade upgrade) {
         BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
         double boughtPercentage = Math.round(boostUpgrade.level / (double) (boostUpgrade).maxLevel * 100.0) / 100.0;
-        upgrade.upgradeButton.draw(g, Global.boostUpgradeIcon, upgrade.isPurchasable(), boostUpgrade.level >= boostUpgrade.maxLevel, boughtPercentage);
+        upgrade.upgradeButton.draw(g);
     }
 
     public void drawFeatureUpgrade(Graphics2D g, Upgrade upgrade) {
         FeatureUpgrade featureUpgrade = (FeatureUpgrade) upgrade;
         double boughtPercentage = featureUpgrade.isBought ? 1 : 0;
-        upgrade.upgradeButton.draw(g, Global.featureUpgradeIcon, upgrade.isPurchasable(), ((FeatureUpgrade) upgrade).isBought, boughtPercentage);
+        upgrade.upgradeButton.draw(g);
     }
 
 

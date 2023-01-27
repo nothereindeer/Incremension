@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public abstract class GameTab {
 
     public String name;
-    protected int x;
-    protected int y;
+    public int x;
+    public int y;
     protected int width;
     int height;
 

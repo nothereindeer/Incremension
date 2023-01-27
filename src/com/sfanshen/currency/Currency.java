@@ -3,6 +3,7 @@ package com.sfanshen.currency;
 import com.sfanshen.main.BigNum;
 import com.sfanshen.graphics.Picture;
 import com.sfanshen.main.Global;
+import com.sfanshen.ui.ResetButton;
 import com.sfanshen.upgrade.BoostUpgrade;
 
 import java.util.ArrayList;
@@ -10,6 +11,10 @@ import java.util.ArrayList;
 public class Currency {
     public String name;
     public BigNum amount;
+    public Currency[] resetCurrencies;
+    public ResetButton resetButton;
+
+
     //Additive boosts are applied according to math rules (BEDMAS duh)
     public BigNum finalBoost;
     BigNum additiveBoost;
@@ -21,13 +26,12 @@ public class Currency {
     public ArrayList<BoostUpgrade> multiplicativeUpgrades;
     public ArrayList<BoostUpgrade> exponentialUpgrades;
 
-    public Currency[] resetCurrencies;
 
     //Every currency has its own icon, stored here for convenience
     public Picture icon;
 
 
-    //-------------------------------------------------------Constructor-----------------------------------------------------------------\\
+    //-------------------------------------------------------Constructors-----------------------------------------------------------------\\
     public Currency(String name, Picture icon, String[] resetCurrencies) {
         this.name = name;
         this.amount = new BigNum(0);
@@ -44,6 +48,7 @@ public class Currency {
 
         this.icon = icon;
 
+        this.resetButton = new ResetButton(this);
         instantiateResetCurrencies(resetCurrencies);
     }
 
@@ -68,46 +73,34 @@ public class Currency {
 
     //-------------------------------------------------------Methods-----------------------------------------------------------------\\
 
-    public void instantiateResetCurrencies(String[] currencyNames){
-        Currency[] currencies = new Currency[currencyNames.length];
-        for (int i = 0; i < currencyNames.length; i ++){
-            currencies[i] = Global.findCurrency(currencyNames[i]);
-        }
+    //----------Main Methods----------\\
 
-        this.resetCurrencies = currencies;
-    }
-    //Set
     public void set(String amount) {
         this.amount.set(new BigNum(amount));
     }
-
     public void set(int amount) {
         this.amount.set(amount);
     }
 
-
-    //Increase (add)
     public void increase(BigNum n) {
         n.multiply(this.finalBoost);
         this.amount.add(n);
     }
-
     public void increase(int n) {
         this.amount.add(BigNum.multiply(this.finalBoost, new BigNum(n)));
     }
-
     public void increase() {
         this.amount.add(this.finalBoost);
     }
 
 
-    //Multiplier calculations
+    //----------Calculation Methods----------\\
+
     public void calculateBoost() {
         this.calculateAdditiveBoost();
         this.calculateMultiplicativeBoost();
         this.calculateExponentialBoost();
         this.finalBoost.set(1);
-
 
         this.finalBoost.add(this.additiveBoost);
         this.finalBoost.multiply(this.multiplicativeBoost);
@@ -142,5 +135,14 @@ public class Currency {
         }
     }
 
+
+    //----------Instantiation----------\\
+    public void instantiateResetCurrencies(String[] currencyNames){
+        Currency[] currencies = new Currency[currencyNames.length];
+        for (int i = 0; i < currencyNames.length; i ++){
+            currencies[i] = Global.findCurrency(currencyNames[i]);
+        }
+        this.resetCurrencies = currencies;
+    }
 
 }
