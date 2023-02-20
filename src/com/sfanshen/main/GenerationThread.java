@@ -12,8 +12,9 @@ public class GenerationThread extends Thread {
             generatorProduction();
 
             try {
-                Thread.sleep(1000 / Global.ticksPerSec);
+                this.sleep(1000 / Global.ticksPerSec);
             } catch (Exception e) {
+                System.out.println("Thread error: " + e);
             }
         }
     }

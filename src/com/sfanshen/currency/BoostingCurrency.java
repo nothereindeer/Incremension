@@ -1,7 +1,7 @@
 package com.sfanshen.currency;
 
 import com.sfanshen.graphics.Picture;
-import com.sfanshen.main.Formula;
+import com.sfanshen.Formula.Formula;
 
 public class BoostingCurrency extends Currency {
     public Formula formula;

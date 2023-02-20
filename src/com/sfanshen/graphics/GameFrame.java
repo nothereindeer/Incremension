@@ -1,5 +1,6 @@
 package com.sfanshen.graphics;
 
+import com.sfanshen.currency.ResetCurrency;
 import com.sfanshen.main.Const;
 import com.sfanshen.currency.Currency;
 import com.sfanshen.main.FinalGame;
@@ -86,7 +87,6 @@ public class GameFrame {
                 drawMenu(g2);
                 break;
             case ("main"):
-                ;
                 drawTabSelection(g2);
                 drawFrame(g2);
                 drawCurrencies(g2);
@@ -135,16 +135,22 @@ public class GameFrame {
         int i = 0;
 
         for (Currency currency : Global.currencies.values()) {
-            int xPosition = (i + 1) * Const.SCREEN_WIDTH / (Global.currencies.size() + 1);
+            int x = (i + 1) * Const.SCREEN_WIDTH / (Global.currencies.size() + 1);
 
-            currency.icon.move(xPosition, Const.CURRENCY_OFFSET_FROM_TOP, false);
+            currency.icon.move(x, Const.CURRENCY_OFFSET_FROM_TOP, false);
             currency.icon.draw(g);
 
             g.setColor(Const.SUN_YELLOW);
-            int x = xPosition + currency.icon.width + Const.TEXT_ICON_OFFSET;
-            int y = Const.CURRENCY_OFFSET_FROM_TOP + currency.icon.height / 2;
-            drawYCenteredString(g, currency.amount.toSuffixVersion(), x, y, Const.CURRENCY_FONT);
+            int textX = x + currency.icon.width + Const.TEXT_ICON_OFFSET;
+            int textY = Const.CURRENCY_OFFSET_FROM_TOP + currency.icon.height / 2;
+            drawYCenteredString(g, currency.amount.toSuffixVersion(), textX, textY, Const.CURRENCY_FONT);
             i = i + 1;
+
+            if (currency instanceof ResetCurrency){
+                ResetCurrency resetCurrency = (ResetCurrency) currency;
+                resetCurrency.resetButton.draw(g);
+            }
+
         }
     }
 
@@ -176,10 +182,15 @@ public class GameFrame {
 
     public static void drawYCenteredString(Graphics2D g, String text, int topX, int centerY, Font font) {
         FontMetrics metrics = g.getFontMetrics(font);
-        int x = topX;
         int y = centerY - metrics.getHeight() / 2 + metrics.getAscent();
 
         g.setFont(font);
-        g.drawString(text, x, y);
+        g.drawString(text, topX, y);
+    }
+    public static void drawYCenteredString(Graphics2D g, String text, int topX, int centerY) {
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
+        int y = centerY - metrics.getHeight() / 2 + metrics.getAscent();
+
+        g.drawString(text, topX, y);
     }
 }

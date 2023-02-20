@@ -1,22 +1,22 @@
 1
 Currencies:
-Coins:4.8306e3
-Rubies:0.0e0
+Coins:1.762704e19
+Rubies:3.100715e3
 
 Upgrades:
-Bulldozers:0
-Better pickaxes:0
-Drills:0
-Energy drinks:0
-Mines:0
+Bulldozers:3
+Better pickaxes:10
+Drills:1
+Energy drinks:5
+Mines:5
 
 Generators:
-Miner:6:0.0e0
+Miner:20:3.311817e12
 Excavator:0:0.0e0
-A.I miner:0:0.0e0
-Jumbo drill:0:0.0e0
-A.I mine:0:0.0e0
-Foreman:0:0.0e0
-Crystal miner:0:0.0e0
-Dynamiter:0:0.0e0
+A.I miner:10:1.245089e8
+Jumbo drill:10:6.643409e5
+A.I mine:4:0.0e0
+Foreman:10:2.147809e10
+Crystal miner:10:3.0192e2
+Dynamiter:0:2.038176e4
 

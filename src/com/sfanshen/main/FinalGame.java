@@ -46,6 +46,8 @@ public class  FinalGame {
         GameFrame gameFrame = new GameFrame();
         loadProgress();
         //updateSaveVersion();
+
+        System.out.println(1.5%1);
         //-------------------------------------------------------Game Loop-----------------------------------------------------------------\\
         while (isRunning) {
             //Determines which screen's information to display
@@ -61,8 +63,8 @@ public class  FinalGame {
             }
             
             if(Global.currentScreen.equals("main")){
-              Global.backMusic.start();
-              Global.backMusic.loop();  
+//              Global.backMusic.start();
+//              Global.backMusic.loop();
             }
 
             //Updates graphics
@@ -122,7 +124,6 @@ public class  FinalGame {
         while (!line.equals("")) {
             Currency currency = Global.currencies.get(line.split(":")[0]);
             currency.amount.set(new BigNum(line.split(":")[1]));
-            currency.calculateBoost();
             line = sc.nextLine();
         }
 
@@ -153,9 +154,15 @@ public class  FinalGame {
             generator.generatedAmount.set(line.split(":")[2]);
             generator.calculateTier();
             generator.calculateProductionMultiplier();
+            generator.calculateProduction();
             generator.calculatePrice(); 
 
             line = sc.nextLine();
+        }
+
+
+        for (Currency currency : Global.currencies.values()){
+            currency.multi.calculateMultiplier(currency);
         }
         
     }

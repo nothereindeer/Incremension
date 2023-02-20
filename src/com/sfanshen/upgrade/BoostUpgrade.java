@@ -1,18 +1,20 @@
 package com.sfanshen.upgrade;
 
+import com.sfanshen.Formula.BaseFormula;
 import com.sfanshen.main.BigNum;
-import com.sfanshen.main.Formula;
+import com.sfanshen.Formula.Formula;
 import com.sfanshen.currency.Currency;
 import com.sfanshen.main.Global;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BoostUpgrade extends Upgrade {
 
     public int maxLevel;
 
-    public HashMap<Currency, Formula> boostedCurrencies;
+    public HashMap<String, Boost> boosts;
 
     public int level;
 
@@ -24,10 +26,8 @@ public class BoostUpgrade extends Upgrade {
 
         this.level = 0;
 
-        this.boostedCurrencies = new HashMap<>();
-        for (int i = 0; i < boostedCurrencies.length; i++) {
-            this.boostedCurrencies.put(Global.findCurrency(boostedCurrencies[i]), new Formula(boostFormulas[i]));
-        }
+        this.boosts = new HashMap<>();
+        createBoosts(boostedCurrencies, boostFormulas);
     }
 
     public BoostUpgrade(String name, String priceFormula, String purchaseCurrency, String boostedCurrency, String boostFormula, int maxLevel, String resetTier) {
@@ -38,8 +38,8 @@ public class BoostUpgrade extends Upgrade {
 
         this.level = 0;
 
-        this.boostedCurrencies = new HashMap<>();
-        this.boostedCurrencies.put(Global.findCurrency(boostedCurrency), new Formula(boostFormula));
+        this.boosts = new HashMap<>();
+        this.boosts.put(boostedCurrency, new Boost(Global.findCurrency(boostedCurrency), boostFormula.substring(0, 1), new BaseFormula(boostFormula.substring(1))));
     }
 
     public BoostUpgrade(String name, String priceFormula, String purchaseCurrency, String boostedCurrency, String boostFormula, int maxLevel, String description, String resetTier) {
@@ -50,8 +50,14 @@ public class BoostUpgrade extends Upgrade {
 
         this.level = 0;
 
-        this.boostedCurrencies = new HashMap<>();
-        this.boostedCurrencies.put(Global.findCurrency(boostedCurrency), new Formula(boostFormula));
+        this.boosts = new HashMap<>();
+        this.boosts.put(boostedCurrency, new Boost(Global.findCurrency(boostedCurrency), boostFormula.substring(0, 1), new BaseFormula(boostFormula.substring(1))));
+    }
+
+    void createBoosts(String[] boostedCurrencies, String[] boostFormulas){
+        for (int i = 0; i < boostedCurrencies.length; i++) {
+            this.boosts.put(boostedCurrencies[i], new Boost(Global.findCurrency(boostedCurrencies[i]), boostFormulas[i].substring(0, 1), new BaseFormula(boostFormulas[i].substring(1))));
+        }
     }
 
     public void buy() {
@@ -68,14 +74,15 @@ public class BoostUpgrade extends Upgrade {
         this.isUnlocked = isUnlocked;
     }
 
-    public BigNum calculateBoost(Currency currency) {
-        Formula formula = boostedCurrencies.get(currency);
+    public BigNum calculateMultiplier(Currency currency) {
+        BaseFormula formula = boosts.get(currency.name).formula;
         return formula.calculate(this.level);
     }
 
     public void calculateCurrencyBoosts() {
-        for (Currency currency : this.boostedCurrencies.keySet()) {
-            currency.calculateBoost();
+        for (String currencyName : this.boosts.keySet()) {
+            Currency currency = Global.findCurrency(currencyName);
+            currency.multi.calculateMultiplier(currency);
         }
     }
 

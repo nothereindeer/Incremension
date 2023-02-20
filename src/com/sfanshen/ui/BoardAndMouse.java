@@ -1,5 +1,7 @@
 package com.sfanshen.ui;
 
+import com.sfanshen.currency.Currency;
+import com.sfanshen.currency.ResetCurrency;
 import com.sfanshen.generator.Generator;
 import com.sfanshen.graphics.GeneratorTab;
 import com.sfanshen.main.Const;
@@ -65,6 +67,15 @@ public class BoardAndMouse {
                 TabSwitchButton clickedButton = Global.tabSwitchButtons.get((int) (Global.mouseX - Const.FRAME_X - Const.TAB_SELECTION_OFFSET) / ((Const.FRAME_WIDTH - 2 * Const.TAB_SELECTION_OFFSET) / Global.gameTabs.size()));
                 clickedButton.click();
             }
+            if (isMouseInFrame(Const.RESET_BUTTON_X, Const.RESET_BUTTON_Y, Const.SCREEN_WIDTH - Const.RESET_BUTTON_X, 3 * (Const.RESET_BUTTON_SIZE + Const.RESET_BUTTON_OFFSET))) {
+                for (Currency currency : Global.currencies.values()){
+                    if (currency instanceof ResetCurrency){
+                        ResetCurrency resetCurrency = (ResetCurrency) currency;
+                        if (resetCurrency.resetButton.isMouseInFrame())
+                            resetCurrency.resetButton.click();
+                    }
+                }
+            }
             if (isMouseInFrame(Const.FRAME_X, Const.FRAME_Y, Const.FRAME_WIDTH, Const.FRAME_HEIGHT)) {
                 GameTab currentTab = Global.gameTabs.get(Global.currentTab);
                 if (currentTab instanceof UpgradeTab) {
@@ -124,8 +135,15 @@ public class BoardAndMouse {
             } else if (currentTab instanceof GeneratorTab)
                 mouseHoveringGeneratorTab(currentTab);
         }
+
         for (TabSwitchButton button : Global.tabSwitchButtons) {
             button.isMouseHovering = button.isMouseInFrame();
+        }
+        for (Currency currency : Global.currencies.values()){
+            if (currency instanceof ResetCurrency){
+                ResetButton button = ((ResetCurrency)currency).resetButton;
+                button.isMouseHovering = button.isMouseInFrame();
+            }
         }
     }
 

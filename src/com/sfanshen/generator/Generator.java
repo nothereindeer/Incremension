@@ -1,10 +1,11 @@
 package com.sfanshen.generator;
 
+import com.sfanshen.Formula.BaseFormula;
 import com.sfanshen.currency.Currency;
 import com.sfanshen.main.BigNum;
 import com.sfanshen.graphics.Picture;
 import com.sfanshen.main.Const;
-import com.sfanshen.main.Formula;
+import com.sfanshen.Formula.Formula;
 import com.sfanshen.main.Global;
 
 public class Generator {
@@ -33,7 +34,7 @@ public class Generator {
     public Generator(String name, String currencyProduced, String baseProduction, String purchaseCurrency, String costFormula, String[] tierPrices) {
         this.name = name;
         instantiateTierCosts(tierPrices);
-        this.costFormula = new Formula(costFormula);
+        this.costFormula = new BaseFormula(costFormula);
         this.purchaseCurrency = Global.findCurrency(purchaseCurrency);
 
         this.amount = new BigNum(0);
@@ -77,7 +78,8 @@ public class Generator {
 
     public void generate() {
         calculateAmount();
-        this.produce.increase(BigNum.multiply(BigNum.multiply(this.amount, BigNum.multiply(this.production, this.productionMultiplier)), Const.MULTIPLIER));
+        BigNum generatedAmount = BigNum.multiply(BigNum.multiply(this.amount, BigNum.multiply(this.production, this.productionMultiplier)), Const.MULTIPLIER);
+        this.produce.increase(generatedAmount);
     }
 
     public boolean isPurchasable() {

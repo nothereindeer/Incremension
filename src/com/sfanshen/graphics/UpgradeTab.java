@@ -2,6 +2,7 @@ package com.sfanshen.graphics;
 
 import com.sfanshen.currency.Currency;
 import com.sfanshen.main.Const;
+import com.sfanshen.main.Global;
 import com.sfanshen.upgrade.BoostUpgrade;
 import com.sfanshen.upgrade.FeatureUpgrade;
 import com.sfanshen.upgrade.Upgrade;
@@ -106,8 +107,10 @@ public class UpgradeTab extends GameTab {
         if (upgrade instanceof BoostUpgrade) {
             BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
 
-            for (Currency boostedCurrency : boostUpgrade.boostedCurrencies.keySet())
-                string = "Effect: " + boostUpgrade.boostedCurrencies.get(boostedCurrency).operation + boostUpgrade.calculateBoost(boostedCurrency).toNum() + " " + boostedCurrency.name;
+            for (String boostedCurrencyName : boostUpgrade.boosts.keySet()) {
+                Currency boostedCurrency = Global.findCurrency(boostedCurrencyName);
+                string = "Effect: " + boostUpgrade.boosts.get(boostedCurrency.name).operation + boostUpgrade.calculateMultiplier(boostedCurrency).toNum() + " " + boostedCurrency.name;
+            }
 
         } else if (upgrade instanceof FeatureUpgrade) {
             string = "Effect: Unlocked";

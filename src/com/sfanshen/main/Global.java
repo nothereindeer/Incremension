@@ -1,19 +1,22 @@
 package com.sfanshen.main;
 
+import com.sfanshen.Formula.Formula;
 import com.sfanshen.currency.Currency;
-import com.sfanshen.music.Audio; 
+import com.sfanshen.currency.ResetCurrency;
+import com.sfanshen.music.Audio;
 import com.sfanshen.generator.Generator;
 import com.sfanshen.graphics.*;
 import com.sfanshen.ui.TabSwitchButton;
+import com.sfanshen.upgrade.Boost;
 import com.sfanshen.upgrade.BoostUpgrade;
 import com.sfanshen.upgrade.Upgrade;
 import com.sfanshen.upgrade.UpgradesFrame;
+import com.sun.org.glassfish.external.statistics.annotations.Reset;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.awt.*;
-import javax.swing.*; 
 
 public class Global {
 
@@ -88,10 +91,10 @@ public class Global {
         titleImage.resize(1.5);
 
 
-        currencies.put("Coins", (new Currency("Coins", coinIcon)));
-        currencies.put("Rubies", (new Currency("Rubies", rubyIcon, new String[]{
+        currencies.put("Coins", (new Currency("Coins", coinIcon, Const.SUN_YELLOW)));
+        currencies.put("Rubies", (new ResetCurrency("Rubies", rubyIcon, Const.RUBY_RED, new String[]{
                 "Coins"
-        })));
+        }, "Coins", "2, 10, 1e15", "1e15")));
 
         backMusic = new Audio(programDirectory + "music/musicFiles/Background music.wav");
         startGame = new Audio(programDirectory + "music/musicFiles/Play button.wav"); 
@@ -113,11 +116,11 @@ public class Global {
          */
 
         Upgrade[] coinUpgrades = {
-                createCoinUpgrade("Better pickaxes", "*100x + 100", "*1x + 1", 10),
-                createCoinUpgrade("Drills", "*5000x + 5000", "*3x + 1", 1),
-                createCoinUpgrade("Bulldozers", "*5e4x^2 + 5e5x + 1e5", "*0.5x^2 + 1.5x + 1", 3),
-                createCoinUpgrade("Mines", "*7.5e6x^2 + 2e7x + 1.5e7", "*0.25x^2 + 0.5x + 1", 5),
-                createCoinUpgrade("Energy drinks", "*2e10x^2 + 8.5e10x + 7.5e10", "+0.05x^2 + 0.35x + 0", 5)
+                createCoinUpgrade("Better pickaxes",  "100, 100",  "*1, 1", 10),
+                createCoinUpgrade("Drills", "5000, 5000", "*3, 1", 1),
+                createCoinUpgrade("Bulldozers", "5e4, 5e5, 1e5", "*0.5, 1.5, 1", 3),
+                createCoinUpgrade("Mines", "7.5e6, 2e7, 1.5e7", "*0.25, 0.5, 1", 5),
+                createCoinUpgrade("Energy drinks", "2e10, 8.5e10, 7.5e10", "+0.05, 0.35, 0", 5)
         };
 
         /* To create generators:
@@ -129,36 +132,36 @@ public class Global {
             Formula rules apply as in upgrade creation
          */
         Generator[] coinGenerators = {
-                new Generator("Miner", "Coins","1","Coins","*0.5x^2 + 3x + 5", new String[]{
+                new Generator("Miner", "Coins","1","Coins", "0.5, 3, 5", new String[]{
                         "5e4",
                         "1e8",
                         "5e14"
                 }),
-                new Generator("Foreman", "Miner", "0.9", "Coins", "*2.5e3x^2 + 8e3x + 3e4", new String[]{
+                new Generator("Foreman", "Miner", "0.9", "Coins", "2.5e3, 8e3, 3e4", new String[]{
                         "5e12",
                         "5e19"
                 }),
-                new Generator("A.I miner", "Foreman", "0.8", "Coins", "*2e7x^2 + 7.5e7x + 1e8", new String[]{
+                new Generator("A.I miner", "Foreman", "0.8", "Coins", "2e7, 7.5e7, 1e8", new String[]{
                         "5e15",
                         "5e24"
                 }),
-                new Generator("Jumbo drill", "A.I miner", "0.7", "Coins", "*3e9x + 5e9", new String[]{
+                new Generator("Jumbo drill", "A.I miner", "0.7", "Coins",  "3e9, 5e9", new String[]{
                         "5e18",
                         "5e28"
                 }),
-                new Generator("Dynamiter", "Jumbo drill", "0.6", "Coins", "*7e10x + 6e10", new String[]{
+                new Generator("Dynamiter", "Jumbo drill", "0.6", "Coins",  "7e10, 6e10", new String[]{
                         "5e21",
                         "5e33"
                 }),
-                new Generator("Crystal miner", "Dynamiter", "0.5", "Coins", "*1e12x + 5e11", new String[]{
+                new Generator("Crystal miner", "Dynamiter", "0.5", "Coins",  "1e12, 5e11", new String[]{
                         "5e24",
                         "5e39"
                 }),
-                new Generator("A.I mine", "Crystal miner", "0.4", "Coins", "*5e13x + 1e13", new String[]{
+                new Generator("A.I mine", "Crystal miner", "0.4", "Coins",  "5e13, 1e13", new String[]{
                         "5e27",
                         "5e45"
                 }),
-                new Generator("Excavator", "A.I mine", "0.3", "Coins", "*8e14x + 1e15", new String[]{
+                new Generator("Excavator", "A.I mine", "0.3", "Coins",  "8e14, 1e15", new String[]{
                         "5e30",
                         "5e56"
                 })
@@ -172,6 +175,7 @@ public class Global {
         determineUISize();
         organizeUpgrades();
         createTabSwitchButtons();
+        createResetButtons();
 
         System.setProperty("awt.useSystemAAFontSettings", "on");
         System.setProperty("swing.aatext", "true");
@@ -201,6 +205,22 @@ public class Global {
         }
     }
 
+    public static void createResetButtons() {
+        int numPerRow = (Const.SCREEN_WIDTH - Const.RESET_BUTTON_X - Const.RESET_BUTTON_OFFSET) / (Const.RESET_BUTTON_SIZE + Const.RESET_BUTTON_OFFSET);
+        int i = 0;
+        for (Currency currency : currencies.values()){
+            if (currency instanceof  ResetCurrency){
+                ResetCurrency resetCurrency = (ResetCurrency) currency;
+                int y = Const.RESET_BUTTON_Y + i / numPerRow * (Const.RESET_BUTTON_SIZE + Const.RESET_BUTTON_OFFSET);
+                int x = Const.RESET_BUTTON_X + Const.RESET_BUTTON_OFFSET + i % numPerRow * (Const.RESET_BUTTON_SIZE + Const.RESET_BUTTON_OFFSET);
+                resetCurrency.resetButton.x = x;
+                resetCurrency.resetButton.y = y;
+
+                i = i + 1;
+            }
+        }
+    }
+
     //Crams all upgrades into the upgrade dictionary
     public static void determineUISize() {
         for (GameTab gameTab : gameTabs.values()) {
@@ -223,7 +243,7 @@ public class Global {
             if (upgrade instanceof BoostUpgrade) {
                 BoostUpgrade boostUpgrade = (BoostUpgrade) upgrade;
                 for (Currency currency : currencies.values()) {
-                    if (boostUpgrade.boostedCurrencies.containsKey(currency)) {
+                    if (boostUpgrade.boosts.containsKey(currency.name)) {
                         organizeUpgradesByOperators(boostUpgrade, currency);
                     }
                 }
@@ -232,13 +252,14 @@ public class Global {
     }
 
     public static void organizeUpgradesByOperators(BoostUpgrade boostUpgrade, Currency currency) {
-        Formula formula = boostUpgrade.boostedCurrencies.get(currency);
-        if (formula.operation.equals("+") || formula.operation.equals("-"))
-            currency.additiveUpgrades.add(boostUpgrade);
-        else if (formula.operation.equals("*") || formula.operation.equals("/"))
-            currency.multiplicativeUpgrades.add(boostUpgrade);
-        else if (formula.operation.equals("^"))
-            currency.exponentialUpgrades.add(boostUpgrade);
+        Boost boost = boostUpgrade.boosts.get(currency.name);
+        if (boost.operation.equals("+") || boost.operation.equals("-"))
+            currency.multi.additiveUpgrades.add(boostUpgrade);
+        else if (boost.operation.equals("*") || boost.operation.equals("/")) {
+            currency.multi.multiplicativeUpgrades.add(boostUpgrade);
+        }
+        else if (boost.operation.equals("^"))
+            currency.multi.exponentialUpgrades.add(boostUpgrade);
     }
 
 
@@ -289,10 +310,11 @@ public class Global {
             generator.generatorFrame.y = y;
             generator.generatorFrame.x = x;
 
-            generator.generatorFrame.button.x = generatorTab.x + Const.GENERATOR_BUTTON_X;
-            generator.generatorFrame.button.y = generatorTab.y + Const.GENERATOR_FRAME_HEIGHT / 2 - Const.GENERATOR_BUTTON_HEIGHT / 2;
-            generator.generatorFrame.width = Const.GENERATOR_BUTTON_WIDTH;
-            generator.generatorFrame.height = Const.GENERATOR_BUTTON_HEIGHT;
+
+            generator.generatorFrame.width = Const.GENERATOR_FRAME_WIDTH;
+            generator.generatorFrame.height = Const.GENERATOR_FRAME_HEIGHT;
+            generator.generatorFrame.button.x = x + Const.GENERATOR_BUTTON_X;
+            generator.generatorFrame.button.y = y + Const.GENERATOR_FRAME_HEIGHT / 2 - Const.GENERATOR_BUTTON_HEIGHT / 2;
         }
     }
 

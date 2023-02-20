@@ -22,7 +22,7 @@ public class GeneratorFrame {
         this.height = Const.GENERATOR_FRAME_HEIGHT;
 
         this.parentGenerator = parentGenerator;
-        this.button = new GeneratorButton(0, 0, 0, 0, parentGenerator);
+        this.button = new GeneratorButton(0, 0, Const.GENERATOR_BUTTON_WIDTH, Const.GENERATOR_BUTTON_HEIGHT, parentGenerator);
         this.icon = parentGenerator.generatedAmount.icon;
     }
 
@@ -50,7 +50,7 @@ public class GeneratorFrame {
         string = Global.capitalizeFirstLetters(this.parentGenerator.name) + ": " + this.parentGenerator.purchasedAmount + " [+" + this.parentGenerator.generatedAmount.amount.toSuffixVersion() + "]";
         GameFrame.drawYCenteredString(g, string, x, y - Const.GENERATOR_FRAME_LINE_SPACING / 2 - g.getFontMetrics(Const.DESC_FONT).getHeight() / 2, Const.DESC_FONT);
 
-        string = "(+" + BigNum.multiply(BigNum.multiply(BigNum.multiply(this.parentGenerator.production, this.parentGenerator.produce.finalBoost), this.parentGenerator.amount), Global.ticksPerSec).toSuffixVersion() + " " + this.parentGenerator.produce.name + "/s)";
+        string = "(+" + BigNum.multiply(BigNum.multiply(BigNum.multiply(this.parentGenerator.production, this.parentGenerator.produce.multi.finalMultiplier), this.parentGenerator.amount), Global.ticksPerSec).toSuffixVersion() + " " + this.parentGenerator.produce.name + "/s)";
         GameFrame.drawYCenteredString(g, string, x, y + Const.GENERATOR_FRAME_LINE_SPACING / 2 + g.getFontMetrics(Const.DESC_FONT).getHeight() / 2, Const.DESC_FONT);
 
         x = this.button.x + this.button.width + (this.x + this.width - this.button.x - this.button.width) / 2;

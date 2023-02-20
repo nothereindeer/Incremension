@@ -38,7 +38,17 @@ public class Const {
     public static final int TEXT_ICON_OFFSET = SCREEN_HEIGHT / 120;
 
     //Reset button information
-    public static final int RESET_BUTTON_SIZE = SCREEN_HEIGHT / 50;
+    public static final int RESET_BUTTON_Y = FRAME_Y;
+    public static final int RESET_BUTTON_X = + FRAME_X + FRAME_WIDTH;
+    public static final int RESET_BUTTON_SIZE = SCREEN_HEIGHT / 25;
+    public static final int RESET_BUTTON_OFFSET = (int) (RESET_BUTTON_SIZE * 0.5);
+    public static final int RESET_BUTTON_FRAME_SIZE = (int) (0.05 * RESET_BUTTON_SIZE);
+    public static final int RESET_BUTTON_ICON_SIZE = (int) (0.75 * RESET_BUTTON_SIZE);
+    public static final int RESET_INFO_WIDTH = SCREEN_WIDTH / 10;
+    public static final int RESET_INFO_HEIGHT = SCREEN_HEIGHT / 10;
+    public static final int RESET_INFO_ICON_LEFT_OFFSET = (int) (RESET_INFO_WIDTH * 0.05);
+    public static final int RESET_INFO_LINE_SPACING = (int) (RESET_INFO_HEIGHT * 0.05);
+
 
 
     //Upgrade buttons scaling
@@ -97,6 +107,7 @@ public class Const {
     public static final Color DARKER_SUN_YELLOW = new Color(150, 150, 30);
     public static final Color BAGE_OR_SMTHNNN = new Color(239, 188, 155);
     public static final Color PINK_RED = new Color(229, 83, 129);
+    public static final Color RUBY_RED = new Color(224, 17, 95);
     public static final Color PLAIN_BLUE = new Color(37, 110, 255);
     public static final Color B2B_GRAY = new Color(178, 176, 155);
     public static final Color DARKISH_BROWN = new Color(107, 39, 55);

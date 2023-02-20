@@ -1,8 +1,5 @@
 package com.sfanshen.upgrade;
 
-import com.sfanshen.currency.Currency;
-import com.sfanshen.main.Formula;
-
 public class FeatureUpgrade extends Upgrade {
 
     public boolean isBought;

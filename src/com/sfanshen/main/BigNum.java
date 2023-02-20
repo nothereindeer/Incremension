@@ -70,9 +70,16 @@ public class BigNum {
     public String toSuffixVersion() {
         StringBuilder suffixVersion;
         if (this.exponent <= 5) {
-            String numAsStr = Integer.toString((int) this.toNum());
-            suffixVersion = new StringBuilder(numAsStr);
-            if (this.exponent >= 3) {
+            if (this.exponent == 0 && this.coefficient == 0){
+                suffixVersion = new StringBuilder("0");
+            }
+            else if (this.exponent < 3) {
+                String numAsStr = Double.toString(Math.round(this.coefficient * Math.pow(10, Const.DISPLAYED_DIGITS)) / Math.pow(10, Const.DISPLAYED_DIGITS - this.exponent));
+                suffixVersion = new StringBuilder(numAsStr);
+            }
+            else {
+                String numAsStr = Integer.toString((int) (this.toNum()));
+                suffixVersion = new StringBuilder(numAsStr);
                 suffixVersion = suffixVersion.insert(suffixVersion.length() - 3, ",");
             }
 
@@ -84,7 +91,7 @@ public class BigNum {
 
             suffixVersion = new StringBuilder();
 
-            Double roundedCoefficient = (double) (Math.round(this.coefficient * (Math.pow(10, this.exponent % 3)) * (Math.pow(10, Const.DISPLAYED_DIGITS - this.exponent % 3))) / (Math.pow(10, Const.DISPLAYED_DIGITS - this.exponent % 3)));
+            Double roundedCoefficient = (Math.round(this.coefficient * (Math.pow(10, this.exponent % 3)) * (Math.pow(10, Const.DISPLAYED_DIGITS - this.exponent % 3))) / (Math.pow(10, Const.DISPLAYED_DIGITS - this.exponent % 3)));
 
             String suffixOnes;
             if (suffixValue <= 2) {
@@ -377,9 +384,19 @@ public class BigNum {
 
         this.updateBigNum();
     }
+    public void pow(double exponent) {
+
+        this.coefficient = Math.pow(this.coefficient, exponent);
+        double tempExponent = this.exponent * exponent;
+        double decimalExponent = tempExponent % 1;
+        this.exponent = (int) (tempExponent - decimalExponent);
+        this.coefficient = this.coefficient * Math.pow(10, decimalExponent);
+
+        this.updateBigNum();
+    }
 
     public void pow(BigNum exponent) {
-        this.pow((int) exponent.toNum());
+        this.pow((double) exponent.toNum());
     }
 
     public void floor(){
@@ -459,8 +476,28 @@ public class BigNum {
         return new BigNum(result.bigNum);
     }
 
-    public static BigNum log10(BigNum base) {
-        return (new BigNum(Math.log10(base.coefficient) + base.exponent));
+    public static BigNum pow(double base, int exponent){
+        BigNum result = new BigNum(base);
+        result.pow(exponent);
+
+        return new BigNum(result.bigNum);
+    }
+
+    public static BigNum pow(double base, BigNum exponent){
+        BigNum result = new BigNum(base);
+        result.pow(exponent);
+
+        return new BigNum(result.bigNum);
+    }
+
+    public static BigNum log(double base, BigNum num){
+        double numLog = Math.log(num.coefficient) + (Math.log(10) * num.exponent);
+        double baseLog = Math.log(base);
+
+        return new BigNum(numLog / baseLog);
+    }
+    public static BigNum log10(BigNum num) {
+        return (new BigNum(Math.log10(num.coefficient) + num.exponent));
     }
 
 
