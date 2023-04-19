@@ -1,6 +1,7 @@
 package com.sfanshen.main;
 
 import java.awt.*;
+import java.util.HashMap;
 
 //A class for all the constant variables found in the game
 public class Const {

@@ -31,7 +31,6 @@ public class ResetButton extends GameButton{
         this.gainedCurrency = gainedCurrency;
         this.icon = gainedCurrency.icon.createClone();
         this.icon.resize(Const.RESET_BUTTON_ICON_SIZE, Const.RESET_BUTTON_ICON_SIZE, false);
-        System.out.println(gainedCurrency.icon.width + ", " + this.icon.width);
     }
 
     public void click() {

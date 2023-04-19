@@ -47,7 +47,6 @@ public class  FinalGame {
         loadProgress();
         //updateSaveVersion();
 
-        System.out.println(1.5%1);
         //-------------------------------------------------------Game Loop-----------------------------------------------------------------\\
         while (isRunning) {
             //Determines which screen's information to display

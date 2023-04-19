@@ -35,7 +35,10 @@ public class ResetCurrency extends Currency {
             this.amount.add(this.calculateGain());
 
             for (Currency currency : resetCurrencies){
-                currency.set(0);
+                if (Global.currencyStartValues.keySet().contains(currency.name))
+                    currency.set(Global.currencyStartValues.get(currency.name));
+                else
+                    currency.set(0);
                 for (Upgrade upgrade: Global.upgrades.values()){
                     if (upgrade.resetTier.equals(currency.name)){
                         upgrade.reset(true);

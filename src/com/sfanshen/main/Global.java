@@ -33,7 +33,7 @@ public class Global {
     public static HashMap<String, Upgrade> upgrades;
     public static HashMap<String, Generator> generators;
     public static LinkedHashMap<String, GameTab> gameTabs;
-
+    public static LinkedHashMap<String, Integer> currencyStartValues = new LinkedHashMap<>();
 
     //BUTTON
     public static ArrayList<TabSwitchButton> tabSwitchButtons;
@@ -95,6 +95,8 @@ public class Global {
         currencies.put("Rubies", (new ResetCurrency("Rubies", rubyIcon, Const.RUBY_RED, new String[]{
                 "Coins"
         }, "Coins", "2, 10, 1e15", "1e15")));
+
+        currencyStartValues.put("Coins", 5);
 
         backMusic = new Audio(programDirectory + "music/musicFiles/Background music.wav");
         startGame = new Audio(programDirectory + "music/musicFiles/Play button.wav"); 
